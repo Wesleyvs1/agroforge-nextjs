@@ -1,6 +1,7 @@
 import Script from 'next/script'
 import type { Metadata } from 'next'
 import { CartProvider } from '@/context/CartContext'
+import { AdminProvider } from '@/context/AdminContext'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import '@/styles/globals.css'
@@ -31,25 +32,27 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <CartProvider>
-          <Header />
-          <main className="min-h-screen bg-gray-50">{children}</main>
-          <Footer />
+        <AdminProvider>
+          <CartProvider>
+            <Header />
+            <main className="min-h-screen bg-gray-50">{children}</main>
+            <Footer />
 
-          {/* Google Analytics */}
-          <Script
-            src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-            strategy="afterInteractive"
-          />
-          <Script id="google-analytics" strategy="afterInteractive">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-XXXXXXXXXX');
-            `}
-          </Script>
-        </CartProvider>
+            {/* Google Analytics */}
+            <Script
+              src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'G-XXXXXXXXXX');
+              `}
+            </Script>
+          </CartProvider>
+        </AdminProvider>
       </body>
     </html>
   )
