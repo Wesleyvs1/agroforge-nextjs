@@ -1,3 +1,4 @@
+import Script from 'next/script'
 import type { Metadata } from 'next'
 import { CartProvider } from '@/context/CartContext'
 import Header from '@/components/Header'
@@ -36,20 +37,18 @@ export default function RootLayout({
           <Footer />
 
           {/* Google Analytics */}
-          <script
-            async
+          <Script
             src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-          ></script>
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-XXXXXXXXXX');
-              `,
-            }}
-          ></script>
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-XXXXXXXXXX');
+            `}
+          </Script>
         </CartProvider>
       </body>
     </html>

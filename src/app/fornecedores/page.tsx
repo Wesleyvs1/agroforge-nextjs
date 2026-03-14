@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { suppliers } from '@/data/products'
 
 export default function Fornecedores() {
@@ -19,11 +20,12 @@ export default function Fornecedores() {
             key={supplier.id}
             className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg"
           >
-            <div className="h-48 overflow-hidden">
-              <img
+            <div className="relative h-48 overflow-hidden">
+              <Image
                 src={supplier.image}
                 alt={supplier.name}
-                className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+                fill
+                className="object-cover transition-transform duration-300 hover:scale-110"
               />
             </div>
             <div className="p-6">

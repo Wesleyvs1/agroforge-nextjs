@@ -1,13 +1,26 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
 import { formatCurrency } from '@/lib/whatsapp'
 
-export default function ProductCard({ product }) {
+interface Product {
+  id: number
+  name: string
+  category: string
+  price: number
+  image: string
+  description: string
+  stock: number
+  rating?: number
+  reviews?: number
+}
+
+export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart()
 
-  const handleAddToCart = (e) => {
+  const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault()
     addToCart(product, 1)
     alert(`${product.name} adicionado ao carrinho!`)
@@ -18,13 +31,14 @@ export default function ProductCard({ product }) {
       <div className="flex h-full transform cursor-pointer flex-col overflow-hidden rounded-lg bg-white shadow-md transition-shadow duration-300 hover:-translate-y-1 hover:shadow-lg">
         {/* Imagem */}
         <div className="relative h-48 overflow-hidden bg-gray-200">
-          <img
+          <Image
             src={product.image}
             alt={product.name}
-            className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+            fill
+            className="object-cover transition-transform duration-300 hover:scale-110"
           />
           {product.stock < 10 && (
-            <div className="absolute right-2 top-2 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
+            <div className="absolute right-2 top-2 z-10 rounded-full bg-red-500 px-3 py-1 text-xs font-semibold text-white">
               Últimas unidades
             </div>
           )}

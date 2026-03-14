@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { products } from '@/data/products'
 import { useCart } from '@/context/CartContext'
 import { formatCurrency } from '@/lib/whatsapp'
@@ -58,11 +59,12 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
       {/* Produto */}
       <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-2">
         {/* Imagem */}
-        <div className="overflow-hidden rounded-lg bg-gray-100">
-          <img
+        <div className="relative overflow-hidden rounded-lg bg-gray-100 pb-[100%]">
+          <Image
             src={product.image}
             alt={product.name}
-            className="h-auto w-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
 
@@ -195,11 +197,12 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
             {relatedProducts.map((p) => (
               <Link key={p.id} href={`/produto/${p.id}`}>
                 <div className="overflow-hidden rounded-lg bg-white shadow-md transition-shadow hover:shadow-lg">
-                  <div className="h-48 overflow-hidden bg-gray-200">
-                    <img
+                  <div className="relative h-48 overflow-hidden bg-gray-200">
+                    <Image
                       src={p.image}
                       alt={p.name}
-                      className="h-full w-full object-cover transition-transform duration-300 hover:scale-110"
+                      fill
+                      className="object-cover transition-transform duration-300 hover:scale-110"
                     />
                   </div>
                   <div className="p-4">
