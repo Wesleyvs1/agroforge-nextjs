@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.accordion-button {
+  @apply flex w-full cursor-pointer items-center justify-between border-b border-gray-200 bg-white p-4 font-semibold text-gray-800 transition-colors hover:bg-gray-50;
+}
+
+.accordion-button.active {
+  @apply border-primary text-primary;
+}
+
+.accordion-content {
+  @apply hidden bg-gray-50 p-4 text-gray-700;
+}
+
+.accordion-content.active {
+  @apply block;
+}
+
+.tab-button {
+  @apply border-b-2 border-transparent px-4 py-3 font-semibold text-gray-600 transition-colors hover:border-primary hover:text-primary;
+}
+
+.tab-button.active {
+  @apply border-primary text-primary;
+}
+
+/* Animações */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.6s ease-out;
+}
+
+/* Scrollbar customizado */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27ae60;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #1e8449;
+}

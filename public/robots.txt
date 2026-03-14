@@ -1,0 +1,22 @@
+# AgroForge robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /.next
+Disallow: /node_modules
+Disallow: /api/internal
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Crawl delay
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://agroforge.com.br/sitemap.xml
