@@ -3,13 +3,12 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
-import { sendToWhatsApp, formatCurrency } from '@/lib/whatsapp'
+import Cart from '@/components/Cart'
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [cartOpen, setCartOpen] = useState(false)
-  const { cart, removeFromCart, updateQuantity, getTotalItems, getTotalPrice } =
-    useCart()
+  const { getTotalItems } = useCart()
 
   const navLinks = [
     { href: '/', label: 'Home' },
@@ -64,12 +63,12 @@ export default function Header() {
             {/* Right Icons */}
             <div className="flex items-center gap-4">
               <button
-                onClick={() => setCartOpen(!cartOpen)}
+                onClick={() => setCartOpen(true)}
                 className="relative p-2 transition-colors hover:text-primary"
               >
-                🛒
+                <span className="text-xl">🛒</span>
                 {getTotalItems() > 0 && (
-                  <span className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-white">
+                  <span className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-white ring-2 ring-white">
                     {getTotalItems()}
                   </span>
                 )}
@@ -80,7 +79,7 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 className="p-2 md:hidden"
               >
-                ☰
+                <span className="text-xl">☰</span>
               </button>
             </div>
           </div>
@@ -116,100 +115,8 @@ export default function Header() {
         )}
       </nav>
 
-      {/* Cart Sidebar */}
-      {cartOpen && (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 md:relative md:bg-transparent md:bg-opacity-0">
-          <div
-            className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto bg-white md:relative md:h-auto md:w-80 md:border-l md:border-gray-200 md:bg-white md:shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="sticky top-0 flex items-center justify-between border-b border-gray-200 bg-white p-4">
-              <h2 className="text-lg font-bold">
-                Carrinho ({getTotalItems()})
-              </h2>
-              <button
-                onClick={() => setCartOpen(false)}
-                className="text-2xl hover:text-primary md:hidden"
-              >
-                ✕
-              </button>
-            </div>
-
-            {cart.length === 0 ? (
-              <div className="p-4 text-center text-gray-500">
-                <p>Seu carrinho está vazio</p>
-                <Link
-                  href="/loja"
-                  onClick={() => setCartOpen(false)}
-                  className="mt-4 block text-primary hover:text-secondary"
-                >
-                  Continuar comprando →
-                </Link>
-              </div>
-            ) : (
-              <>
-                <div className="divide-y">
-                  {cart.map((item) => (
-                    <div key={item.id} className="p-4 hover:bg-gray-50">
-                      <div className="mb-2 flex items-start justify-between">
-                        <h3 className="text-sm font-semibold">{item.name}</h3>
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-sm text-red-500 hover:text-red-700"
-                        >
-                          ✕
-                        </button>
-                      </div>
-                      <p className="mb-2 text-sm text-gray-600">
-                        {formatCurrency(item.price)}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1)
-                          }
-                          className="rounded bg-gray-200 px-2 py-1 hover:bg-gray-300"
-                        >
-                          −
-                        </button>
-                        <span className="flex-1 text-center">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
-                          }
-                          className="rounded bg-gray-200 px-2 py-1 hover:bg-gray-300"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="space-y-4 border-t border-gray-200 p-4">
-                  <div className="flex justify-between text-lg font-bold">
-                    <span>Total:</span>
-                    <span className="text-primary">
-                      {formatCurrency(getTotalPrice())}
-                    </span>
-                  </div>
-                  <button
-                    onClick={() => {
-                      sendToWhatsApp(cart)
-                      setCartOpen(false)
-                    }}
-                    className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 font-semibold text-white transition-colors hover:bg-secondary"
-                  >
-                    💬 Finalizar via WhatsApp
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+      {/* Cart Drawer */}
+      <Cart isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   )
 }
