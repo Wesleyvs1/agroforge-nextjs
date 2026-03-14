@@ -4,7 +4,7 @@ import { useState } from 'react'
 
 export default function Paginas() {
   const [activeTab, setActiveTab] = useState('faq')
-  const [expandedFAQ, setExpandedFAQ] = useState(null)
+  const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null)
 
   const faqs = [
     {

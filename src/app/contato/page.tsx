@@ -11,7 +11,11 @@ export default function Contato() {
     message: '',
   })
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
@@ -19,7 +23,7 @@ export default function Contato() {
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     alert('Obrigado pelo contato! Responderemos em breve.')
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
