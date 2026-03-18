@@ -104,22 +104,10 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
                 <span className="text-gray-600"> {product.origin}</span>
               </div>
             )}
-            {product.weight && (
+            {'badge' in product && product.badge && (
               <div>
-                <span className="font-bold text-gray-800">Peso:</span>
-                <span className="text-gray-600"> {product.weight}</span>
-              </div>
-            )}
-            {product.yield && (
-              <div>
-                <span className="font-bold text-gray-800">Produtividade:</span>
-                <span className="text-gray-600"> {product.yield}</span>
-              </div>
-            )}
-            {product.material && (
-              <div>
-                <span className="font-bold text-gray-800">Material:</span>
-                <span className="text-gray-600"> {product.material}</span>
+                <span className="font-bold text-gray-800">Especial:</span>
+                <span className="text-gray-600"> {product.badge}</span>
               </div>
             )}
             <div>
@@ -135,6 +123,11 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
 
           {/* Preço e Compra */}
           <div className="border-t-2 border-gray-200 pt-6">
+            {'originalPrice' in product && product.originalPrice && (
+              <div className="mb-1 text-lg text-gray-400 line-through">
+                {formatCurrency(product.originalPrice)}
+              </div>
+            )}
             <div className="mb-6 text-4xl font-bold text-primary">
               {formatCurrency(product.price)}
             </div>

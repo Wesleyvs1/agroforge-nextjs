@@ -6,42 +6,66 @@ export default function Footer() {
   return (
     <footer className="mt-16 bg-gray-900 text-white">
       <div className="mx-auto max-w-7xl px-4 py-12">
-        <div className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-3">
-          {/* Seção 1 */}
+        <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Coluna 1 — Categorias */}
           <div>
-            <h3 className="mb-4 text-xl font-bold text-primary">AgroForge</h3>
-            <p className="text-sm text-gray-400">
-              Sua loja agropecuária de confiança com produtos de qualidade e
-              atendimento personalizado.
-            </p>
-            <div className="mt-4 flex gap-4">
-              <a
-                href="https://wa.me/5543999998888"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="transition-colors hover:text-primary"
-              >
-                WhatsApp
-              </a>
-              <a
-                href="tel:+5543999998888"
-                className="transition-colors hover:text-primary"
-              >
-                Telefone
-              </a>
-            </div>
-          </div>
-
-          {/* Seção 2 */}
-          <div>
-            <h3 className="mb-4 text-lg font-bold">Links Úteis</h3>
-            <ul className="space-y-2 text-gray-400">
+            <h3 className="mb-4 text-lg font-bold text-primary">Categorias</h3>
+            <ul className="space-y-2 text-sm text-gray-400">
               <li>
                 <Link
                   href="/loja"
                   className="transition-colors hover:text-primary"
                 >
-                  Loja
+                  ☕ Café Moído na Hora
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/loja"
+                  className="transition-colors hover:text-primary"
+                >
+                  🧀 Produtos Coloniais
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/loja"
+                  className="transition-colors hover:text-primary"
+                >
+                  🐕 Rações Pet
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/loja"
+                  className="transition-colors hover:text-primary"
+                >
+                  💊 Medicamentos
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/loja"
+                  className="transition-colors hover:text-primary"
+                >
+                  🔧 Ferramentas
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Coluna 2 — Sobre AgroForge */}
+          <div>
+            <h3 className="mb-4 text-lg font-bold text-primary">
+              Sobre AgroForge
+            </h3>
+            <ul className="space-y-2 text-sm text-gray-400">
+              <li>
+                <Link
+                  href="/sobre"
+                  className="transition-colors hover:text-primary"
+                >
+                  Quem Somos
                 </Link>
               </li>
               <li>
@@ -54,10 +78,10 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/sobre"
+                  href="/fornecedores"
                   className="transition-colors hover:text-primary"
                 >
-                  Sobre Nós
+                  Fornecedores
                 </Link>
               </li>
               <li>
@@ -68,18 +92,83 @@ export default function Footer() {
                   Contato
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/paginas#termos"
+                  className="transition-colors hover:text-primary"
+                >
+                  Termos e Condições
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Seção 3 */}
+          {/* Coluna 3 — Formas de Pagamento */}
           <div>
-            <h3 className="mb-4 text-lg font-bold">Informações</h3>
-            <ul className="space-y-2 text-sm text-gray-400">
-              <li>📍 Almirante Tamandaré - PR</li>
-              <li>📞 (43) 3526-7890</li>
-              <li>💬 WhatsApp: (43) 99999-8888</li>
-              <li>📧 contato@agroforge.com.br</li>
-            </ul>
+            <h3 className="mb-4 text-lg font-bold text-primary">Pagamento</h3>
+            <div className="flex flex-wrap gap-3 text-gray-400">
+              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800">
+                <i className="fa-brands fa-cc-visa text-xl text-blue-400"></i>
+              </div>
+              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800">
+                <i className="fa-brands fa-cc-mastercard text-xl text-orange-400"></i>
+              </div>
+              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800">
+                <i className="fa-brands fa-pix text-xl text-teal-400"></i>
+              </div>
+              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800">
+                <i className="fa-solid fa-barcode text-xl text-gray-300"></i>
+              </div>
+            </div>
+            <p className="mt-3 text-xs text-gray-500">
+              Pague com segurança via Pix, cartão ou boleto.
+            </p>
+          </div>
+
+          {/* Coluna 4 — Redes Sociais */}
+          <div>
+            <h3 className="mb-4 text-lg font-bold text-primary">
+              Redes Sociais
+            </h3>
+            <div className="flex gap-3">
+              <a
+                href="https://facebook.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary hover:text-white"
+              >
+                <i className="fa-brands fa-facebook-f"></i>
+              </a>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary hover:text-white"
+              >
+                <i className="fa-brands fa-instagram"></i>
+              </a>
+              <a
+                href="https://youtube.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary hover:text-white"
+              >
+                <i className="fa-brands fa-youtube"></i>
+              </a>
+              <a
+                href="https://twitter.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary hover:text-white"
+              >
+                <i className="fa-brands fa-x-twitter"></i>
+              </a>
+            </div>
+            <div className="mt-4 space-y-1 text-sm text-gray-400">
+              <p>📍 Almirante Tamandaré - PR</p>
+              <p>📞 (43) 3526-7890</p>
+              <p>📧 contato@agroforge.com.br</p>
+            </div>
           </div>
         </div>
 

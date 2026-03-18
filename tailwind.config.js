@@ -8,9 +8,24 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#27ae60',
-        secondary: '#1e8449',
-        dark: '#1a472a',
+        primary: {
+          DEFAULT: '#2D5A27', // Sap Green (Forte, Natural)
+          light: '#4C8A44',
+          dark: '#1A3317',
+        },
+        accent: {
+          DEFAULT: '#C46D29', // Rust/Copper (Terra, Tradição)
+          light: '#E18C4D',
+        },
+        surface: {
+          DEFAULT: '#F8F6F2', // Paper/Clay (Orgânico)
+          alt: '#EBE7DF',
+        },
+        dark: '#141E11',
+      },
+      fontFamily: {
+        heading: ['var(--font-heading)', 'serif'],
+        body: ['var(--font-body)', 'sans-serif'],
       },
     },
   },

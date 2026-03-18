@@ -1,5 +1,5 @@
 // Número do WhatsApp (remova caracteres especiais)
-export const WHATSAPP_NUMBER = '5543999998888'
+export const WHATSAPP_NUMBER = '5541998451657'
 
 // Gerar mensagem do WhatsApp
 export function generateWhatsAppMessage(cartItems) {
