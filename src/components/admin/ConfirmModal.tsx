@@ -1,5 +1,7 @@
 'use client'
 
+import { AlertTriangle, X } from 'lucide-react'
+
 interface ConfirmModalProps {
   title: string
   message: string
@@ -20,26 +22,56 @@ export default function ConfirmModal({
   variant = 'danger',
 }: ConfirmModalProps) {
   const variantStyles = {
-    danger: 'bg-red-600 hover:bg-red-700',
-    warning: 'bg-yellow-600 hover:bg-yellow-700',
-    info: 'bg-blue-600 hover:bg-blue-700',
+    danger: 'bg-red-500 hover:bg-red-600 text-white',
+    warning: 'bg-amber-500 hover:bg-amber-600 text-white',
+    info: 'bg-blue-500 hover:bg-blue-600 text-white',
+  }
+
+  const iconBg = {
+    danger: 'bg-red-50',
+    warning: 'bg-amber-50',
+    info: 'bg-blue-50',
+  }
+
+  const iconColor = {
+    danger: 'text-red-500',
+    warning: 'text-amber-500',
+    info: 'text-blue-500',
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-sm rounded-lg bg-white p-6 shadow-2xl">
-        <h2 className="mb-2 text-xl font-bold text-gray-800">{title}</h2>
-        <p className="mb-6 text-gray-600">{message}</p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/40 p-4 backdrop-blur-sm">
+      <div className="w-full max-w-[380px] rounded-2xl border border-stone-200/60 bg-white p-6 shadow-xl">
+        {/* Close button */}
+        <div className="mb-4 flex items-start justify-between">
+          <div
+            className={`flex h-10 w-10 items-center justify-center rounded-xl ${iconBg[variant]}`}
+          >
+            <AlertTriangle size={20} className={iconColor[variant]} />
+          </div>
+          <button
+            onClick={onCancel}
+            className="flex h-8 w-8 items-center justify-center rounded-lg text-stone-400 hover:bg-stone-100 hover:text-stone-600"
+          >
+            <X size={16} />
+          </button>
+        </div>
+
+        <h2 className="mb-1 text-[15px] font-bold text-stone-900">{title}</h2>
+        <p className="mb-6 text-[13px] leading-relaxed text-stone-500">
+          {message}
+        </p>
+
         <div className="flex gap-3">
           <button
             onClick={onCancel}
-            className="flex-1 rounded-lg bg-gray-200 py-2 font-bold text-gray-800 transition-colors hover:bg-gray-300"
+            className="flex-1 rounded-xl border border-stone-200/60 py-2.5 text-[13px] font-semibold text-stone-600 transition-colors hover:bg-stone-50"
           >
             {cancelLabel}
           </button>
           <button
             onClick={onConfirm}
-            className={`flex-1 rounded-lg py-2 font-bold text-white transition-colors ${variantStyles[variant]}`}
+            className={`flex-1 rounded-xl py-2.5 text-[13px] font-semibold transition-colors ${variantStyles[variant]}`}
           >
             {confirmLabel}
           </button>

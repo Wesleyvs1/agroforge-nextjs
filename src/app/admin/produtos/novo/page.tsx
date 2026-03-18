@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAdminData } from '@/context/AdminDataContext'
 import Toast from '@/components/admin/Toast'
+import MediaPicker from '@/components/admin/MediaPicker'
+import { ArrowLeft, Save, Upload, ImageIcon } from 'lucide-react'
 
 export default function NovoProduto() {
   const router = useRouter()
@@ -25,6 +27,7 @@ export default function NovoProduto() {
     weight: '',
   })
   const [imagePreview, setImagePreview] = useState('')
+  const [showMediaPicker, setShowMediaPicker] = useState(false)
 
   const categories = [
     'Café',
@@ -97,27 +100,35 @@ export default function NovoProduto() {
     setTimeout(() => router.push('/admin/produtos'), 1000)
   }
 
+  const inputClass =
+    'w-full rounded-lg border border-stone-200/60 bg-stone-50/50 px-4 py-2.5 text-[13px] text-stone-700 placeholder:text-stone-400 focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/10'
+
   return (
-    <div className="max-w-2xl">
-      <div className="mb-6">
+    <div className="max-w-2xl space-y-6">
+      {/* Header */}
+      <div>
         <button
           onClick={() => router.push('/admin/produtos')}
-          className="mb-2 text-sm font-bold text-gray-500 hover:text-gray-700"
+          className="mb-3 flex items-center gap-1.5 text-[12px] font-semibold text-stone-400 transition-colors hover:text-stone-600"
         >
-          ← Voltar para Produtos
+          <ArrowLeft size={14} />
+          Voltar para Produtos
         </button>
-        <h1 className="text-3xl font-bold text-gray-800">
-          ➕ Criar Novo Produto
+        <p className="text-[12px] font-bold uppercase tracking-[0.15em] text-stone-400">
+          Catálogo
+        </p>
+        <h1 className="mt-1 font-heading text-3xl font-bold tracking-tight text-stone-900">
+          Novo Produto
         </h1>
       </div>
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-6 rounded-xl bg-white p-6 shadow-sm md:p-8"
+        className="space-y-5 rounded-xl border border-stone-200/60 bg-white p-6 md:p-8"
       >
-        {/* Nome */}
+        {/* Name */}
         <div>
-          <label className="mb-2 block text-sm font-bold text-gray-700">
+          <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
             Nome *
           </label>
           <input
@@ -127,21 +138,21 @@ export default function NovoProduto() {
             onChange={handleChange}
             placeholder="Nome do produto"
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputClass}
           />
         </div>
 
-        {/* Categoria + Preço */}
+        {/* Category + Price */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-2 block text-sm font-bold text-gray-700">
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
               Categoria *
             </label>
             <select
               name="category"
               value={formData.category}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className={inputClass}
             >
               {categories.map((cat) => (
                 <option key={cat} value={cat}>
@@ -151,7 +162,7 @@ export default function NovoProduto() {
             </select>
           </div>
           <div>
-            <label className="mb-2 block text-sm font-bold text-gray-700">
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
               Preço (R$) *
             </label>
             <input
@@ -163,15 +174,15 @@ export default function NovoProduto() {
               step="0.01"
               min="0"
               required
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className={inputClass}
             />
           </div>
         </div>
 
-        {/* Estoque + Rating */}
+        {/* Stock + Rating */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-2 block text-sm font-bold text-gray-700">
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
               Estoque
             </label>
             <input
@@ -181,11 +192,11 @@ export default function NovoProduto() {
               onChange={handleChange}
               placeholder="0"
               min="0"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-bold text-gray-700">
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
               Rating (0-5)
             </label>
             <input
@@ -196,15 +207,15 @@ export default function NovoProduto() {
               step="0.1"
               min="0"
               max="5"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className={inputClass}
             />
           </div>
         </div>
 
-        {/* Origem + Peso */}
+        {/* Origin + Weight */}
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           <div>
-            <label className="mb-2 block text-sm font-bold text-gray-700">
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
               Origem
             </label>
             <input
@@ -213,11 +224,11 @@ export default function NovoProduto() {
               value={formData.origin}
               onChange={handleChange}
               placeholder="Ex: Minas Gerais"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className={inputClass}
             />
           </div>
           <div>
-            <label className="mb-2 block text-sm font-bold text-gray-700">
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
               Peso/Quantidade
             </label>
             <input
@@ -226,14 +237,14 @@ export default function NovoProduto() {
               value={formData.weight}
               onChange={handleChange}
               placeholder="Ex: 25kg"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className={inputClass}
             />
           </div>
         </div>
 
-        {/* Descrição Curta */}
+        {/* Short Description */}
         <div>
-          <label className="mb-2 block text-sm font-bold text-gray-700">
+          <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
             Descrição Curta
           </label>
           <textarea
@@ -242,13 +253,13 @@ export default function NovoProduto() {
             onChange={handleChange}
             placeholder="Descrição breve do produto"
             rows={3}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputClass}
           />
         </div>
 
-        {/* Descrição Detalhada */}
+        {/* Detailed Description */}
         <div>
-          <label className="mb-2 block text-sm font-bold text-gray-700">
+          <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
             Descrição Detalhada
           </label>
           <textarea
@@ -257,61 +268,98 @@ export default function NovoProduto() {
             onChange={handleChange}
             placeholder="Descrição completa do produto"
             rows={5}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputClass}
           />
         </div>
 
-        {/* Imagem */}
+        {/* Image */}
         <div>
-          <label className="mb-2 block text-sm font-bold text-gray-700">
+          <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
             Imagem *
           </label>
           <div className="space-y-3">
+            {/* Media Library button */}
+            <button
+              type="button"
+              onClick={() => setShowMediaPicker(true)}
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-[12px] font-semibold text-primary transition-colors hover:bg-primary/10"
+            >
+              <ImageIcon size={16} />
+              Escolher da Biblioteca
+            </button>
+            <div className="text-center text-[11px] font-semibold uppercase tracking-wider text-stone-300">
+              ou cole uma URL
+            </div>
             <input
               type="text"
               value={formData.image.startsWith('data:') ? '' : formData.image}
               onChange={handleImageURL}
               placeholder="URL da imagem (Unsplash, etc)"
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className={inputClass}
             />
-            <div className="text-center text-sm text-gray-400">ou</div>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageFile}
-              className="w-full rounded-lg border border-gray-300 px-4 py-2 text-sm"
-            />
+            <div className="text-center text-[11px] font-semibold uppercase tracking-wider text-stone-300">
+              ou faça upload
+            </div>
+            <div
+              className="cursor-pointer rounded-lg border-2 border-dashed border-stone-200 px-4 py-3 text-center transition-colors hover:border-stone-300"
+              onClick={() => document.getElementById('file-upload')?.click()}
+            >
+              <Upload size={16} className="mx-auto mb-1 text-stone-400" />
+              <p className="text-[12px] text-stone-400">
+                Clique para fazer upload
+              </p>
+              <input
+                id="file-upload"
+                type="file"
+                accept="image/*"
+                onChange={handleImageFile}
+                className="hidden"
+              />
+            </div>
           </div>
           {imagePreview && (
             <div className="mt-4">
-              <p className="mb-2 text-sm text-gray-500">Preview:</p>
+              <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-stone-400">
+                Preview
+              </p>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={imagePreview}
                 alt="Preview"
-                className="max-h-48 rounded-lg border object-cover"
+                className="max-h-48 rounded-xl border border-stone-200/60 object-cover"
               />
             </div>
           )}
         </div>
 
-        {/* Botões */}
-        <div className="flex gap-4 border-t pt-6">
+        {/* Buttons */}
+        <div className="flex gap-3 border-t border-stone-100 pt-6">
           <button
             type="submit"
-            className="hover:bg-secondary flex-1 rounded-lg bg-primary py-3 font-bold text-white transition-colors"
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-3 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark"
           >
-            💾 Salvar Produto
+            <Save size={16} />
+            Salvar Produto
           </button>
           <button
             type="button"
             onClick={() => router.push('/admin/produtos')}
-            className="flex-1 rounded-lg bg-gray-200 py-3 font-bold text-gray-700 transition-colors hover:bg-gray-300"
+            className="flex-1 rounded-xl border border-stone-200/60 py-3 text-[13px] font-semibold text-stone-600 transition-colors hover:bg-stone-50"
           >
             Cancelar
           </button>
         </div>
       </form>
+
+      <MediaPicker
+        isOpen={showMediaPicker}
+        onClose={() => setShowMediaPicker(false)}
+        onSelect={(url) => {
+          setFormData((prev) => ({ ...prev, image: url }))
+          setImagePreview(url)
+          setShowMediaPicker(false)
+        }}
+      />
 
       {toast && (
         <Toast

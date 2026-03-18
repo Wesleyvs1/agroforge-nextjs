@@ -4,6 +4,16 @@ import { useState } from 'react'
 import { useAdminData } from '@/context/AdminDataContext'
 import ConfirmModal from '@/components/admin/ConfirmModal'
 import Toast from '@/components/admin/Toast'
+import {
+  Plus,
+  Handshake,
+  Pencil,
+  Trash2,
+  Save,
+  X,
+  MapPin,
+  Phone,
+} from 'lucide-react'
 
 interface Supplier {
   id: number
@@ -88,47 +98,70 @@ export default function FornecedoresAdmin() {
     setToast({ message: 'Fornecedor deletado!', type: 'success' })
   }
 
+  const inputClass =
+    'w-full rounded-lg border border-stone-200/60 bg-stone-50/50 px-4 py-2.5 text-[13px] text-stone-700 placeholder:text-stone-400 focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/10'
+
   return (
-    <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-800">
-          🤝 Gerenciar Fornecedores
-        </h1>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-end justify-between">
+        <div>
+          <p className="text-[12px] font-bold uppercase tracking-[0.15em] text-stone-400">
+            Parceiros
+          </p>
+          <h1 className="mt-1 font-heading text-3xl font-bold tracking-tight text-stone-900">
+            Fornecedores
+          </h1>
+        </div>
         {!creating && !editing && (
           <button
             onClick={() => setCreating(true)}
-            className="hover:bg-secondary rounded-lg bg-primary px-6 py-2 font-bold text-white"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark"
           >
-            ➕ Novo Fornecedor
+            <Plus size={16} />
+            Novo Fornecedor
           </button>
         )}
       </div>
 
-      {/* Formulário */}
+      {/* Form */}
       {(creating || editing) && (
         <form
           onSubmit={handleSubmit}
-          className="mb-8 space-y-4 rounded-xl bg-white p-6 shadow-sm"
+          className="space-y-4 rounded-xl border border-stone-200/60 bg-white p-6"
         >
-          <h2 className="text-xl font-bold">
-            {editing ? '✏️ Editar Fornecedor' : '➕ Novo Fornecedor'}
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-[14px] font-bold text-stone-800">
+              {editing ? 'Editar Fornecedor' : 'Novo Fornecedor'}
+            </h2>
+            <button
+              type="button"
+              onClick={resetForm}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-stone-400 hover:bg-stone-100 hover:text-stone-600"
+            >
+              <X size={16} />
+            </button>
+          </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-bold">Nome *</label>
+              <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+                Nome *
+              </label>
               <input
                 type="text"
                 value={formData.name}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, name: e.target.value }))
                 }
-                className="w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-primary"
+                className={inputClass}
                 required
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-bold">Categoria</label>
+              <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+                Categoria
+              </label>
               <input
                 type="text"
                 value={formData.category}
@@ -136,14 +169,14 @@ export default function FornecedoresAdmin() {
                   setFormData((p) => ({ ...p, category: e.target.value }))
                 }
                 placeholder="Ex: Rações, Sementes..."
-                className="w-full rounded-lg border px-4 py-2"
+                className={inputClass}
               />
             </div>
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-bold">
+              <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
                 Localização
               </label>
               <input
@@ -153,36 +186,40 @@ export default function FornecedoresAdmin() {
                   setFormData((p) => ({ ...p, location: e.target.value }))
                 }
                 placeholder="Cidade - Estado"
-                className="w-full rounded-lg border px-4 py-2"
+                className={inputClass}
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-bold">Telefone</label>
+              <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+                Telefone
+              </label>
               <input
                 type="tel"
                 value={formData.phone}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, phone: e.target.value }))
                 }
-                className="w-full rounded-lg border px-4 py-2"
+                className={inputClass}
               />
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-bold">Descrição</label>
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+              Descrição
+            </label>
             <textarea
               value={formData.description}
               onChange={(e) =>
                 setFormData((p) => ({ ...p, description: e.target.value }))
               }
               rows={3}
-              className="w-full rounded-lg border px-4 py-2"
+              className={inputClass}
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-bold">
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
               URL da Imagem
             </label>
             <input
@@ -191,21 +228,22 @@ export default function FornecedoresAdmin() {
               onChange={(e) =>
                 setFormData((p) => ({ ...p, image: e.target.value }))
               }
-              className="w-full rounded-lg border px-4 py-2"
+              className={inputClass}
             />
           </div>
 
           <div className="flex gap-3">
             <button
               type="submit"
-              className="hover:bg-secondary rounded-lg bg-primary px-6 py-2 font-bold text-white"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              💾 {editing ? 'Salvar' : 'Criar'}
+              <Save size={14} />
+              {editing ? 'Salvar' : 'Criar'}
             </button>
             <button
               type="button"
               onClick={resetForm}
-              className="rounded-lg bg-gray-200 px-6 py-2 font-bold text-gray-700 hover:bg-gray-300"
+              className="rounded-xl border border-stone-200/60 px-5 py-2.5 text-[13px] font-semibold text-stone-600 transition-colors hover:bg-stone-50"
             >
               Cancelar
             </button>
@@ -213,38 +251,52 @@ export default function FornecedoresAdmin() {
         </form>
       )}
 
-      {/* Lista */}
+      {/* Cards Grid */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {suppliers.map((supplier: Supplier) => (
           <div
             key={supplier.id}
-            className="rounded-xl bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
+            className="rounded-xl border border-stone-200/60 bg-white p-5 transition-all hover:border-stone-300/80"
           >
-            <h3 className="mb-1 text-lg font-bold text-gray-800">
+            <h3 className="text-[14px] font-bold text-stone-800">
               {supplier.name}
             </h3>
             {supplier.category && (
-              <span className="mb-2 inline-block rounded-full bg-primary/10 px-2 py-1 text-xs font-bold text-primary">
+              <span className="mt-1.5 inline-block rounded-full bg-stone-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-stone-500">
                 {supplier.category}
               </span>
             )}
-            <p className="mb-3 text-sm text-gray-600">{supplier.description}</p>
-            <div className="mb-4 space-y-1 text-sm text-gray-500">
-              {supplier.location && <p>📍 {supplier.location}</p>}
-              {supplier.phone && <p>📞 {supplier.phone}</p>}
+            <p className="mt-2 text-[12px] leading-relaxed text-stone-500">
+              {supplier.description}
+            </p>
+            <div className="mt-3 space-y-1">
+              {supplier.location && (
+                <p className="flex items-center gap-1.5 text-[11px] text-stone-400">
+                  <MapPin size={12} />
+                  {supplier.location}
+                </p>
+              )}
+              {supplier.phone && (
+                <p className="flex items-center gap-1.5 text-[11px] text-stone-400">
+                  <Phone size={12} />
+                  {supplier.phone}
+                </p>
+              )}
             </div>
-            <div className="flex gap-2">
+            <div className="mt-4 flex gap-1.5 border-t border-stone-100 pt-4">
               <button
                 onClick={() => startEdit(supplier)}
-                className="rounded bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600 hover:bg-blue-100"
+                className="flex items-center gap-1.5 rounded-lg border border-stone-200/60 px-3 py-1.5 text-[11px] font-semibold text-stone-600 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
               >
-                ✏️ Editar
+                <Pencil size={12} />
+                Editar
               </button>
               <button
                 onClick={() => setDeleteConfirm(supplier.id)}
-                className="rounded bg-red-50 px-3 py-1 text-xs font-bold text-red-600 hover:bg-red-100"
+                className="flex items-center gap-1.5 rounded-lg border border-stone-200/60 px-3 py-1.5 text-[11px] font-semibold text-stone-400 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-500"
               >
-                🗑️ Deletar
+                <Trash2 size={12} />
+                Deletar
               </button>
             </div>
           </div>
@@ -252,9 +304,11 @@ export default function FornecedoresAdmin() {
       </div>
 
       {suppliers.length === 0 && (
-        <div className="rounded-xl bg-white p-12 text-center shadow-sm">
-          <div className="mb-2 text-4xl">📭</div>
-          <p className="text-gray-400">Nenhum fornecedor cadastrado</p>
+        <div className="flex flex-col items-center rounded-xl border border-stone-200/60 bg-white py-16 text-center">
+          <Handshake size={32} className="mb-3 text-stone-300" />
+          <p className="text-[13px] font-medium text-stone-400">
+            Nenhum fornecedor cadastrado
+          </p>
         </div>
       )}
 

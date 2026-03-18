@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAdmin } from '@/context/AdminContext'
+import { Leaf, Lock, User } from 'lucide-react'
 
 export default function LoginAdmin() {
   const [username, setUsername] = useState('')
@@ -31,62 +32,92 @@ export default function LoginAdmin() {
   }
 
   return (
-    <div className="via-secondary flex min-h-screen items-center justify-center bg-gradient-to-br from-primary to-dark p-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
-        {/* Logo */}
+    <div className="flex min-h-screen items-center justify-center bg-stone-950 p-4">
+      {/* Subtle background grain */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-stone-900 via-stone-950 to-stone-950" />
+
+      <div className="relative w-full max-w-[380px]">
+        {/* Brand */}
         <div className="mb-8 text-center">
-          <div className="mb-4 text-5xl">🌿</div>
-          <h1 className="text-3xl font-bold text-primary">AgroForge</h1>
-          <p className="mt-1 text-gray-500">Painel de Administração</p>
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/15">
+            <Leaf size={28} className="text-primary-light" />
+          </div>
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-white">
+            AgroForge
+          </h1>
+          <p className="mt-1 text-[13px] text-stone-500">
+            Painel de Administração
+          </p>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="mb-2 block text-sm font-bold text-gray-700">
-              Usuário
-            </label>
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="admin"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="mb-2 block text-sm font-bold text-gray-700">
-              Senha
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 transition-colors focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-              required
-            />
-          </div>
-
-          {error && (
-            <div className="rounded-lg bg-red-50 p-3 text-center text-sm font-medium text-red-700">
-              {error}
+        {/* Card */}
+        <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-8 backdrop-blur-sm">
+          <form onSubmit={handleLogin} className="space-y-5">
+            <div>
+              <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-500">
+                Usuário
+              </label>
+              <div className="relative">
+                <User
+                  size={16}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-600"
+                />
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="admin"
+                  className="w-full rounded-xl border border-white/[0.06] bg-white/[0.04] py-3 pl-10 pr-4 text-[14px] text-stone-200 placeholder:text-stone-600 focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/10"
+                  required
+                />
+              </div>
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="hover:bg-secondary w-full rounded-lg bg-primary py-3 font-bold text-white transition-colors disabled:opacity-50"
-          >
-            {loading ? 'Entrando...' : '🔐 Entrar'}
-          </button>
-        </form>
+            <div>
+              <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-500">
+                Senha
+              </label>
+              <div className="relative">
+                <Lock
+                  size={16}
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-600"
+                />
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full rounded-xl border border-white/[0.06] bg-white/[0.04] py-3 pl-10 pr-4 text-[14px] text-stone-200 placeholder:text-stone-600 focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/10"
+                  required
+                />
+              </div>
+            </div>
 
-        <div className="mt-6 rounded-lg bg-gray-50 p-3 text-center text-xs text-gray-500">
-          Credenciais: <code className="rounded bg-gray-200 px-1">admin</code> /{' '}
-          <code className="rounded bg-gray-200 px-1">admin@agroforge</code>
+            {error && (
+              <div className="rounded-lg border border-red-500/20 bg-red-500/10 px-4 py-2.5 text-center text-[12px] font-medium text-red-400">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full rounded-xl bg-primary py-3 text-[13px] font-bold text-white transition-colors hover:bg-primary-dark disabled:opacity-50"
+            >
+              {loading ? 'Entrando...' : 'Entrar'}
+            </button>
+          </form>
+
+          <div className="mt-6 rounded-lg border border-white/[0.04] bg-white/[0.02] px-4 py-2.5 text-center text-[11px] text-stone-600">
+            Credenciais:{' '}
+            <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-stone-400">
+              admin
+            </code>{' '}
+            /{' '}
+            <code className="rounded bg-white/[0.06] px-1.5 py-0.5 text-stone-400">
+              admin@agroforge
+            </code>
+          </div>
         </div>
       </div>
     </div>

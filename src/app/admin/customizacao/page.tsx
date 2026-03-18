@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Toast from '@/components/admin/Toast'
+import { Palette, Settings, Save, RotateCcw } from 'lucide-react'
 
 export default function Customizacao() {
   const [colors, setColors] = useState({
@@ -65,25 +66,43 @@ export default function Customizacao() {
   }
 
   const colorLabels: Record<string, string> = {
-    primary: 'Cor Primária (Verde)',
-    secondary: 'Cor Secundária (Verde Escuro)',
-    dark: 'Cor Escura (Fundo)',
+    primary: 'Cor Primária',
+    secondary: 'Cor Secundária',
+    dark: 'Cor Escura',
   }
 
-  return (
-    <div className="max-w-4xl">
-      <h1 className="mb-8 text-3xl font-bold text-gray-800">
-        🎨 Customização do Site
-      </h1>
+  const configFields = [
+    { key: 'companyName', label: 'Nome da Empresa', type: 'text' },
+    { key: 'email', label: 'Email', type: 'email' },
+    { key: 'whatsapp', label: 'WhatsApp', type: 'tel' },
+    { key: 'address', label: 'Endereço', type: 'text' },
+    { key: 'description', label: 'Descrição do Site', type: 'text' },
+    { key: 'keywords', label: 'Palavras-chave', type: 'text' },
+  ]
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
-        {/* CORES */}
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-6 text-xl font-bold text-gray-800">🎨 Cores</h2>
+  return (
+    <div className="max-w-4xl space-y-6">
+      {/* Header */}
+      <div>
+        <p className="text-[12px] font-bold uppercase tracking-[0.15em] text-stone-400">
+          Configurações
+        </p>
+        <h1 className="mt-1 font-heading text-3xl font-bold tracking-tight text-stone-900">
+          Customização
+        </h1>
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* Colors */}
+        <div className="rounded-xl border border-stone-200/60 bg-white p-6">
+          <div className="mb-5 flex items-center gap-2">
+            <Palette size={16} className="text-stone-400" />
+            <h2 className="text-[14px] font-bold text-stone-800">Cores</h2>
+          </div>
 
           {Object.entries(colors).map(([key, color]) => (
             <div key={key} className="mb-5">
-              <label className="mb-2 block text-sm font-bold text-gray-700">
+              <label className="mb-2 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
                 {colorLabels[key] || key}
               </label>
               <div className="flex items-center gap-3">
@@ -91,80 +110,71 @@ export default function Customizacao() {
                   type="color"
                   value={color}
                   onChange={(e) => handleColorChange(key, e.target.value)}
-                  className="h-10 w-16 cursor-pointer rounded-lg border"
+                  className="h-10 w-14 cursor-pointer rounded-lg border border-stone-200/60"
                 />
                 <input
                   type="text"
                   value={color}
                   onChange={(e) => handleColorChange(key, e.target.value)}
-                  className="flex-1 rounded-lg border border-gray-300 bg-gray-50 px-3 py-2 font-mono text-sm"
+                  className="flex-1 rounded-lg border border-stone-200/60 bg-stone-50/50 px-3 py-2 font-mono text-[12px] text-stone-700 focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/10"
                 />
               </div>
               <div
-                className="mt-2 h-8 rounded-lg border"
+                className="mt-2 h-7 rounded-lg border border-stone-200/60"
                 style={{ backgroundColor: color }}
               />
             </div>
           ))}
 
           {/* Preview */}
-          <div className="mb-4 rounded-lg border p-4">
-            <p className="mb-2 text-sm font-bold text-gray-500">Preview:</p>
+          <div className="mb-5 rounded-lg border border-stone-100 p-4">
+            <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.1em] text-stone-400">
+              Preview
+            </p>
             <div className="flex gap-2">
-              <button
-                style={{ backgroundColor: colors.primary }}
-                className="rounded-lg px-4 py-2 text-sm font-bold text-white"
-              >
-                Primária
-              </button>
-              <button
-                style={{ backgroundColor: colors.secondary }}
-                className="rounded-lg px-4 py-2 text-sm font-bold text-white"
-              >
-                Secundária
-              </button>
-              <button
-                style={{ backgroundColor: colors.dark }}
-                className="rounded-lg px-4 py-2 text-sm font-bold text-white"
-              >
-                Escura
-              </button>
+              {Object.entries(colors).map(([key, color]) => (
+                <button
+                  key={key}
+                  style={{ backgroundColor: color }}
+                  className="rounded-lg px-4 py-2 text-[11px] font-bold text-white"
+                >
+                  {colorLabels[key]}
+                </button>
+              ))}
             </div>
           </div>
 
           <div className="flex gap-3">
             <button
               onClick={saveColors}
-              className="hover:bg-secondary flex-1 rounded-lg bg-primary py-2 font-bold text-white transition-colors"
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              💾 Salvar Cores
+              <Save size={14} />
+              Salvar Cores
             </button>
             <button
               onClick={resetColors}
-              className="rounded-lg bg-gray-200 px-4 py-2 font-bold text-gray-700 transition-colors hover:bg-gray-300"
+              className="flex items-center gap-2 rounded-xl border border-stone-200/60 bg-white px-4 py-2.5 text-[13px] font-semibold text-stone-600 transition-colors hover:bg-stone-50"
             >
-              ↺ Reset
+              <RotateCcw size={14} />
+              Reset
             </button>
           </div>
         </div>
 
-        {/* CONFIGURAÇÕES GERAIS */}
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-6 text-xl font-bold text-gray-800">
-            ⚙️ Configurações Gerais
-          </h2>
+        {/* General Config */}
+        <div className="rounded-xl border border-stone-200/60 bg-white p-6">
+          <div className="mb-5 flex items-center gap-2">
+            <Settings size={16} className="text-stone-400" />
+            <h2 className="text-[14px] font-bold text-stone-800">
+              Configurações Gerais
+            </h2>
+          </div>
 
           <div className="space-y-4">
-            {[
-              { key: 'companyName', label: 'Nome da Empresa', type: 'text' },
-              { key: 'email', label: 'Email', type: 'email' },
-              { key: 'whatsapp', label: 'WhatsApp', type: 'tel' },
-              { key: 'address', label: 'Endereço', type: 'text' },
-              { key: 'description', label: 'Descrição do Site', type: 'text' },
-              { key: 'keywords', label: 'Palavras-chave', type: 'text' },
-            ].map((field) => (
+            {configFields.map((field) => (
               <div key={field.key}>
-                <label className="mb-1 block text-sm font-bold text-gray-700">
+                <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
                   {field.label}
                 </label>
                 <input
@@ -173,16 +183,17 @@ export default function Customizacao() {
                   onChange={(e) =>
                     handleConfigChange(field.key, e.target.value)
                   }
-                  className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full rounded-lg border border-stone-200/60 bg-stone-50/50 px-4 py-2.5 text-[13px] text-stone-700 focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/10"
                 />
               </div>
             ))}
 
             <button
               onClick={saveConfig}
-              className="hover:bg-secondary w-full rounded-lg bg-primary py-2 font-bold text-white transition-colors"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              💾 Salvar Configurações
+              <Save size={14} />
+              Salvar Configurações
             </button>
           </div>
         </div>

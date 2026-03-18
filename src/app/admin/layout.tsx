@@ -14,17 +14,18 @@ export default function AdminLayout({
   const router = useRouter()
   const pathname = usePathname()
 
-  // Não proteger a rota de login
   if (pathname === '/admin/login') {
     return <>{children}</>
   }
 
   if (isLoading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-100">
+      <div className="flex min-h-screen items-center justify-center bg-[#f8f7f5]">
         <div className="text-center">
-          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-primary"></div>
-          <p className="text-gray-600">Carregando...</p>
+          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-[3px] border-stone-200 border-t-primary"></div>
+          <p className="text-[13px] font-medium text-stone-400">
+            Carregando painel...
+          </p>
         </div>
       </div>
     )
@@ -37,10 +38,12 @@ export default function AdminLayout({
 
   return (
     <AdminDataProvider>
-      <div className="flex h-screen bg-gray-100">
+      <div className="flex h-screen bg-[#f8f7f5]">
         <Sidebar />
         <main className="flex-1 overflow-auto">
-          <div className="p-6 md:p-8">{children}</div>
+          <div className="mx-auto max-w-[1400px] px-6 py-8 md:px-10">
+            {children}
+          </div>
         </main>
       </div>
     </AdminDataProvider>

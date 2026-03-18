@@ -4,6 +4,16 @@ import { useState } from 'react'
 import { useAdminData } from '@/context/AdminDataContext'
 import ConfirmModal from '@/components/admin/ConfirmModal'
 import Toast from '@/components/admin/Toast'
+import MediaPicker from '@/components/admin/MediaPicker'
+import {
+  Plus,
+  FileText,
+  Pencil,
+  Trash2,
+  Save,
+  X,
+  ImageIcon,
+} from 'lucide-react'
 
 interface BlogPost {
   id: number
@@ -38,6 +48,7 @@ export default function BlogAdmin() {
     excerpt: '',
     content: '',
   })
+  const [showMediaPicker, setShowMediaPicker] = useState(false)
 
   const categories = [
     'Cultivo',
@@ -97,51 +108,76 @@ export default function BlogAdmin() {
     setToast({ message: 'Post deletado!', type: 'success' })
   }
 
+  const inputClass =
+    'w-full rounded-lg border border-stone-200/60 bg-stone-50/50 px-4 py-2.5 text-[13px] text-stone-700 placeholder:text-stone-400 focus:border-primary/30 focus:outline-none focus:ring-2 focus:ring-primary/10'
+
   return (
-    <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-800">📝 Gerenciar Blog</h1>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-end justify-between">
+        <div>
+          <p className="text-[12px] font-bold uppercase tracking-[0.15em] text-stone-400">
+            Conteúdo
+          </p>
+          <h1 className="mt-1 font-heading text-3xl font-bold tracking-tight text-stone-900">
+            Blog
+          </h1>
+        </div>
         {!creating && !editing && (
           <button
             onClick={() => setCreating(true)}
-            className="hover:bg-secondary rounded-lg bg-primary px-6 py-2 font-bold text-white"
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark"
           >
-            ➕ Novo Post
+            <Plus size={16} />
+            Novo Post
           </button>
         )}
       </div>
 
-      {/* Formulário */}
+      {/* Form */}
       {(creating || editing) && (
         <form
           onSubmit={handleSubmit}
-          className="mb-8 space-y-4 rounded-xl bg-white p-6 shadow-sm"
+          className="space-y-4 rounded-xl border border-stone-200/60 bg-white p-6"
         >
-          <h2 className="text-xl font-bold">
-            {editing ? '✏️ Editar Post' : '➕ Novo Post'}
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-[14px] font-bold text-stone-800">
+              {editing ? 'Editar Post' : 'Novo Post'}
+            </h2>
+            <button
+              type="button"
+              onClick={resetForm}
+              className="flex h-8 w-8 items-center justify-center rounded-lg text-stone-400 hover:bg-stone-100 hover:text-stone-600"
+            >
+              <X size={16} />
+            </button>
+          </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-bold">Título *</label>
+              <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+                Título *
+              </label>
               <input
                 type="text"
                 value={formData.title}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, title: e.target.value }))
                 }
-                className="w-full rounded-lg border px-4 py-2 focus:ring-2 focus:ring-primary"
+                className={inputClass}
                 required
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-bold">Categoria</label>
+              <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+                Categoria
+              </label>
               <select
                 value={formData.category}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, category: e.target.value }))
                 }
-                className="w-full rounded-lg border px-4 py-2"
+                className={inputClass}
               >
                 {categories.map((c) => (
                   <option key={c}>{c}</option>
@@ -152,67 +188,82 @@ export default function BlogAdmin() {
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <div>
-              <label className="mb-1 block text-sm font-bold">Data</label>
+              <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+                Data
+              </label>
               <input
                 type="date"
                 value={formData.date}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, date: e.target.value }))
                 }
-                className="w-full rounded-lg border px-4 py-2"
+                className={inputClass}
               />
             </div>
             <div>
-              <label className="mb-1 block text-sm font-bold">
-                URL da Imagem
+              <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+                Imagem
               </label>
+              <button
+                type="button"
+                onClick={() => setShowMediaPicker(true)}
+                className="mb-2 flex w-full items-center justify-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-4 py-2.5 text-[11px] font-semibold text-primary transition-colors hover:bg-primary/10"
+              >
+                <ImageIcon size={14} />
+                Biblioteca
+              </button>
               <input
                 type="text"
                 value={formData.image}
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, image: e.target.value }))
                 }
-                placeholder="https://..."
-                className="w-full rounded-lg border px-4 py-2"
+                placeholder="Ou cole a URL..."
+                className={inputClass}
               />
             </div>
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-bold">Resumo</label>
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+              Resumo
+            </label>
             <textarea
               value={formData.excerpt}
               onChange={(e) =>
                 setFormData((p) => ({ ...p, excerpt: e.target.value }))
               }
               rows={2}
-              className="w-full rounded-lg border px-4 py-2"
+              className={inputClass}
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-bold">Conteúdo</label>
+            <label className="mb-1.5 block text-[12px] font-semibold uppercase tracking-[0.1em] text-stone-400">
+              Conteúdo
+            </label>
             <textarea
               value={formData.content}
               onChange={(e) =>
                 setFormData((p) => ({ ...p, content: e.target.value }))
               }
               rows={6}
-              className="w-full rounded-lg border px-4 py-2"
+              className={inputClass}
             />
           </div>
 
           <div className="flex gap-3">
             <button
               type="submit"
-              className="hover:bg-secondary rounded-lg bg-primary px-6 py-2 font-bold text-white"
+              className="inline-flex items-center gap-2 rounded-xl bg-primary px-5 py-2.5 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark"
             >
-              💾 {editing ? 'Salvar' : 'Publicar'}
+              <Save size={14} />
+              {editing ? 'Salvar' : 'Publicar'}
             </button>
             <button
               type="button"
               onClick={resetForm}
-              className="rounded-lg bg-gray-200 px-6 py-2 font-bold text-gray-700 hover:bg-gray-300"
+              className="rounded-xl border border-stone-200/60 px-5 py-2.5 text-[13px] font-semibold text-stone-600 transition-colors hover:bg-stone-50"
             >
               Cancelar
             </button>
@@ -220,49 +271,56 @@ export default function BlogAdmin() {
         </form>
       )}
 
-      {/* Lista */}
-      <div className="overflow-hidden rounded-xl bg-white shadow-sm">
+      {/* Table */}
+      <div className="overflow-hidden rounded-xl border border-stone-200/60 bg-white">
         <table className="w-full">
-          <thead className="border-b bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-sm font-bold">Título</th>
-              <th className="hidden px-6 py-3 text-left text-sm font-bold md:table-cell">
+          <thead>
+            <tr className="border-b border-stone-100">
+              <th className="px-5 py-3 text-left text-[11px] font-bold uppercase tracking-[0.1em] text-stone-400">
+                Título
+              </th>
+              <th className="hidden px-5 py-3 text-left text-[11px] font-bold uppercase tracking-[0.1em] text-stone-400 md:table-cell">
                 Categoria
               </th>
-              <th className="hidden px-6 py-3 text-left text-sm font-bold sm:table-cell">
+              <th className="hidden px-5 py-3 text-left text-[11px] font-bold uppercase tracking-[0.1em] text-stone-400 sm:table-cell">
                 Data
               </th>
-              <th className="px-6 py-3 text-right text-sm font-bold">Ações</th>
+              <th className="px-5 py-3 text-right text-[11px] font-bold uppercase tracking-[0.1em] text-stone-400">
+                Ações
+              </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="divide-y divide-stone-100">
             {blogPosts.map((post: BlogPost) => (
               <tr
                 key={post.id}
-                className="border-b transition-colors hover:bg-gray-50"
+                className="transition-colors hover:bg-stone-50/50"
               >
-                <td className="px-6 py-4 font-medium">{post.title}</td>
-                <td className="hidden px-6 py-4 md:table-cell">
-                  <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-bold text-blue-700">
+                <td className="px-5 py-3.5 text-[13px] font-semibold text-stone-800">
+                  {post.title}
+                </td>
+                <td className="hidden px-5 py-3.5 md:table-cell">
+                  <span className="rounded-full bg-stone-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-stone-500">
                     {post.category}
                   </span>
                 </td>
-                <td className="hidden px-6 py-4 text-sm text-gray-500 sm:table-cell">
+                <td className="hidden px-5 py-3.5 text-[12px] text-stone-400 sm:table-cell">
                   {new Date(post.date).toLocaleDateString('pt-BR')}
                 </td>
-                <td className="px-6 py-4 text-right">
-                  <div className="flex justify-end gap-2">
+                <td className="px-5 py-3.5 text-right">
+                  <div className="flex justify-end gap-1.5">
                     <button
                       onClick={() => startEdit(post)}
-                      className="rounded bg-blue-50 px-3 py-1 text-xs font-bold text-blue-600 hover:bg-blue-100"
+                      className="flex items-center gap-1.5 rounded-lg border border-stone-200/60 px-3 py-1.5 text-[11px] font-semibold text-stone-600 transition-colors hover:border-blue-200 hover:bg-blue-50 hover:text-blue-600"
                     >
-                      ✏️
+                      <Pencil size={12} />
+                      Editar
                     </button>
                     <button
                       onClick={() => setDeleteConfirm(post.id)}
-                      className="rounded bg-red-50 px-3 py-1 text-xs font-bold text-red-600 hover:bg-red-100"
+                      className="flex items-center rounded-lg border border-stone-200/60 p-1.5 text-stone-400 transition-colors hover:border-red-200 hover:bg-red-50 hover:text-red-500"
                     >
-                      🗑️
+                      <Trash2 size={14} />
                     </button>
                   </div>
                 </td>
@@ -271,12 +329,23 @@ export default function BlogAdmin() {
           </tbody>
         </table>
         {blogPosts.length === 0 && (
-          <div className="p-12 text-center text-gray-400">
-            <div className="mb-2 text-4xl">📭</div>
-            <p>Nenhum post cadastrado</p>
+          <div className="flex flex-col items-center py-16 text-center">
+            <FileText size={32} className="mb-3 text-stone-300" />
+            <p className="text-[13px] font-medium text-stone-400">
+              Nenhum post cadastrado
+            </p>
           </div>
         )}
       </div>
+
+      <MediaPicker
+        isOpen={showMediaPicker}
+        onClose={() => setShowMediaPicker(false)}
+        onSelect={(url) => {
+          setFormData((p) => ({ ...p, image: url }))
+          setShowMediaPicker(false)
+        }}
+      />
 
       {deleteConfirm && (
         <ConfirmModal
