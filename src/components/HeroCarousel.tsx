@@ -8,32 +8,35 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 const slides = [
   {
-    image:
-      'https://cdn.awsli.com.br/600x450/2717/2717583/produto/260711100/caf--em-gr-os-13ilu9rryd.jpg',
-    title: 'A Arte do Café Moído na Hora',
+    id: 1,
+    title: 'Aroma Intenso, Tradição no Grão',
     subtitle:
-      'Sinta a pureza e o aroma incomparável de grãos selecionados diretamente para o seu paladar.',
-    cta: 'Explorar Sabores',
-    href: '/loja',
-    color: 'accent',
-  },
-  {
+      'Cafés especiais selecionados na origem para os paladares mais exigentes.',
     image:
-      'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&q=80',
-    title: 'Excelência que Brota da Terra',
-    subtitle:
-      'Sementes e insumos de alta performance para garantir a produtividade da sua lavoura.',
-    cta: 'Ver Insumos',
+      'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop',
+    cta: 'Navegar Grãos',
     href: '/loja',
     color: 'primary',
   },
   {
-    image:
-      'https://cdn.awsli.com.br/300x300/2717/2717583/produto/344774807/1000035914-ogfzecfzjt.jpg',
-    title: 'Cuidado em cada Detalhe',
+    id: 2,
+    title: 'Soluções para o Campo Moderno',
     subtitle:
-      'Nutrição premium e suplementos de elite para quem busca o melhor para o seu plantel.',
-    cta: 'Linha Animal',
+      'Inovação e resistência em cada ferramenta para sua produtividade decolar.',
+    image:
+      'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format&fit=crop',
+    cta: 'Ver Agrícola',
+    href: '/loja',
+    color: 'accent',
+  },
+  {
+    id: 3,
+    title: 'Cuidado Vital: Linha Animal',
+    subtitle:
+      'Nossos melhores amigos merecem nutrição e carinho de alta performance.',
+    image:
+      'https://images.unsplash.com/photo-1548366086-7f1b76105311?q=80&w=2071&auto=format&fit=crop',
+    cta: 'Explorar Pet',
     href: '/loja',
     color: 'primary',
   },
