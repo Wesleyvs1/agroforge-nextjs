@@ -16,7 +16,7 @@ body {
   @apply font-body bg-surface text-dark antialiased;
 }
 
-h1, h2, h3, h4, .font-heading {
+h1, h2, h3, h4 {
   @apply font-heading tracking-tight;
 }
 
