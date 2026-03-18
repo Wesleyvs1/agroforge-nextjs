@@ -44,20 +44,18 @@ export default function Home() {
 
       {/* 4. Mais Vendidos */}
       <section className="mx-auto max-w-7xl px-6 py-24 md:py-32">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="mb-16 text-center"
         >
           <span className="section-subtitle">Seleção Exclusiva</span>
-          <h2 className="section-title">
-            Os Mais Vendidos
-          </h2>
-          <div className="w-24 h-1 bg-accent mx-auto mt-6 rounded-full" />
+          <h2 className="section-title">Os Mais Vendidos</h2>
+          <div className="mx-auto mt-6 h-1 w-24 rounded-full bg-accent" />
         </motion.div>
 
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -72,10 +70,7 @@ export default function Home() {
         </motion.div>
 
         <div className="text-center">
-          <Link
-            href="/loja"
-            className="premium-button"
-          >
+          <Link href="/loja" className="premium-button">
             Ver Catálogo Completo
           </Link>
         </div>

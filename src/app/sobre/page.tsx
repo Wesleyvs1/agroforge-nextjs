@@ -70,7 +70,7 @@ export default function Sobre() {
       </section>
 
       {/* Números */}
-      <section className="mb-16 rounded-lg bg-gradient-to-r from-primary to-secondary py-12 text-white">
+      <section className="to-secondary mb-16 rounded-lg bg-gradient-to-r from-primary py-12 text-white">
         <div className="grid grid-cols-1 gap-8 text-center md:grid-cols-4">
           <div>
             <div className="mb-2 text-4xl font-bold">500+</div>

@@ -29,7 +29,7 @@ export default function VideoBanner() {
         </p>
         <Link
           href="/loja"
-          className="inline-block rounded-lg bg-primary px-8 py-3 font-bold text-white shadow-lg transition-all hover:bg-secondary hover:shadow-xl"
+          className="hover:bg-secondary inline-block rounded-lg bg-primary px-8 py-3 font-bold text-white shadow-lg transition-all hover:shadow-xl"
         >
           Explorar Produtos
         </Link>

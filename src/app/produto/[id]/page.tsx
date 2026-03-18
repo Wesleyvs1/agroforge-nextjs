@@ -20,7 +20,7 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
         </h1>
         <Link
           href="/loja"
-          className="font-bold text-primary hover:text-secondary"
+          className="hover:text-secondary font-bold text-primary"
         >
           ← Voltar para Loja
         </Link>
@@ -157,7 +157,7 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
 
                 <button
                   onClick={handleAddToCart}
-                  className="w-full rounded-lg bg-primary py-4 text-lg font-bold text-white transition-colors hover:bg-secondary"
+                  className="hover:bg-secondary w-full rounded-lg bg-primary py-4 text-lg font-bold text-white transition-colors"
                 >
                   🛒 Adicionar ao Carrinho
                 </button>

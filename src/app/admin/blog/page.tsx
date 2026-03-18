@@ -5,9 +5,24 @@ import { useAdminData } from '@/context/AdminDataContext'
 import ConfirmModal from '@/components/admin/ConfirmModal'
 import Toast from '@/components/admin/Toast'
 
+interface BlogPost {
+  id: number
+  title: string
+  category: string
+  date: string
+  image: string
+  excerpt: string
+  content: string
+}
+
 export default function BlogAdmin() {
   const { blogPosts, addBlogPost, updateBlogPost, deleteBlogPost } =
-    useAdminData()
+    useAdminData() as {
+      blogPosts: BlogPost[]
+      addBlogPost: (post: Omit<BlogPost, 'id'>) => void
+      updateBlogPost: (id: number, post: Omit<BlogPost, 'id'>) => void
+      deleteBlogPost: (id: number) => void
+    }
   const [editing, setEditing] = useState<number | null>(null)
   const [creating, setCreating] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null)
@@ -46,7 +61,7 @@ export default function BlogAdmin() {
     setCreating(false)
   }
 
-  const startEdit = (post: any) => {
+  const startEdit = (post: BlogPost) => {
     setFormData({
       title: post.title || '',
       category: post.category || 'Cultivo',
@@ -89,7 +104,7 @@ export default function BlogAdmin() {
         {!creating && !editing && (
           <button
             onClick={() => setCreating(true)}
-            className="rounded-lg bg-primary px-6 py-2 font-bold text-white hover:bg-secondary"
+            className="hover:bg-secondary rounded-lg bg-primary px-6 py-2 font-bold text-white"
           >
             ➕ Novo Post
           </button>
@@ -190,7 +205,7 @@ export default function BlogAdmin() {
           <div className="flex gap-3">
             <button
               type="submit"
-              className="rounded-lg bg-primary px-6 py-2 font-bold text-white hover:bg-secondary"
+              className="hover:bg-secondary rounded-lg bg-primary px-6 py-2 font-bold text-white"
             >
               💾 {editing ? 'Salvar' : 'Publicar'}
             </button>
@@ -221,7 +236,7 @@ export default function BlogAdmin() {
             </tr>
           </thead>
           <tbody>
-            {blogPosts.map((post: any) => (
+            {blogPosts.map((post: BlogPost) => (
               <tr
                 key={post.id}
                 className="border-b transition-colors hover:bg-gray-50"

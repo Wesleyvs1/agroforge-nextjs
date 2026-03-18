@@ -7,6 +7,7 @@ Todas as mudanças notáveis deste projeto estão documentadas aqui.
 ### ✨ Adicionado
 
 #### 🛠️ Manutenção e Qualidade (Novo)
+
 - Configuração de **ESLint** para padrões de código Next.js/React.
 - Configuração de **Prettier** com plugin Tailwind para formatação automática.
 - Utilitário `cn` (`tailwind-merge` + `clsx`) para gestão de classes CSS.

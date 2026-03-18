@@ -42,7 +42,7 @@ export default function ExpertTips() {
                     <p className="mb-4 text-sm text-gray-600">
                       {mainPost.excerpt}
                     </p>
-                    <span className="font-bold text-primary hover:text-secondary">
+                    <span className="hover:text-secondary font-bold text-primary">
                       Ler Artigo →
                     </span>
                   </div>

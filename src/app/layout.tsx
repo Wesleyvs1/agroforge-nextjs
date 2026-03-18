@@ -33,13 +33,12 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="pt-br" className={`${fontHeading.variable} ${fontBody.variable}`}>
+    <html
+      lang="pt-br"
+      className={`${fontHeading.variable} ${fontBody.variable}`}
+    >
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,13 +49,13 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <body className="font-body text-stone-900 selection:bg-primary/30 antialiased">
+      <body className="font-body text-stone-900 antialiased selection:bg-primary/30">
         <AdminProvider>
           <CartProvider>
             <div className="relative min-h-screen">
               {/* Background Texture Overlay */}
-              <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-[-1] bg-[url('/bg-texture.png')]" />
-              
+              <div className="pointer-events-none fixed inset-0 z-[-1] bg-[url('/bg-texture.png')] opacity-[0.03]" />
+
               <Header />
               <main className="min-h-screen">{children}</main>
               <Footer />

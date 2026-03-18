@@ -13,22 +13,22 @@ html {
 }
 
 body {
-  @apply font-body bg-surface text-dark antialiased;
+  @apply bg-surface font-body text-dark antialiased;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   @apply font-heading tracking-tight;
 }
 
 .glass-morphism {
-  @apply bg-white/70 backdrop-blur-md border border-white/20;
+  @apply border border-white/20 bg-white/70 backdrop-blur-md;
 }
 
 .premium-button {
-  @apply relative overflow-hidden px-8 py-3 font-heading font-bold rounded-full 
-         transition-all duration-300 transform active:scale-95
-         bg-primary text-white shadow-xl shadow-primary/20 
-         hover:shadow-2xl hover:shadow-primary/30 hover:-translate-y-1;
+  @apply relative transform overflow-hidden rounded-full bg-primary px-8 py-3 font-heading font-bold text-white shadow-xl shadow-primary/20 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-primary/30 active:scale-95;
 }
 
 .accent-button {
@@ -36,11 +36,11 @@ h1, h2, h3, h4 {
 }
 
 .section-title {
-  @apply text-4xl md:text-5xl font-heading font-extrabold text-primary-dark mb-4 text-center;
+  @apply mb-4 text-center font-heading text-4xl font-extrabold text-primary-dark md:text-5xl;
 }
 
 .section-subtitle {
-  @apply text-lg text-stone-500 max-w-2xl mx-auto text-center mb-12 uppercase tracking-widest font-semibold;
+  @apply mx-auto mb-12 max-w-2xl text-center text-lg font-semibold uppercase tracking-widest text-stone-500;
 }
 
 /* Animações */

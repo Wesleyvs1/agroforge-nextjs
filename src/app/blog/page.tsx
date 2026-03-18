@@ -47,7 +47,7 @@ export default function Blog() {
               </p>
               <a
                 href="#"
-                className="font-bold text-primary hover:text-secondary"
+                className="hover:text-secondary font-bold text-primary"
               >
                 Ler Artigo →
               </a>
@@ -62,7 +62,7 @@ export default function Blog() {
         </p>
         <Link
           href="/contato"
-          className="inline-block rounded-lg bg-primary px-8 py-3 font-bold text-white transition-colors hover:bg-secondary"
+          className="hover:bg-secondary inline-block rounded-lg bg-primary px-8 py-3 font-bold text-white transition-colors"
         >
           Sugira um Artigo
         </Link>

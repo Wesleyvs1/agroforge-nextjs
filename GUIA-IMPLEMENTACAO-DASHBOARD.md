@@ -641,7 +641,7 @@ export default function NovoProduto() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!formData.name || !formData.price || !formData.image) {
       alert('Preencha todos os campos obrigatórios');
       return;
@@ -822,7 +822,7 @@ export default function Customizacao() {
   useEffect(() => {
     const savedColors = localStorage.getItem('site_colors');
     const savedConfig = localStorage.getItem('site_config');
-    
+
     if (savedColors) setColors(JSON.parse(savedColors));
     if (savedConfig) setConfig(JSON.parse(savedConfig));
   }, []);
@@ -832,7 +832,7 @@ export default function Customizacao() {
     const newColors = { ...colors, [colorKey]: value };
     setColors(newColors);
     localStorage.setItem('site_colors', JSON.stringify(newColors));
-    
+
     // Atualizar CSS do Tailwind (seria necessário recarregar ou usar CSS variables)
     alert('Cores salvas! Recarregue o site para ver as mudanças.');
   };

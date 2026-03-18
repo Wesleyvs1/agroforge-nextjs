@@ -31,7 +31,7 @@ export default function CoffeeHighlight() {
         </p>
         <Link
           href="/loja"
-          className="inline-block rounded-lg bg-primary px-10 py-4 text-lg font-bold text-white shadow-xl transition-all hover:bg-secondary hover:shadow-2xl"
+          className="hover:bg-secondary inline-block rounded-lg bg-primary px-10 py-4 text-lg font-bold text-white shadow-xl transition-all hover:shadow-2xl"
         >
           Quero o Meu ☕
         </Link>

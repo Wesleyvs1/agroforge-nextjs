@@ -125,7 +125,7 @@ export default function DashboardHome() {
             </h2>
             <Link
               href="/admin/produtos"
-              className="text-sm font-bold text-primary hover:text-secondary"
+              className="hover:text-secondary text-sm font-bold text-primary"
             >
               Ver todos →
             </Link>

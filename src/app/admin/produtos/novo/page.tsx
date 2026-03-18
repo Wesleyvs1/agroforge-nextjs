@@ -299,7 +299,7 @@ export default function NovoProduto() {
         <div className="flex gap-4 border-t pt-6">
           <button
             type="submit"
-            className="flex-1 rounded-lg bg-primary py-3 font-bold text-white transition-colors hover:bg-secondary"
+            className="hover:bg-secondary flex-1 rounded-lg bg-primary py-3 font-bold text-white transition-colors"
           >
             💾 Salvar Produto
           </button>

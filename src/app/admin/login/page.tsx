@@ -31,7 +31,7 @@ export default function LoginAdmin() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-primary via-secondary to-dark p-4">
+    <div className="via-secondary flex min-h-screen items-center justify-center bg-gradient-to-br from-primary to-dark p-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-2xl">
         {/* Logo */}
         <div className="mb-8 text-center">
@@ -78,7 +78,7 @@ export default function LoginAdmin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-primary py-3 font-bold text-white transition-colors hover:bg-secondary disabled:opacity-50"
+            className="hover:bg-secondary w-full rounded-lg bg-primary py-3 font-bold text-white transition-colors disabled:opacity-50"
           >
             {loading ? 'Entrando...' : '🔐 Entrar'}
           </button>

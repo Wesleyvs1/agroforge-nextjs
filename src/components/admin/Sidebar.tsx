@@ -42,7 +42,7 @@ export default function Sidebar() {
         } fixed z-40 flex h-screen w-64 flex-col bg-dark text-white transition-transform md:relative md:translate-x-0`}
       >
         {/* Logo */}
-        <div className="border-b border-secondary p-6">
+        <div className="border-secondary border-b p-6">
           <h1 className="text-2xl font-bold">🌿 AgroForge</h1>
           <p className="text-sm text-gray-400">Admin Panel</p>
         </div>
@@ -57,7 +57,7 @@ export default function Sidebar() {
               className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors ${
                 isActive(item.href)
                   ? 'bg-primary text-white'
-                  : 'text-gray-300 hover:bg-secondary hover:text-white'
+                  : 'hover:bg-secondary text-gray-300 hover:text-white'
               }`}
             >
               <span className="text-lg">{item.icon}</span>
@@ -67,7 +67,7 @@ export default function Sidebar() {
         </nav>
 
         {/* User Info */}
-        <div className="space-y-3 border-t border-secondary p-4">
+        <div className="border-secondary space-y-3 border-t p-4">
           <div>
             <p className="text-xs text-gray-400">Logado como:</p>
             <p className="font-bold">{user?.username}</p>

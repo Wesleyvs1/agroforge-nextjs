@@ -7,7 +7,7 @@ Copie este prompt e cole em uma IA (Claude, ChatGPT, etc) para gerar o dashboard
 ## PROMPT COMPLETO
 
 ```
-Você é um desenvolvedor experiente em React e Next.js. Preciso que crie um DASHBOARD ADMIN completo 
+Você é um desenvolvedor experiente em React e Next.js. Preciso que crie um DASHBOARD ADMIN completo
 para a plataforma AgroForge (loja agropecuária).
 
 ### CONTEXTO DO PROJETO
@@ -191,33 +191,35 @@ Funcionalidades:
 ### 🏗️ ESTRUTURA DE PASTAS NECESSÁRIA
 
 ```
+
 src/
 ├── app/
-│   └── admin/
-│       ├── layout.tsx           # Layout do admin
-│       ├── page.tsx             # Dashboard home
-│       ├── produtos/
-│       │   ├── page.tsx         # Listar produtos
-│       │   ├── novo/page.tsx    # Criar novo
-│       │   └── [id]/page.tsx    # Editar
-│       ├── midia/page.tsx       # Gerenciar mídia
-│       ├── customizacao/page.tsx # Customizar site
-│       ├── blog/page.tsx        # Gerenciar blog
-│       ├── fornecedores/page.tsx # Gerenciar fornecedores
-│       ├── relatorios/page.tsx  # Relatórios
-│       └── login/page.tsx       # Tela de login
+│ └── admin/
+│ ├── layout.tsx # Layout do admin
+│ ├── page.tsx # Dashboard home
+│ ├── produtos/
+│ │ ├── page.tsx # Listar produtos
+│ │ ├── novo/page.tsx # Criar novo
+│ │ └── [id]/page.tsx # Editar
+│ ├── midia/page.tsx # Gerenciar mídia
+│ ├── customizacao/page.tsx # Customizar site
+│ ├── blog/page.tsx # Gerenciar blog
+│ ├── fornecedores/page.tsx # Gerenciar fornecedores
+│ ├── relatorios/page.tsx # Relatórios
+│ └── login/page.tsx # Tela de login
 ├── components/
-│   └── admin/
-│       ├── Sidebar.jsx          # Menu lateral
-│       ├── Header.jsx           # Header admin
-│       ├── ProductForm.jsx      # Form de produtos
-│       ├── MediaUpload.jsx      # Upload de mídia
-│       ├── ColorPicker.jsx      # Seletor de cores
-│       └── ConfirmModal.jsx     # Modal de confirmação
+│ └── admin/
+│ ├── Sidebar.jsx # Menu lateral
+│ ├── Header.jsx # Header admin
+│ ├── ProductForm.jsx # Form de produtos
+│ ├── MediaUpload.jsx # Upload de mídia
+│ ├── ColorPicker.jsx # Seletor de cores
+│ └── ConfirmModal.jsx # Modal de confirmação
 ├── context/
-│   └── AdminContext.js          # Context do admin
+│ └── AdminContext.js # Context do admin
 └── hooks/
-    └── useAdmin.js              # Hook para autenticação
+└── useAdmin.js # Hook para autenticação
+
 ```
 
 ### 🎨 DESIGN & UX
@@ -309,7 +311,7 @@ Incluir exemplos de:
 
 ---
 
-Por favor, crie o dashboard admin completo seguindo todas as especificações acima. 
+Por favor, crie o dashboard admin completo seguindo todas as especificações acima.
 Comece pela estrutura de pastas, depois autenticação, depois produtos, depois mídia e customização.
 Inclua comentários no código e estruture de forma escalável.
 ```
@@ -419,6 +421,7 @@ Senha: admin@agroforge
 ## 🎯 RESULTADO ESPERADO
 
 Após usar este prompt, você terá um dashboard admin **production-ready** com:
+
 - ✅ Interface profissional
 - ✅ Todas as funcionalidades solicitadas
 - ✅ Código limpo e bem documentado
@@ -428,6 +431,7 @@ Após usar este prompt, você terá um dashboard admin **production-ready** com:
 ---
 
 **Dica**: Se a IA gerar código muito longo, peça para ela:
+
 - Separar em múltiplos prompts
 - Gerar um componente por vez
 - Fornecer apenas estrutura (después você preenche)

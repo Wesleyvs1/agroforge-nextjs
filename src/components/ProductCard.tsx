@@ -106,7 +106,7 @@ export default function ProductCard({ product }: { product: Product }) {
           {/* Botão */}
           <button
             onClick={handleAddToCart}
-            className="w-full rounded-lg bg-primary py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all duration-200 hover:bg-secondary hover:shadow-lg"
+            className="hover:bg-secondary w-full rounded-lg bg-primary py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-all duration-200 hover:shadow-lg"
           >
             Comprar Agora
           </button>

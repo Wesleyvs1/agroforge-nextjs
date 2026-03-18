@@ -51,7 +51,7 @@ export default function ProdutosAdmin() {
         </div>
         <Link
           href="/admin/produtos/novo"
-          className="inline-block rounded-lg bg-primary px-6 py-2 text-center font-bold text-white transition-colors hover:bg-secondary"
+          className="hover:bg-secondary inline-block rounded-lg bg-primary px-6 py-2 text-center font-bold text-white transition-colors"
         >
           ➕ Novo Produto
         </Link>

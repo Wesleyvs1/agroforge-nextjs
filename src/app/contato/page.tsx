@@ -180,7 +180,7 @@ export default function Contato() {
 
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 font-bold text-white transition-colors hover:bg-secondary"
+              className="hover:bg-secondary flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 font-bold text-white transition-colors"
             >
               📧 Enviar Mensagem
             </button>

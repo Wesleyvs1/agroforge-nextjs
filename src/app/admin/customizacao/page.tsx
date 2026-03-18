@@ -135,7 +135,7 @@ export default function Customizacao() {
           <div className="flex gap-3">
             <button
               onClick={saveColors}
-              className="flex-1 rounded-lg bg-primary py-2 font-bold text-white transition-colors hover:bg-secondary"
+              className="hover:bg-secondary flex-1 rounded-lg bg-primary py-2 font-bold text-white transition-colors"
             >
               💾 Salvar Cores
             </button>
@@ -180,7 +180,7 @@ export default function Customizacao() {
 
             <button
               onClick={saveConfig}
-              className="w-full rounded-lg bg-primary py-2 font-bold text-white transition-colors hover:bg-secondary"
+              className="hover:bg-secondary w-full rounded-lg bg-primary py-2 font-bold text-white transition-colors"
             >
               💾 Salvar Configurações
             </button>

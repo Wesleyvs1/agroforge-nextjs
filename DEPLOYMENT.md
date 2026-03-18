@@ -343,7 +343,6 @@ export const metadata: Metadata = {
 ```javascript
 // Usar Next.js Image para otimizar
 import Image from 'next/image'
-
 ;<Image
   src={product.image}
   alt={product.name}

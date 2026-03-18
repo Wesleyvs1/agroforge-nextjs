@@ -48,7 +48,7 @@ export default function Fornecedores() {
       </div>
 
       {/* Parceria */}
-      <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-12 text-center text-white">
+      <div className="to-secondary rounded-lg bg-gradient-to-r from-primary p-12 text-center text-white">
         <h2 className="mb-4 text-2xl font-bold">
           Quer se tornar um Fornecedor?
         </h2>

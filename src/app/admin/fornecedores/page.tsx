@@ -5,9 +5,24 @@ import { useAdminData } from '@/context/AdminDataContext'
 import ConfirmModal from '@/components/admin/ConfirmModal'
 import Toast from '@/components/admin/Toast'
 
+interface Supplier {
+  id: number
+  name: string
+  category: string
+  description: string
+  location: string
+  phone: string
+  image: string
+}
+
 export default function FornecedoresAdmin() {
   const { suppliers, addSupplier, updateSupplier, deleteSupplier } =
-    useAdminData()
+    useAdminData() as {
+      suppliers: Supplier[]
+      addSupplier: (s: Omit<Supplier, 'id'>) => void
+      updateSupplier: (id: number, s: Omit<Supplier, 'id'>) => void
+      deleteSupplier: (id: number) => void
+    }
   const [editing, setEditing] = useState<number | null>(null)
   const [creating, setCreating] = useState(false)
   const [deleteConfirm, setDeleteConfirm] = useState<number | null>(null)
@@ -37,7 +52,7 @@ export default function FornecedoresAdmin() {
     setCreating(false)
   }
 
-  const startEdit = (supplier: any) => {
+  const startEdit = (supplier: Supplier) => {
     setFormData({
       name: supplier.name || '',
       category: supplier.category || '',
@@ -82,7 +97,7 @@ export default function FornecedoresAdmin() {
         {!creating && !editing && (
           <button
             onClick={() => setCreating(true)}
-            className="rounded-lg bg-primary px-6 py-2 font-bold text-white hover:bg-secondary"
+            className="hover:bg-secondary rounded-lg bg-primary px-6 py-2 font-bold text-white"
           >
             ➕ Novo Fornecedor
           </button>
@@ -183,7 +198,7 @@ export default function FornecedoresAdmin() {
           <div className="flex gap-3">
             <button
               type="submit"
-              className="rounded-lg bg-primary px-6 py-2 font-bold text-white hover:bg-secondary"
+              className="hover:bg-secondary rounded-lg bg-primary px-6 py-2 font-bold text-white"
             >
               💾 {editing ? 'Salvar' : 'Criar'}
             </button>
@@ -200,7 +215,7 @@ export default function FornecedoresAdmin() {
 
       {/* Lista */}
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {suppliers.map((supplier: any) => (
+        {suppliers.map((supplier: Supplier) => (
           <div
             key={supplier.id}
             className="rounded-xl bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
