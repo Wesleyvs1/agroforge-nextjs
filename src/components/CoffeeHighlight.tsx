@@ -6,7 +6,7 @@ export default function CoffeeHighlight() {
     <section className="relative overflow-hidden bg-dark">
       {/* Background Image */}
       <Image
-        src="https://images.unsplash.com/photo-1447933681516-e5eb4a93a0d5?q=80&w=2070&auto=format&fit=crop"
+        src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=2070&auto=format&fit=crop"
         alt="Café Moído na Hora"
         fill
         className="object-cover opacity-30"

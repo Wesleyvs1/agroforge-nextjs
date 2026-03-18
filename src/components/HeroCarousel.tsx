@@ -35,7 +35,7 @@ const slides = [
     subtitle:
       'Nossos melhores amigos merecem nutrição e carinho de alta performance.',
     image:
-      'https://images.unsplash.com/photo-1548366086-7f1b76105311?q=80&w=2071&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1486235460219-00a0f2afc438?q=80&w=2070&auto=format&fit=crop',
     cta: 'Explorar Pet',
     href: '/loja',
     color: 'primary',
