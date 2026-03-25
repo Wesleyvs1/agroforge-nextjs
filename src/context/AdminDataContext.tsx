@@ -34,8 +34,22 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
   const [blogPosts, setBlogPosts] = useState(initialBlogPosts)
   const [suppliers, setSuppliers] = useState(initialSuppliers)
 
+  // Versão dos dados padrão - incrementar quando os dados iniciais mudarem
+  const DATA_VERSION = '3'
+
   // Carregar dados do localStorage
   useEffect(() => {
+    const savedVersion = localStorage.getItem('agroforge_data_version')
+
+    // Se a versão mudou, descartar dados antigos e usar os novos padrões
+    if (savedVersion !== DATA_VERSION) {
+      localStorage.removeItem('agroforge_products')
+      localStorage.removeItem('agroforge_blogposts')
+      localStorage.removeItem('agroforge_suppliers')
+      localStorage.setItem('agroforge_data_version', DATA_VERSION)
+      return
+    }
+
     const savedProducts = localStorage.getItem('agroforge_products')
     const savedBlogPosts = localStorage.getItem('agroforge_blogposts')
     const savedSuppliers = localStorage.getItem('agroforge_suppliers')

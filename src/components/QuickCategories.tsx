@@ -1,4 +1,7 @@
+'use client'
+
 import Link from 'next/link'
+import { motion } from 'framer-motion'
 
 const categories = [
   { emoji: '🌾', name: 'Rações', href: '/loja' },
@@ -9,28 +12,60 @@ const categories = [
   { emoji: '🔧', name: 'Ferramentas', href: '/loja' },
 ]
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const },
+  },
+}
+
 export default function QuickCategories() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-14">
-      <h2 className="mb-8 text-center text-3xl font-bold text-gray-800">
-        Coleções
-      </h2>
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+    <section className="mx-auto max-w-7xl px-6 py-20 md:py-24">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="mb-12 text-center"
+      >
+        <span className="section-subtitle">Explore por Categoria</span>
+        <h2 className="section-title">Coleções</h2>
+        <div className="mx-auto mt-6 h-1 w-24 rounded-full bg-accent" />
+      </motion.div>
+
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 lg:gap-6"
+      >
         {categories.map((cat) => (
-          <Link
-            key={cat.name}
-            href={cat.href}
-            className="group flex flex-col items-center gap-3 rounded-xl bg-white p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-          >
-            <span className="text-4xl transition-transform duration-300 group-hover:scale-110">
-              {cat.emoji}
-            </span>
-            <span className="text-sm font-semibold text-gray-700 group-hover:text-primary">
-              {cat.name}
-            </span>
-          </Link>
+          <motion.div key={cat.name} variants={itemVariants}>
+            <Link
+              href={cat.href}
+              className="glass-morphism group flex flex-col items-center gap-4 rounded-2xl p-7 shadow-lg shadow-stone-200/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+            >
+              <span className="text-4xl transition-transform duration-500 group-hover:scale-125 group-hover:rotate-6">
+                {cat.emoji}
+              </span>
+              <span className="font-heading text-sm font-bold text-stone-700 transition-colors group-hover:text-primary">
+                {cat.name}
+              </span>
+            </Link>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }

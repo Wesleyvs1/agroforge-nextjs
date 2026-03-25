@@ -2,10 +2,10 @@ import { ReactNode } from 'react'
 import Script from 'next/script'
 import type { Metadata } from 'next'
 import { Epilogue, Outfit } from 'next/font/google'
-import { CartProvider } from '@/context/CartContext'
-import { AdminProvider } from '@/context/AdminContext'
+import Providers from '@/components/Providers'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import WhatsAppFloat from '@/components/WhatsAppFloat'
 import '@/styles/globals.css'
 
 const fontHeading = Epilogue({
@@ -50,32 +50,31 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="font-body text-stone-900 antialiased selection:bg-primary/30">
-        <AdminProvider>
-          <CartProvider>
-            <div className="relative min-h-screen">
-              {/* Background Texture Overlay */}
-              <div className="pointer-events-none fixed inset-0 z-[-1] bg-[url('/bg-texture.png')] opacity-[0.03]" />
+        <Providers>
+          <div className="relative min-h-screen">
+            {/* Background Texture Overlay */}
+            <div className="pointer-events-none fixed inset-0 z-[-1] bg-[url('/bg-texture.png')] opacity-[0.03]" />
 
-              <Header />
-              <main className="min-h-screen">{children}</main>
-              <Footer />
-            </div>
+            <Header />
+            <main className="min-h-screen">{children}</main>
+            <Footer />
+            <WhatsAppFloat />
+          </div>
 
-            {/* Google Analytics */}
-            <Script
-              src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-XXXXXXXXXX');
-              `}
-            </Script>
-          </CartProvider>
-        </AdminProvider>
+          {/* Google Analytics */}
+          <Script
+            src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+            strategy="afterInteractive"
+          />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-XXXXXXXXXX');
+            `}
+          </Script>
+        </Providers>
       </body>
     </html>
   )

@@ -125,12 +125,20 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Coluna 4 — Redes Sociais */}
+          {/* Coluna 4 — Contato & Redes */}
           <div>
             <h3 className="mb-4 text-lg font-bold text-primary">
-              Redes Sociais
+              Contato
             </h3>
-            <div className="flex gap-3">
+            <div className="space-y-2 text-sm text-gray-400">
+              <p>📍 Rod. dos Minérios, 1949 - Taboão</p>
+              <p className="pl-5">Curitiba - PR, 82130-570</p>
+              <p>📞 (41) 99195-7593</p>
+              <p>📞 (41) 3336-7593</p>
+              <p>📧 agroforge@gmail.com</p>
+              <p className="mt-1 text-[11px] text-gray-500">CNPJ: 37.837.323/0001-44</p>
+            </div>
+            <div className="mt-4 flex gap-3">
               <a
                 href="https://facebook.com"
                 target="_blank"
@@ -148,26 +156,13 @@ export default function Footer() {
                 <i className="fa-brands fa-instagram"></i>
               </a>
               <a
-                href="https://youtube.com"
+                href="https://wa.me/5541991957593"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-[#25D366] hover:text-white"
               >
-                <i className="fa-brands fa-youtube"></i>
+                <i className="fa-brands fa-whatsapp"></i>
               </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary hover:text-white"
-              >
-                <i className="fa-brands fa-x-twitter"></i>
-              </a>
-            </div>
-            <div className="mt-4 space-y-1 text-sm text-gray-400">
-              <p>📍 Almirante Tamandaré - PR</p>
-              <p>📞 (43) 3526-7890</p>
-              <p>📧 contato@agroforge.com.br</p>
             </div>
           </div>
         </div>

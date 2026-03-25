@@ -265,59 +265,152 @@ export const products = [
 export const blogPosts = [
   {
     id: 1,
-    title: '5 Dicas Essenciais para Aumentar sua Produtividade Agrícola',
-    category: 'Cultivo',
-    date: '2026-03-15',
-    image:
-      'https://cdn.awsli.com.br/600x450/2717/2717583/produto/260711100/caf--em-gr-os-13ilu9rryd.jpg',
+    title: 'Safra Recorde: Brasil Projeta 75 Milhões de Sacas de Café em 2026',
+    category: 'Café',
+    date: '2026-03-18',
+    author: 'Redação AgroForge',
+    readTime: '5 min',
+    image: '/images/blog/cafe-safra.png',
     excerpt:
-      'Descubra as melhores práticas para otimizar suas lavouras e aumentar a produção.',
-    content: 'Conteúdo completo do artigo...',
+      'A consultoria StoneX estima que a safra brasileira de café 2026/27 pode atingir 75,3 milhões de sacas, um aumento de 20,8% em relação ao ano anterior. A produção de arábica deve superar 50 milhões de sacas pela primeira vez na história, impulsionada por condições climáticas favoráveis em Minas Gerais.',
+    content:
+      'O Brasil, maior produtor e exportador global de café, projeta uma safra recorde de 75,3 milhões de sacas de 60 kg para a temporada 2026/27. A estimativa, feita pela consultoria StoneX, foi revisada para cima após visitas de campo e condições climáticas favoráveis. A produção de arábica deve superar 50 milhões de sacas pela primeira vez.',
   },
   {
     id: 2,
-    title: 'Como Escolher o Café Perfeito para sua Casa ou Negócio',
-    category: 'Café',
-    date: '2026-03-12',
-    image:
-      'https://cdn.awsli.com.br/300x300/2717/2717583/produto/260711508/mel-a8ddsnccx0.jpg',
+    title: 'Pecuária em Alta: Poder de Compra do Pecuarista Cresce em 2026',
+    category: 'Pecuária',
+    date: '2026-03-15',
+    author: 'Carlos Mendes',
+    readTime: '4 min',
+    image: '/images/blog/pecuaria.png',
     excerpt:
-      'Aprenda a diferença entre os tipos de café e como preparar a bebida perfeita.',
-    content: 'Conteúdo completo do artigo...',
+      'Valorização do boi gordo e queda nos custos de insumos como milho e farelo de soja impulsionam o setor. Exportações de carne bovina registram aumento expressivo no início do ano, enquanto o preço de bezerros no Mato Grosso do Sul sobe 24,3%.',
+    content:
+      'A pecuária brasileira vive um momento favorável em 2026, com a valorização do boi gordo e a queda nos custos de insumos como milho, farelo de soja e DDG. As exportações de carne bovina continuam sendo um forte pilar de sustentação, com aumento significativo no volume e valor dos embarques.',
   },
   {
     id: 3,
-    title: 'Cuidados Essenciais com Pets: Ração e Medicamentos',
+    title: 'Mercado Pet: Brasil Consolida-se como 3º Maior Mercado do Mundo',
     category: 'Pet',
-    date: '2026-03-10',
-    image:
-      'https://cdn.awsli.com.br/300x300/2717/2717583/produto/344774807/1000035914-ogfzecfzjt.jpg',
+    date: '2026-03-12',
+    author: 'Ana Beatriz Lima',
+    readTime: '3 min',
+    image: '/images/blog/pet-food.png',
     excerpt:
-      'Saiba como escolher a melhor ração e os cuidados veterinários para seu pet.',
-    content: 'Conteúdo completo do artigo...',
+      'Apesar da retração do setor de pet food em 2025, o Brasil se consolida como terceiro maior mercado pet mundial. Demanda por produtos premium e especializados cresce com a humanização dos animais de estimação.',
+    content:
+      'O mercado pet brasileiro representa 53,1% do faturamento total do setor pet. Apesar de enfrentar sua primeira retração em seis anos em 2025, o Brasil se consolida como o terceiro maior mercado pet do mundo, impulsionado pelo crescimento da população de animais de estimação.',
+  },
+  {
+    id: 4,
+    title: 'Sustentabilidade: Recuperação de Pastagens é Pilar do Agro Moderno',
+    category: 'Sustentabilidade',
+    date: '2026-03-10',
+    author: 'Prof. Ricardo Oliveira',
+    readTime: '6 min',
+    image: '/images/blog/pastagem.png',
+    excerpt:
+      'A recuperação de pastagens degradadas surge como pilar fundamental para a intensificação sustentável da pecuária brasileira, atendendo às novas exigências do mercado global por produção responsável.',
+    content:
+      'A pecuária brasileira está em um período de transformação, buscando maior eficiência e sustentabilidade. Iniciativas como a recuperação de pastagens degradadas são vistas como pilares para a intensificação sustentável da atividade.',
+  },
+  {
+    id: 5,
+    title: 'Exportações de Café Solúvel Batem Recorde em Fevereiro',
+    category: 'Café',
+    date: '2026-03-08',
+    author: 'Redação AgroForge',
+    readTime: '3 min',
+    image: '/images/blog/exportacao.png',
+    excerpt:
+      'As exportações brasileiras de café solúvel registraram aumento de 13,9% em volume e 10,8% em receita cambial em fevereiro de 2026, o melhor desempenho para o período nos últimos cinco anos, com destaque para a demanda dos Estados Unidos.',
+    content:
+      'Em fevereiro de 2026, as exportações de café solúvel registraram um aumento de 13,9% em volume e 10,8% em receita cambial em comparação com o mesmo mês de 2025, sendo o melhor desempenho para o período nos últimos cinco anos.',
   },
 ]
 
 export const suppliers = [
+  // Fornecedores Destaque (com logo/imagem)
   {
     id: 1,
-    name: 'Rações Premium Ltda',
+    name: 'Special Dog',
     category: 'Rações',
-    image:
-      'https://cdn.awsli.com.br/300x300/2717/2717583/produto/344774807/1000035914-ogfzecfzjt.jpg',
-    description: 'Fornecedora de rações balanceadas de alta qualidade.',
-    location: 'Curitiba - PR',
-    phone: '(41) 3333-4444',
+    image: '/images/fornecedores/special-dog.png',
+    description: 'Nutrição de qualidade para cães e gatos de todas as raças.',
+    location: 'Descalvado - SP',
+    phone: '(19) 3593-8000',
+    featured: true,
   },
   {
     id: 2,
-    name: 'Produtos Coloniais do Sul',
-    category: 'Coloniais',
-    image:
-      'https://cdn.awsli.com.br/300x300/2717/2717583/produto/346817292/1000036128-nd673jnom2.jpg',
-    description:
-      'Especialista em produtos coloniais artesanais do sul do Brasil.',
+    name: 'Café Colonial',
+    category: 'Café',
+    image: '/images/fornecedores/cafe-colonial.png',
+    description: 'Café torrado e moído artesanalmente desde 1985.',
+    location: 'Londrina - PR',
+    phone: '(43) 3322-7890',
+    featured: true,
+  },
+  {
+    id: 3,
+    name: 'Vila Ferramentas',
+    category: 'Ferramentas',
+    image: '/images/fornecedores/vila-ferramentas.png',
+    description: 'Ferramentas e equipamentos agrícolas de alta performance.',
+    location: 'Maringá - PR',
+    phone: '(44) 3025-6600',
+    featured: true,
+  },
+  {
+    id: 4,
+    name: 'Anila Queijos',
+    category: 'Produtos Coloniais',
+    image: '/images/fornecedores/anila.png',
+    description: 'Queijos artesanais produzidos com leite fresco selecionado.',
+    location: 'Castro - PR',
+    phone: '(42) 3232-1500',
+    featured: true,
+  },
+  // Fornecedores adicionais (apenas texto)
+  {
+    id: 5,
+    name: 'Vermotrix Saúde Animal',
+    category: 'Medicamentos',
+    image: '',
+    description: 'Medicamentos veterinários de amplo espectro.',
+    location: 'Cravinhos - SP',
+    phone: '(16) 3951-2000',
+    featured: false,
+  },
+  {
+    id: 6,
+    name: 'Unna Rações Premium',
+    category: 'Rações',
+    image: '',
+    description: 'Rações super premium para filhotes e adultos.',
+    location: 'Ribeirão Preto - SP',
+    phone: '(16) 3620-3500',
+    featured: false,
+  },
+  {
+    id: 7,
+    name: 'Defumados do Sul',
+    category: 'Produtos Coloniais',
+    image: '',
+    description: 'Linguiças e salsichões defumados artesanalmente.',
     location: 'Ponta Grossa - PR',
-    phone: '(42) 3322-5555',
+    phone: '(42) 3220-4400',
+    featured: false,
+  },
+  {
+    id: 8,
+    name: 'AgroDisco Abrasivos',
+    category: 'Ferramentas',
+    image: '',
+    description: 'Discos de corte e desbaste para uso agrícola e industrial.',
+    location: 'Jundiaí - SP',
+    phone: '(11) 4583-7000',
+    featured: false,
   },
 ]

@@ -1,7 +1,6 @@
 'use client'
 
 import { useAdmin } from '@/context/AdminContext'
-import { AdminDataProvider } from '@/context/AdminDataContext'
 import { useRouter, usePathname } from 'next/navigation'
 import Sidebar from '@/components/admin/Sidebar'
 
@@ -37,15 +36,13 @@ export default function AdminLayout({
   }
 
   return (
-    <AdminDataProvider>
-      <div className="flex h-screen bg-[#f8f7f5]">
-        <Sidebar />
-        <main className="flex-1 overflow-auto">
-          <div className="mx-auto max-w-[1400px] px-6 py-8 md:px-10">
-            {children}
-          </div>
-        </main>
-      </div>
-    </AdminDataProvider>
+    <div className="flex h-screen bg-[#f8f7f5]">
+      <Sidebar />
+      <main className="flex-1 overflow-auto">
+        <div className="mx-auto max-w-[1400px] px-6 py-8 md:px-10">
+          {children}
+        </div>
+      </main>
+    </div>
   )
 }

@@ -23,6 +23,7 @@ interface Supplier {
   location: string
   phone: string
   image: string
+  featured: boolean
 }
 
 export default function FornecedoresAdmin() {
@@ -47,6 +48,7 @@ export default function FornecedoresAdmin() {
     location: '',
     phone: '',
     image: '',
+    featured: true,
   })
 
   const resetForm = () => {
@@ -57,6 +59,7 @@ export default function FornecedoresAdmin() {
       location: '',
       phone: '',
       image: '',
+      featured: true,
     })
     setEditing(null)
     setCreating(false)
@@ -70,6 +73,7 @@ export default function FornecedoresAdmin() {
       location: supplier.location || '',
       phone: supplier.phone || '',
       image: supplier.image || '',
+      featured: supplier.featured !== false,
     })
     setEditing(supplier.id)
     setCreating(false)
@@ -232,6 +236,30 @@ export default function FornecedoresAdmin() {
             />
           </div>
 
+          {/* Featured Toggle */}
+          <div className="flex items-center gap-3 rounded-lg border border-stone-200/60 bg-stone-50/30 px-4 py-3">
+            <label className="relative inline-flex cursor-pointer items-center">
+              <input
+                type="checkbox"
+                checked={formData.featured}
+                onChange={(e) =>
+                  setFormData((p) => ({ ...p, featured: e.target.checked }))
+                }
+                className="peer sr-only"
+              />
+              <div className="peer h-6 w-11 rounded-full bg-stone-300 after:absolute after:left-[2px] after:top-[2px] after:h-5 after:w-5 after:rounded-full after:border after:border-stone-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-primary peer-checked:after:translate-x-full peer-checked:after:border-white" />
+            </label>
+            <div>
+              <p className="text-[13px] font-semibold text-stone-700">
+                Fornecedor Destaque
+              </p>
+              <p className="text-[11px] text-stone-400">
+                Destaques aparecem com logo na grade principal. Não-destaques
+                aparecem na lista de texto.
+              </p>
+            </div>
+          </div>
+
           <div className="flex gap-3">
             <button
               type="submit"
@@ -258,9 +286,16 @@ export default function FornecedoresAdmin() {
             key={supplier.id}
             className="rounded-xl border border-stone-200/60 bg-white p-5 transition-all hover:border-stone-300/80"
           >
-            <h3 className="text-[14px] font-bold text-stone-800">
-              {supplier.name}
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="text-[14px] font-bold text-stone-800">
+                {supplier.name}
+              </h3>
+              {supplier.featured !== false && (
+                <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-primary">
+                  Destaque
+                </span>
+              )}
+            </div>
             {supplier.category && (
               <span className="mt-1.5 inline-block rounded-full bg-stone-100 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-stone-500">
                 {supplier.category}

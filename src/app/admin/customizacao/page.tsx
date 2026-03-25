@@ -13,11 +13,11 @@ export default function Customizacao() {
 
   const [config, setConfig] = useState({
     companyName: 'AgroForge',
-    email: 'contato@agroforge.com.br',
-    whatsapp: '5543999998888',
-    address: 'Almirante Tamandaré - PR',
+    email: 'agroforge@gmail.com',
+    whatsapp: '5541991957593',
+    address: 'Rod. dos Minérios, 1949 - Taboão, Curitiba - PR, 82130-570',
     description: 'Sua loja agropecuária de confiança',
-    keywords: 'agropecuária, café, sementes, ração',
+    keywords: 'agropecuária, café, sementes, ração, ferramentas, Curitiba',
   })
 
   const [toast, setToast] = useState<{
