@@ -4,12 +4,12 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 const categories = [
-  { emoji: '🌾', name: 'Rações', href: '/loja' },
-  { emoji: '🪢', name: 'Cabos', href: '/loja' },
-  { emoji: '🍞', name: 'Coloniais', href: '/loja' },
-  { emoji: '🎣', name: 'Pesca', href: '/loja' },
-  { emoji: '🐴', name: 'Montaria', href: '/loja' },
-  { emoji: '🔧', name: 'Ferramentas', href: '/loja' },
+  { emoji: '🌾', name: 'Rações', count: '20+ Produtos', href: '/loja' },
+  { emoji: '🪢', name: 'Cabos', count: '15+ Produtos', href: '/loja' },
+  { emoji: '🍞', name: 'Coloniais', count: '30+ Produtos', href: '/loja' },
+  { emoji: '🎣', name: 'Pesca', count: '10+ Produtos', href: '/loja' },
+  { emoji: '🐴', name: 'Montaria', count: '12+ Produtos', href: '/loja' },
+  { emoji: '🔧', name: 'Ferramentas', count: '25+ Produtos', href: '/loja' },
 ]
 
 const containerVariants = {
@@ -31,7 +31,7 @@ const itemVariants = {
 
 export default function QuickCategories() {
   return (
-    <section className="mx-auto max-w-7xl px-6 py-20 md:py-24">
+    <section id="colecoes" className="mx-auto max-w-7xl px-6 py-16 md:py-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -48,20 +48,28 @@ export default function QuickCategories() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6 lg:gap-6"
+        className="grid grid-cols-3 gap-4 sm:grid-cols-3 md:grid-cols-6 lg:gap-8"
       >
         {categories.map((cat) => (
           <motion.div key={cat.name} variants={itemVariants}>
             <Link
               href={cat.href}
-              className="glass-morphism group flex flex-col items-center gap-4 rounded-2xl p-7 shadow-lg shadow-stone-200/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl"
+              className="group flex flex-col items-center gap-3 text-center"
             >
-              <span className="text-4xl transition-transform duration-500 group-hover:scale-125 group-hover:rotate-6">
-                {cat.emoji}
-              </span>
-              <span className="font-heading text-sm font-bold text-stone-700 transition-colors group-hover:text-primary">
-                {cat.name}
-              </span>
+              {/* Circular thumb — matching reference style */}
+              <div className="flex h-24 w-24 items-center justify-center rounded-full border-2 border-primary/10 bg-primary/[0.04] transition-all duration-300 group-hover:-translate-y-1 group-hover:border-primary/30 group-hover:bg-primary/[0.08] group-hover:shadow-xl group-hover:shadow-primary/10 md:h-28 md:w-28 lg:h-32 lg:w-32">
+                <span className="text-4xl transition-transform duration-500 group-hover:scale-125 md:text-5xl">
+                  {cat.emoji}
+                </span>
+              </div>
+              <div>
+                <h6 className="font-heading text-sm font-bold text-stone-800 transition-colors group-hover:text-primary md:text-base">
+                  {cat.name}
+                </h6>
+                <span className="mt-0.5 block text-xs text-stone-400">
+                  {cat.count}
+                </span>
+              </div>
             </Link>
           </motion.div>
         ))}

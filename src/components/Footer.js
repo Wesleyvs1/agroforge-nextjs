@@ -1,11 +1,22 @@
 import Link from 'next/link'
-
+import Image from 'next/image'
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
     <footer className="mt-16 bg-gray-900 text-white">
       <div className="mx-auto max-w-7xl px-4 py-12">
+        {/* Brand Logo (Top of Footer) */}
+        <div className="mb-10 flex">
+          <Image 
+            src="/images/logo.png" 
+            alt="AgroForge" 
+            width={300} 
+            height={100} 
+            className="h-20 w-auto object-contain md:h-24" 
+          />
+        </div>
+
         <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {/* Coluna 1 — Categorias */}
           <div>

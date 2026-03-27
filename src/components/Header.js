@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
 import Cart from '@/components/Cart'
 
@@ -26,8 +27,15 @@ export default function Header() {
         <div className="mx-auto max-w-7xl px-4 py-3">
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link href="/" className="text-2xl font-bold text-primary">
-              🌿 AgroForge
+            <Link href="/" className="inline-flex items-center transition-transform hover:scale-[1.02]">
+              <Image 
+                src="/images/logo.png" 
+                alt="AgroForge Logo" 
+                width={300} 
+                height={100} 
+                className="h-16 w-auto object-contain md:h-24"
+                priority
+              />
             </Link>
 
             {/* Nav Desktop */}
@@ -81,7 +89,16 @@ export default function Header() {
 
         {/* Menu Mobile */}
         {mobileMenuOpen && (
-          <div className="border-t border-gray-200 bg-gray-50 p-4 md:hidden">
+          <div className="border-t border-gray-200 bg-gray-50 p-6 md:hidden">
+            <div className="mb-6 flex justify-center border-b border-gray-200 pb-6">
+              <Image 
+                src="/images/logo.png" 
+                alt="AgroForge" 
+                width={160} 
+                height={54} 
+                className="h-12 w-auto object-contain" 
+              />
+            </div>
             {navLinks.map((link) => (
               <Link
                 key={link.href}

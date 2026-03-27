@@ -2,6 +2,7 @@
 
 import { useAdmin } from '@/context/AdminContext'
 import { useRouter, usePathname } from 'next/navigation'
+import Image from 'next/image'
 import Sidebar from '@/components/admin/Sidebar'
 
 export default function AdminLayout({
@@ -20,8 +21,17 @@ export default function AdminLayout({
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#f8f7f5]">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-10 w-10 animate-spin rounded-full border-[3px] border-stone-200 border-t-primary"></div>
+        <div className="text-center flex flex-col items-center">
+          <div className="mb-8">
+            <Image 
+              src="/images/logo.png" 
+              alt="AgroForge" 
+              width={200} 
+              height={50} 
+              className="h-14 w-auto object-contain animate-pulse" 
+            />
+          </div>
+          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-[3px] border-stone-200 border-t-primary"></div>
           <p className="text-[13px] font-medium text-stone-400">
             Carregando painel...
           </p>

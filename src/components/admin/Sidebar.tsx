@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { useAdmin } from '@/context/AdminContext'
 import { useState } from 'react'
@@ -55,18 +56,19 @@ export default function Sidebar() {
         } fixed z-40 flex h-screen w-[260px] flex-col border-r border-stone-200/60 bg-stone-950 text-white transition-transform md:relative md:translate-x-0`}
       >
         {/* Brand */}
-        <div className="flex items-center gap-3 border-b border-white/[0.06] px-6 py-5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/20">
-            <Leaf size={18} className="text-primary-light" />
+        <div className="flex flex-col gap-4 border-b border-white/[0.06] px-6 py-8 w-full">
+          <div className="flex w-full items-center justify-center py-2">
+            <Image 
+              src="/images/logo.png" 
+              alt="AgroForge" 
+              width={220} 
+              height={60} 
+              className="h-16 w-auto object-contain" 
+            />
           </div>
-          <div>
-            <h1 className="font-heading text-[15px] font-bold tracking-tight">
-              AgroForge
-            </h1>
-            <p className="text-[11px] font-medium uppercase tracking-[0.15em] text-stone-500">
-              Painel Admin
-            </p>
-          </div>
+          <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">
+            Painel Admin
+          </p>
         </div>
 
         {/* Navigation */}

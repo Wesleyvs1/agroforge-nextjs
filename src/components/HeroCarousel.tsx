@@ -1,157 +1,240 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, ChevronDown, ShoppingCart } from 'lucide-react'
 
 const slides = [
   {
     id: 1,
-    title: 'Aroma Intenso, Tradição no Grão',
-    subtitle:
-      'Cafés especiais selecionados na origem para os paladares mais exigentes.',
-    image:
-      'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=2070&auto=format&fit=crop',
-    cta: 'Navegar Grãos',
+    title: 'Produtos Coloniais Direto do Produtor',
+    subtitle: 'Queijos, mel, linguiça e café moído na hora com qualidade artesanal.',
+    image: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=2070&auto=format&fit=crop',
+    productImage: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=800&auto=format&fit=crop',
+    cta: 'Explorar Coloniais',
     href: '/loja',
-    color: 'primary',
   },
   {
     id: 2,
-    title: 'Soluções para o Campo Moderno',
-    subtitle:
-      'Inovação e resistência em cada ferramenta para sua produtividade decolar.',
-    image:
-      'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format&fit=crop',
-    cta: 'Ver Agrícola',
+    title: 'Nutrição Premium para Seu Pet',
+    subtitle: 'Rações, medicamentos e acessórios para cães e gatos.',
+    image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=2070&auto=format&fit=crop',
+    productImage: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=800&auto=format&fit=crop',
+    cta: 'Explorar Pet',
     href: '/loja',
-    color: 'accent',
   },
   {
     id: 3,
-    title: 'Cuidado Vital: Linha Animal',
-    subtitle:
-      'Nossos melhores amigos merecem nutrição e carinho de alta performance.',
-    image:
-      'https://images.unsplash.com/photo-1486235460219-00a0f2afc438?q=80&w=2070&auto=format&fit=crop',
-    cta: 'Explorar Pet',
+    title: 'Ferramentas para o Campo Moderno',
+    subtitle: 'Cavadeiras, discos, cabos e tudo para sua propriedade.',
+    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format&fit=crop',
+    productImage: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop',
+    cta: 'Explorar Ferramentas',
     href: '/loja',
-    color: 'primary',
   },
 ]
 
 export default function HeroCarousel() {
   const [current, setCurrent] = useState(0)
+  const [direction, setDirection] = useState(0)
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
-  const next = useCallback(() => {
+  const resetTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current)
+    timerRef.current = setInterval(() => {
+      setDirection(1)
+      setCurrent((prev) => (prev + 1) % slides.length)
+    }, 6000)
+  }, [])
+
+  const goNext = useCallback(() => {
+    setDirection(1)
     setCurrent((prev) => (prev + 1) % slides.length)
-  }, [])
+    resetTimer()
+  }, [resetTimer])
 
-  const prev = useCallback(() => {
+  const goPrev = useCallback(() => {
+    setDirection(-1)
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length)
-  }, [])
+    resetTimer()
+  }, [resetTimer])
+
+  const goTo = useCallback((index: number) => {
+    setDirection(index > current ? 1 : -1)
+    setCurrent(index)
+    resetTimer()
+  }, [current, resetTimer])
 
   useEffect(() => {
-    const timer = setInterval(next, 7000)
-    return () => clearInterval(timer)
-  }, [next])
+    resetTimer()
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [resetTimer])
+
+  const slideVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 300 : -300,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (dir: number) => ({
+      x: dir < 0 ? 300 : -300,
+      opacity: 0,
+    }),
+  }
+
+  const productVariants = {
+    enter: (dir: number) => ({
+      x: dir > 0 ? 200 : -200,
+      opacity: 0,
+      scale: 0.8,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1,
+    },
+    exit: (dir: number) => ({
+      x: dir < 0 ? 200 : -200,
+      opacity: 0,
+      scale: 0.8,
+    }),
+  }
 
   return (
-    <section className="relative h-[600px] overflow-hidden bg-dark md:h-[750px]">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={current}
-          initial={{ opacity: 0, scale: 1.1 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 1.05 }}
-          transition={{ duration: 1.2, ease: 'easeOut' }}
-          className="absolute inset-0"
-        >
-          <Image
-            src={slides[current].image}
-            alt={slides[current].title}
-            fill
-            className="scale-105 transform object-cover brightness-[0.7]"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/40 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-dark/60 via-transparent to-transparent" />
-        </motion.div>
-      </AnimatePresence>
+    <section className="relative bg-surface pb-2 pt-4 md:pt-6 md:pb-4">
+      <div className="mx-auto max-w-7xl px-4 md:px-6">
+        {/* Banner Container */}
+        <div className="relative overflow-hidden rounded-3xl md:rounded-[2rem]">
+          {/* Background image layer */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src={slides[current].image}
+              alt=""
+              fill
+              className="object-cover brightness-[0.35]"
+              priority
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-primary-dark/90 via-primary-dark/70 to-primary-dark/40" />
+            <div className="absolute inset-0 opacity-[0.06]"
+              style={{
+                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+              }}
+            />
+          </div>
 
-      <div className="relative z-10 flex h-full items-center">
-        <div className="mx-auto w-full max-w-7xl px-6">
-          <div className="max-w-2xl">
-            <motion.div
-              key={`text-${current}`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-            >
-              <span className="mb-6 inline-block rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.2em] text-white backdrop-blur-md">
-                AgroForge • Premium Selection
-              </span>
-              <h1 className="mb-6 font-heading text-5xl font-extrabold leading-tight text-white drop-shadow-2xl md:text-7xl">
-                {slides[current].title}
-              </h1>
-              <p className="mb-10 text-xl font-light leading-relaxed text-stone-200/90 md:text-2xl">
-                {slides[current].subtitle}
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href={slides[current].href}
-                  className={
-                    slides[current].color === 'accent'
-                      ? 'accent-button'
-                      : 'premium-button'
-                  }
+          {/* Main Content — generous padding to avoid arrow overlap */}
+          <div className="relative z-10 flex min-h-[420px] items-center px-14 py-14 sm:px-16 md:min-h-[480px] md:px-20 md:py-20 lg:min-h-[520px] lg:px-24 lg:py-16">
+            <div className="grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+              {/* Left: Text content */}
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={`text-${current}`}
+                  custom={direction}
+                  variants={slideVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+                  className="max-w-xl"
                 >
-                  {slides[current].cta}
-                </Link>
-                <button className="rounded-full border border-white/30 px-8 py-3 font-heading font-bold text-white backdrop-blur-sm transition-colors hover:bg-white/10">
-                  Saiba Mais
-                </button>
-              </div>
-            </motion.div>
+                  <span className="mb-5 inline-block rounded-full bg-white/15 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-white/90 backdrop-blur-sm">
+                    AgroForge • Qualidade do Campo
+                  </span>
+                  <h1 className="mb-5 font-heading text-3xl font-extrabold leading-[1.1] text-white sm:text-4xl md:text-5xl lg:text-[3.5rem]">
+                    {slides[current].title}
+                  </h1>
+                  <p className="mb-10 text-base font-light leading-relaxed text-white/75 md:text-lg">
+                    {slides[current].subtitle}
+                  </p>
+                  <Link
+                    href={slides[current].href}
+                    className="group inline-flex items-center gap-3 rounded-full bg-primary px-7 py-3.5 font-heading text-sm font-bold text-white shadow-xl shadow-primary/30 transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-light hover:shadow-2xl hover:shadow-primary/40 active:scale-[0.98]"
+                  >
+                    {slides[current].cta}
+                    <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20 transition-transform group-hover:translate-x-0.5">
+                      <ShoppingCart size={14} />
+                    </span>
+                  </Link>
+                </motion.div>
+              </AnimatePresence>
+
+              {/* Right: Product image */}
+              <AnimatePresence mode="wait" custom={direction}>
+                <motion.div
+                  key={`product-${current}`}
+                  custom={direction}
+                  variants={productVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1], delay: 0.1 }}
+                  className="hidden justify-center lg:flex"
+                >
+                  <div className="relative h-[320px] w-[420px] xl:h-[360px] xl:w-[480px]">
+                    <div className="absolute inset-0 rounded-3xl bg-white/[0.07] backdrop-blur-sm" />
+                    <Image
+                      src={slides[current].productImage}
+                      alt={slides[current].title}
+                      fill
+                      className="rounded-3xl object-cover object-center drop-shadow-2xl"
+                    />
+                    <div className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-accent/20 blur-2xl" />
+                    <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-primary-light/20 blur-2xl" />
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Navigation Arrows — outside content padding zone */}
+          <button
+            onClick={goPrev}
+            className="absolute left-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-stone-700 shadow-lg transition-all hover:bg-primary hover:text-white active:scale-90 md:left-4 md:h-11 md:w-11"
+            aria-label="Slide anterior"
+          >
+            <ChevronLeft size={18} />
+          </button>
+          <button
+            onClick={goNext}
+            className="absolute right-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-stone-700 shadow-lg transition-all hover:bg-primary hover:text-white active:scale-90 md:right-4 md:h-11 md:w-11"
+            aria-label="Próximo slide"
+          >
+            <ChevronRight size={18} />
+          </button>
+
+          {/* Bottom controls zone — dots + scroll button stacked with space */}
+          <div className="absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-3 pb-5">
+            {/* Progress dots */}
+            <div className="flex gap-2">
+              {slides.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goTo(index)}
+                  aria-label={`Ir para slide ${index + 1}`}
+                  className={`h-2 rounded-full transition-all duration-400 ${
+                    index === current
+                      ? 'w-7 bg-white shadow-md'
+                      : 'w-2 bg-white/40 hover:bg-white/60'
+                  }`}
+                />
+              ))}
+            </div>
+            {/* Scroll-down button */}
+            <a
+              href="#colecoes"
+              className="flex h-10 w-10 items-center justify-center rounded-full border-[3px] border-white bg-primary text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-light hover:shadow-xl"
+            >
+              <ChevronDown size={18} className="animate-bounce" />
+            </a>
           </div>
         </div>
-      </div>
-
-      {/* Navigation Controls */}
-      <div className="absolute bottom-12 right-12 z-20 flex gap-4">
-        <button
-          onClick={prev}
-          className="flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white backdrop-blur-md transition-all hover:scale-110 hover:bg-white/20 active:scale-95"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={next}
-          className="flex h-14 w-14 items-center justify-center rounded-full border border-white/20 bg-white/5 text-white backdrop-blur-md transition-all hover:scale-110 hover:bg-white/20 active:scale-95"
-        >
-          <ChevronRight size={24} />
-        </button>
-      </div>
-
-      {/* Progress Indicators */}
-      <div className="absolute bottom-12 left-12 z-20 flex gap-3">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrent(index)}
-            className="group relative flex h-1 items-center py-4"
-          >
-            <div
-              className={`h-1 rounded-full transition-all duration-500 ${
-                index === current
-                  ? 'w-12 bg-white'
-                  : 'w-6 bg-white/30 group-hover:bg-white/50'
-              }`}
-            />
-          </button>
-        ))}
       </div>
     </section>
   )

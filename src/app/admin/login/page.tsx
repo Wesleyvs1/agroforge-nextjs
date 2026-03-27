@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import Image from 'next/image'
 import { useAdmin } from '@/context/AdminContext'
 import { Leaf, Lock, User } from 'lucide-react'
 
@@ -39,13 +40,16 @@ export default function LoginAdmin() {
       <div className="relative w-full max-w-[380px]">
         {/* Brand */}
         <div className="mb-8 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/15">
-            <Leaf size={28} className="text-primary-light" />
+          <div className="mx-auto mb-4 flex justify-center">
+            <Image 
+              src="/images/logo.png" 
+              alt="AgroForge" 
+              width={320} 
+              height={100} 
+              className="h-24 w-auto object-contain" 
+            />
           </div>
-          <h1 className="font-heading text-2xl font-bold tracking-tight text-white">
-            AgroForge
-          </h1>
-          <p className="mt-1 text-[13px] text-stone-500">
+          <p className="mt-2 text-[13px] text-stone-500 uppercase tracking-widest font-semibold">
             Painel de Administração
           </p>
         </div>
