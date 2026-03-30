@@ -100,7 +100,7 @@ export default function CoffeeHighlight() {
                 transition={{ delay: 0.4, duration: 0.5 }}
                 className="absolute bottom-6 left-6 flex max-w-[220px] items-center gap-3 rounded-2xl bg-white/95 p-4 text-left shadow-xl backdrop-blur-md"
               >
-                <div className="text-accent-dark flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent/10 text-xl font-black">
+                <div className="text-accent-dark flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-accent/10 text-base font-black">
                   100%
                 </div>
                 <div>

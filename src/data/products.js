@@ -2,14 +2,14 @@ export const products = [
   {
     id: 1,
     name: 'Bebedouro Automático Para Frangos',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347968294/1000039477-82b0keryg5.jpg',
     description: 'Bebedouro Automático Para Frangos',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 17,
     rating: '4.2',
     reviews: 19,
@@ -17,14 +17,14 @@ export const products = [
   {
     id: 2,
     name: 'Comedouro Automático Ideal Dog',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347489971/1000037898-3hsac93iw7.webp',
     description: 'Comedouro Automático Ideal Dog',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 20,
     rating: '4.2',
     reviews: 18,
@@ -32,14 +32,14 @@ export const products = [
   {
     id: 3,
     name: 'Bebedouro/Comedouro Automático 1,5L Flex Gourmet Plast Pet',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347489292/1000037892-k97sopmjn1.jpg',
     description: 'Bebedouro/Comedouro Automático 1,5L Flex Gourmet Plast Pet',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 44,
     rating: '4.0',
     reviews: 29,
@@ -47,14 +47,14 @@ export const products = [
   {
     id: 4,
     name: 'Bebedor Gigante Italiano 200ml',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347489118/1000037891-gpze7ha2rx.jpg',
     description: 'Bebedor Gigante Italiano 200ml',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 41,
     rating: '4.8',
     reviews: 10,
@@ -62,14 +62,14 @@ export const products = [
   {
     id: 5,
     name: 'Bebedouro Tradicional Médio',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347489032/1000037890-rdvd2wcls3.jpg',
     description: 'Bebedouro Tradicional Médio',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 49,
     rating: '4.9',
     reviews: 14,
@@ -77,14 +77,14 @@ export const products = [
   {
     id: 6,
     name: 'Bebedouro Sabiá',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347488977/1000037889-vwrwpeaoup.jpg',
     description: 'Bebedouro Sabiá',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 31,
     rating: '4.5',
     reviews: 2,
@@ -92,14 +92,14 @@ export const products = [
   {
     id: 7,
     name: 'Bebedouro Beija-Flor Com Puleiro e Chapéu',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347488610/1000037897-8rohggf8ln.jpg',
     description: 'Bebedouro Beija-Flor Com Puleiro e Chapéu',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 39,
     rating: '4.9',
     reviews: 4,
@@ -107,14 +107,14 @@ export const products = [
   {
     id: 8,
     name: 'Comedouro 2 Furos Com Gancho',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347479757/1000037883-0z2x6hz82o.jpg',
     description: 'Comedouro 2 Furos Com Gancho',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 16,
     rating: '4.6',
     reviews: 20,
@@ -122,14 +122,14 @@ export const products = [
   {
     id: 9,
     name: 'Comedouro 1 Furo Com Gancho',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347479516/1000037882-eeb906dkbe.jpg',
     description: 'Comedouro 1 Furo Com Gancho',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 44,
     rating: '4.8',
     reviews: 25,
@@ -137,14 +137,14 @@ export const products = [
   {
     id: 10,
     name: 'Comedouro Para Aves Roller',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347478734/1000037880-n3yzjra7ry.jpg',
     description: 'Comedouro Para Aves Roller',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 22,
     rating: '4.6',
     reviews: 45,
@@ -152,14 +152,14 @@ export const products = [
   {
     id: 11,
     name: 'Comedouro Anti-Formiga',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347478455/1000037879-a6mq0n0bf0.jpg',
     description: 'Comedouro Anti-Formiga',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 20,
     rating: '4.4',
     reviews: 40,
@@ -167,14 +167,14 @@ export const products = [
   {
     id: 12,
     name: 'Comedouro Pesado Alumínio',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/347477925/1000037878-54mjq6gs34.jpg',
     description: 'Comedouro Pesado Alumínio',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 14,
     rating: '4.3',
     reviews: 40,
@@ -182,14 +182,14 @@ export const products = [
   {
     id: 13,
     name: 'Comedouro Tubular 5KG',
-    category: 'BEBEDOUROS E COMEDOUROS',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/260600822/comedouro_tubular_5_kg-kegf8cu3rz.jpg',
     description: 'Comedouro Tubular 5KG',
     detailedDescription:
-      'Produto premium da categoria BEBEDOUROS E COMEDOUROS. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 35,
     rating: '4.3',
     reviews: 16,
@@ -197,14 +197,14 @@ export const products = [
   {
     id: 14,
     name: 'Osso Higiênico',
-    category: 'COLEIRAS E ACESSÓRIOS PARA PET',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/348054381/1000039491-yvrkx2cfjj.jpg',
     description: 'Osso Higiênico',
     detailedDescription:
-      'Produto premium da categoria COLEIRAS E ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 50,
     rating: '4.9',
     reviews: 37,
@@ -212,14 +212,14 @@ export const products = [
   {
     id: 15,
     name: 'Osso Chiclete P',
-    category: 'COLEIRAS E ACESSÓRIOS PARA PET',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/348053708/1000039490-hmg9nbvvff.jpg',
     description: 'Osso Chiclete P',
     detailedDescription:
-      'Produto premium da categoria COLEIRAS E ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 37,
     rating: '4.5',
     reviews: 24,
@@ -227,14 +227,14 @@ export const products = [
   {
     id: 16,
     name: 'Aparador E Lixa De Unhas Cães E Gatos',
-    category: 'COLEIRAS E ACESSÓRIOS PARA PET',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/348051456/1000039488-c1h5clrgs7.jpg',
     description: 'Aparador E Lixa De Unhas Cães E Gatos',
     detailedDescription:
-      'Produto premium da categoria COLEIRAS E ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 41,
     rating: '4.4',
     reviews: 34,
@@ -242,14 +242,14 @@ export const products = [
   {
     id: 17,
     name: 'Escova Dupla Para Cães e Gatos',
-    category: 'COLEIRAS E ACESSÓRIOS PARA PET',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/348047310/1000039483-3mzh5ekwio.webp',
     description: 'Escova Dupla Para Cães e Gatos',
     detailedDescription:
-      'Produto premium da categoria COLEIRAS E ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 34,
     rating: '4.7',
     reviews: 47,
@@ -257,14 +257,14 @@ export const products = [
   {
     id: 18,
     name: 'Colar Elizabetano',
-    category: 'COLEIRAS E ACESSÓRIOS PARA PET',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/348055179/1000039492-v4w4tg17g9.jpg',
     description: 'Colar Elizabetano',
     detailedDescription:
-      'Produto premium da categoria COLEIRAS E ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 9,
     rating: '4.4',
     reviews: 15,
@@ -272,14 +272,14 @@ export const products = [
   {
     id: 19,
     name: 'Focinheira Elizabetano',
-    category: 'COLEIRAS E ACESSÓRIOS PARA PET',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/348050389/1000039486-ac1ra0b0nn.jpg',
     description: 'Focinheira Elizabetano',
     detailedDescription:
-      'Produto premium da categoria COLEIRAS E ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 5,
     rating: '5.0',
     reviews: 17,
@@ -287,14 +287,14 @@ export const products = [
   {
     id: 20,
     name: 'Guia Retrátil 3 Metros Pet Super Luxo',
-    category: 'COLEIRAS E ACESSÓRIOS PARA PET',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/348049369/1000039485-o9mhkesswi.jpg',
     description: 'Guia Retrátil 3 Metros Pet Super Luxo',
     detailedDescription:
-      'Produto premium da categoria COLEIRAS E ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 54,
     rating: '4.4',
     reviews: 13,
@@ -302,14 +302,14 @@ export const products = [
   {
     id: 21,
     name: 'Rasqueadeira Cães E Gatos',
-    category: 'COLEIRAS E ACESSÓRIOS PARA PET',
+    category: 'ACESSÓRIOS PARA PET',
     mainCategory: 'Acessórios Pet e Animais',
     price: 0,
     image:
       'https://cdn.awsli.com.br/300x300/2717/2717583/produto/348048999/1000039484-swisw2eqav.jpg',
     description: 'Rasqueadeira Cães E Gatos',
     detailedDescription:
-      'Produto premium da categoria COLEIRAS E ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
+      'Produto premium da categoria ACESSÓRIOS PARA PET. Ideal para o seu dia a dia na agropecuária.',
     stock: 12,
     rating: '4.4',
     reviews: 35,

@@ -10,7 +10,7 @@ export default function Footer() {
   const isAdmin = pathname?.startsWith('/admin')
 
   return (
-    <footer className={`${isAdmin ? 'mt-0' : 'mt-16'} bg-gray-900 text-white`}>
+    <footer className="bg-gray-900 text-white">
       <div className="mx-auto max-w-7xl px-4 py-12">
         {/* Brand Logo (Top of Footer) */}
         <div className="mb-10 flex">

@@ -40,9 +40,29 @@ function LojaContent() {
   const [isRacoesOpen, setIsRacoesOpen] = useState(false)
   const [visibleCount, setVisibleCount] = useState(24)
 
-  const rawCategories = ['Todos', ...new Set(products.map((p) => p.category))]
-  const normalCategories = rawCategories.filter((c) => !c.startsWith('RAÇÃO '))
-  const racoesCategories = rawCategories.filter((c) => c.startsWith('RAÇÃO '))
+  const allCatNames = [...new Set(products.map((p) => p.category))]
+  const normalCats = allCatNames.filter((c) => !c.startsWith('RAÇÃO '))
+  const racoesCats = allCatNames.filter((c) => c.startsWith('RAÇÃO '))
+
+  type CategoryItem =
+    | { type: 'category'; name: string }
+    | { type: 'group'; name: string; items: string[] }
+
+  const categoryItems: CategoryItem[] = normalCats.map((name) => ({
+    type: 'category',
+    name,
+  }))
+
+  if (racoesCats.length > 0) {
+    categoryItems.push({ type: 'group', name: 'RAÇÕES', items: racoesCats })
+  }
+
+  categoryItems.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
+
+  const renderList: CategoryItem[] = [
+    { type: 'category', name: 'Todos' },
+    ...categoryItems,
+  ]
 
   const normalizeText = (text: string) => {
     return text
@@ -192,102 +212,102 @@ function LojaContent() {
                   <span>Categorias</span>
                 </h3>
                 <div className="flex flex-col gap-2">
-                  {normalCategories.map((category) => {
-                    const isActive = selectedCategory === category
-                    const count =
-                      category === 'Todos'
-                        ? products.length
-                        : products.filter((p) => p.category === category).length
+                  {renderList.map((item) => {
+                    if (item.type === 'category') {
+                      const category = item.name
+                      const isActive = selectedCategory === category
+                      const count =
+                        category === 'Todos'
+                          ? products.length
+                          : products.filter((p) => p.category === category).length
 
-                    return (
-                      <button
-                        key={category}
-                        onClick={() => handleCategorySelect(category)}
-                        className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-3 text-left text-sm font-semibold transition-all duration-300 ${
-                          isActive
-                            ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                            : 'text-stone-600 hover:bg-stone-100 hover:text-primary'
-                        }`}
-                      >
-                        <span className="relative z-10">{category}</span>
-                        <span
-                          className={`relative z-10 rounded-full px-2 py-0.5 text-xs font-bold ${
+                      return (
+                        <button
+                          key={category}
+                          onClick={() => handleCategorySelect(category)}
+                          className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-3 text-left text-sm font-semibold transition-all duration-300 ${
                             isActive
-                              ? 'bg-white/20 text-white'
-                              : 'bg-stone-100 text-stone-500 group-hover:bg-primary/10 group-hover:text-primary'
+                              ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                              : 'text-stone-600 hover:bg-stone-100 hover:text-primary'
                           }`}
                         >
-                          {count}
-                        </span>
-                        {!isActive && (
-                          <div className="absolute inset-y-0 left-0 w-1 -translate-x-full transform bg-primary transition-transform duration-300 group-hover:translate-x-0" />
-                        )}
-                      </button>
-                    )
-                  })}
-
-                  {/* Rações Accordion */}
-                  {racoesCategories.length > 0 && (
-                    <div className="mt-2 flex flex-col gap-1.5 border-t border-stone-100 pt-2">
-                      <button
-                        onClick={() => setIsRacoesOpen(!isRacoesOpen)}
-                        className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-3 text-left text-sm font-semibold transition-all duration-300 ${
-                          racoesCategories.includes(selectedCategory)
-                            ? 'bg-primary/10 text-primary'
-                            : 'text-stone-600 hover:bg-stone-100 hover:text-primary'
-                        }`}
-                      >
-                        <span className="relative z-10 font-bold">Rações</span>
-                        <ChevronDown
-                          size={16}
-                          className={`transition-transform duration-300 ${isRacoesOpen ? 'rotate-180' : ''}`}
-                        />
-                      </button>
-
-                      <AnimatePresence>
-                        {isRacoesOpen && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            className="flex flex-col gap-1.5 overflow-hidden pl-4"
+                          <span className="relative z-10">{category}</span>
+                          <span
+                            className={`relative z-10 rounded-full px-2 py-0.5 text-xs font-bold ${
+                              isActive
+                                ? 'bg-white/20 text-white'
+                                : 'bg-stone-100 text-stone-500 group-hover:bg-primary/10 group-hover:text-primary'
+                            }`}
                           >
-                            {racoesCategories.map((category) => {
-                              const isActive = selectedCategory === category
-                              const count = products.filter(
-                                (p) => p.category === category,
-                              ).length
+                            {count}
+                          </span>
+                          {!isActive && (
+                            <div className="absolute inset-y-0 left-0 w-1 -translate-x-full transform bg-primary transition-transform duration-300 group-hover:translate-x-0" />
+                          )}
+                        </button>
+                      )
+                    }
 
-                              return (
-                                <button
-                                  key={category}
-                                  onClick={() => handleCategorySelect(category)}
-                                  className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-2 text-left text-xs font-semibold transition-all duration-300 ${
-                                    isActive
-                                      ? 'bg-primary text-white shadow-md shadow-primary/20'
-                                      : 'text-stone-500 hover:bg-stone-50 hover:text-primary'
-                                  }`}
-                                >
-                                  <span className="relative z-10">
-                                    {category}
-                                  </span>
-                                  <span
-                                    className={`relative z-10 rounded-full px-2 py-0.5 text-[10px] font-bold ${
-                                      isActive
-                                        ? 'bg-white/20 text-white'
-                                        : 'bg-stone-100 text-stone-400 group-hover:bg-primary/10 group-hover:text-primary'
+                    // Render group (RAÇÕES)
+                    const isGroupActive = item.items.includes(selectedCategory)
+                    return (
+                      <div key={item.name} className="mt-1 flex flex-col gap-1.5 border-t border-b border-stone-100 py-2">
+                        <button
+                          onClick={() => setIsRacoesOpen(!isRacoesOpen)}
+                          className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-3 text-left text-sm font-semibold transition-all duration-300 ${
+                            isGroupActive
+                              ? 'bg-primary/10 text-primary'
+                              : 'text-stone-600 hover:bg-stone-100 hover:text-primary'
+                          }`}
+                        >
+                          <span className="relative z-10 font-bold">{item.name}</span>
+                          <ChevronDown
+                            size={16}
+                            className={`transition-transform duration-300 ${isRacoesOpen ? 'rotate-180' : ''}`}
+                          />
+                        </button>
+
+                        <AnimatePresence>
+                          {isRacoesOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="flex flex-col gap-1.5 overflow-hidden pl-4"
+                            >
+                              {item.items.map((subCategory) => {
+                                const isSubActive = selectedCategory === subCategory
+                                const count = products.filter((p) => p.category === subCategory).length
+
+                                return (
+                                  <button
+                                    key={subCategory}
+                                    onClick={() => handleCategorySelect(subCategory)}
+                                    className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-2 text-left text-xs font-semibold transition-all duration-300 ${
+                                      isSubActive
+                                        ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                        : 'text-stone-500 hover:bg-stone-50 hover:text-primary'
                                     }`}
                                   >
-                                    {count}
-                                  </span>
-                                </button>
-                              )
-                            })}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  )}
+                                    <span className="relative z-10">{subCategory}</span>
+                                    <span
+                                      className={`relative z-10 rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                                        isSubActive
+                                          ? 'bg-white/20 text-white'
+                                          : 'bg-stone-100 text-stone-400 group-hover:bg-primary/10 group-hover:text-primary'
+                                      }`}
+                                    >
+                                      {count}
+                                    </span>
+                                  </button>
+                                )
+                              })}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    )
+                  })}
                 </div>
               </motion.div>
 

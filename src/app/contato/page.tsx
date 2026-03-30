@@ -176,7 +176,7 @@ export default function Contato() {
                   variants={itemVariants}
                   className="glass-morphism group rounded-2xl p-6 shadow-lg shadow-stone-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                 >
-                  <div className="flex gap-5">
+                  <div className="flex flex-col items-center text-center gap-4">
                     <div
                       className={`inline-flex shrink-0 rounded-xl p-3 transition-colors duration-300 ${
                         info.color === 'primary'
@@ -317,6 +317,7 @@ export default function Contato() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="(43) 99999-8888"
+                    required
                     className="w-full rounded-xl border-2 border-stone-200 bg-white px-5 py-3.5 text-sm transition-all duration-200 placeholder:text-stone-400 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
                   />
                 </div>

@@ -22,7 +22,7 @@ const slides = [
     productImage:
       'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=800&auto=format&fit=crop',
     cta: 'Explorar Coloniais',
-    href: '/loja',
+    href: '/loja?categoria=PRODUTOS%20COLONIAIS#catalogo',
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const slides = [
     productImage:
       'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=800&auto=format&fit=crop',
     cta: 'Explorar Pet',
-    href: '/loja',
+    href: '/loja?categoria=RAÇÃO%20CÃES%20E%20GATOS#catalogo',
   },
   {
     id: 3,
@@ -44,7 +44,7 @@ const slides = [
     productImage:
       'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop',
     cta: 'Explorar Ferramentas',
-    href: '/loja',
+    href: '/loja?categoria=FERRAMENTAS#catalogo',
   },
 ]
 
@@ -197,7 +197,10 @@ export default function HeroCarousel() {
                   }}
                   className="hidden justify-center lg:flex"
                 >
-                  <div className="relative h-[320px] w-[420px] xl:h-[360px] xl:w-[480px]">
+                  <Link 
+                    href={slides[current].href}
+                    className="relative block h-[320px] w-[420px] transition-transform duration-300 hover:scale-[1.02] xl:h-[360px] xl:w-[480px]"
+                  >
                     <div className="absolute inset-0 rounded-3xl bg-white/[0.07] backdrop-blur-sm" />
                     <Image
                       src={slides[current].productImage}
@@ -207,7 +210,7 @@ export default function HeroCarousel() {
                     />
                     <div className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-accent/20 blur-2xl" />
                     <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-primary-light/20 blur-2xl" />
-                  </div>
+                  </Link>
                 </motion.div>
               </AnimatePresence>
             </div>

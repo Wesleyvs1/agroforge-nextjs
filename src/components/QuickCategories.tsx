@@ -31,8 +31,8 @@ const categories = [
   {
     emoji: '🥣',
     name: 'Acessórios Pet',
-    count: 'BEBEDOUROS E COMEDOUROS',
-    href: '/loja?categoria=BEBEDOUROS%20E%20COMEDOUROS#catalogo',
+    count: 'ACESSÓRIOS PARA PET',
+    href: '/loja?categoria=ACESSÓRIOS%20PARA%20PET#catalogo',
   },
   {
     emoji: '🌱',
