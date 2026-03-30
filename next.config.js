@@ -13,6 +13,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'cdn.awsli.com.br',
       },
+      {
+        protocol: 'https',
+        hostname: 'placehold.co',
+      },
     ],
   },
 }

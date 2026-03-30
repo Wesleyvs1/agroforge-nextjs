@@ -12,9 +12,10 @@ import {
   Sprout,
   Users,
   Package,
-  MapPin,
   Calendar,
   ChevronRight,
+  ChevronDown,
+  MapPin,
 } from 'lucide-react'
 
 const containerVariants = {
@@ -121,6 +122,27 @@ export default function Sobre() {
             agropecuária de confiança.
           </p>
         </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
+        >
+          <button
+            onClick={() =>
+              window.scrollBy({
+                top: window.innerHeight - 80,
+                behavior: 'smooth',
+              })
+            }
+            className="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/60 bg-primary/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-primary hover:shadow-xl"
+            aria-label="Rolar para baixo"
+          >
+            <ChevronDown size={20} className="animate-bounce" />
+          </button>
+        </motion.div>
       </section>
 
       {/* Missão, Visão, Valores */}
@@ -155,7 +177,9 @@ export default function Sobre() {
               <h3 className="mb-4 font-heading text-2xl font-bold text-primary-dark">
                 {item.title}
               </h3>
-              <p className="leading-relaxed text-stone-600">{item.description}</p>
+              <p className="leading-relaxed text-stone-600">
+                {item.description}
+              </p>
             </motion.div>
           ))}
         </motion.div>
@@ -191,9 +215,9 @@ export default function Sobre() {
                     </div>
                   </div>
                   <p className="leading-relaxed text-stone-700">
-                    A AgroForge nasceu com uma visão clara: simplificar o acesso a
-                    produtos agropecuários de qualidade para pequenos e grandes
-                    produtores. Começamos como uma pequena loja em
+                    A AgroForge nasceu com uma visão clara: simplificar o acesso
+                    a produtos agropecuários de qualidade para pequenos e
+                    grandes produtores. Começamos como uma pequena loja em
                     Curitiba – PR, e evoluímos para uma plataforma robusta de
                     vendas online.
                   </p>
@@ -209,10 +233,10 @@ export default function Sobre() {
                   </div>
                   <p className="leading-relaxed text-stone-700">
                     Ao longo dos anos, desenvolvemos relacionamentos sólidos com
-                    fornecedores de confiança, garantindo que cada produto oferecido
-                    atenda aos nossos rigorosos padrões de qualidade. Nossa equipe
-                    está comprometida em entender as necessidades do mercado
-                    agropecuário e oferecer soluções inovadoras.
+                    fornecedores de confiança, garantindo que cada produto
+                    oferecido atenda aos nossos rigorosos padrões de qualidade.
+                    Nossa equipe está comprometida em entender as necessidades
+                    do mercado agropecuário e oferecer soluções inovadoras.
                   </p>
                 </div>
 
@@ -225,10 +249,10 @@ export default function Sobre() {
                     </div>
                   </div>
                   <p className="leading-relaxed text-stone-700">
-                    Hoje, atendemos clientes em toda a região do Paraná e São Paulo,
-                    e continuamos expandindo. Estamos orgulhosos de ser mais do que
-                    um simples revendedor – somos parceiros no sucesso de nossos
-                    clientes.
+                    Hoje, atendemos clientes em toda a região do Paraná e São
+                    Paulo, e continuamos expandindo. Estamos orgulhosos de ser
+                    mais do que um simples revendedor – somos parceiros no
+                    sucesso de nossos clientes.
                   </p>
                 </div>
               </div>
@@ -374,8 +398,8 @@ export default function Sobre() {
             Quer fazer parte da família AgroForge?
           </h2>
           <p className="mx-auto mb-12 max-w-2xl text-lg text-stone-400">
-            Conheça nossos produtos e comece sua jornada conosco. Estamos prontos
-            para ajudar você a alcançar resultados excepcionais.
+            Conheça nossos produtos e comece sua jornada conosco. Estamos
+            prontos para ajudar você a alcançar resultados excepcionais.
           </p>
           <Link
             href="/loja"

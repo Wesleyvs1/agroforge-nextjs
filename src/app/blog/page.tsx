@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { ChevronRight, Mail, User, Clock } from 'lucide-react'
+import { ChevronRight, ChevronDown, Mail, User, Clock } from 'lucide-react'
 import { useAdminData } from '@/context/AdminDataContext'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -81,6 +81,27 @@ export default function Blog() {
             As últimas novidades sobre café, pecuária, pets e sustentabilidade
             no campo brasileiro.
           </p>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
+        >
+          <button
+            onClick={() =>
+              window.scrollBy({
+                top: window.innerHeight - 80,
+                behavior: 'smooth',
+              })
+            }
+            className="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/60 bg-primary/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-primary hover:shadow-xl"
+            aria-label="Rolar para baixo"
+          >
+            <ChevronDown size={20} className="animate-bounce" />
+          </button>
         </motion.div>
       </section>
 

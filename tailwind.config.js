@@ -9,19 +9,19 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#2D5A27', // Sap Green (Forte, Natural)
+          DEFAULT: 'rgb(var(--color-primary-rgb, 45 90 39) / <alpha-value>)', // #2D5A27
           light: '#4C8A44',
           dark: '#1A3317',
         },
         accent: {
-          DEFAULT: '#C46D29', // Rust/Copper (Terra, Tradição)
+          DEFAULT: 'rgb(var(--color-accent-rgb, 196 109 41) / <alpha-value>)', // #C46D29
           light: '#E18C4D',
         },
         surface: {
           DEFAULT: '#F8F6F2', // Paper/Clay (Orgânico)
           alt: '#EBE7DF',
         },
-        dark: '#141E11',
+        dark: 'rgb(var(--color-dark-rgb, 20 30 17) / <alpha-value>)', // #141E11
       },
       fontFamily: {
         heading: ['var(--font-heading)', 'serif'],

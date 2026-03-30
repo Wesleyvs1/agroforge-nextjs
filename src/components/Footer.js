@@ -1,19 +1,25 @@
+'use client'
+
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
+  const pathname = usePathname()
+  const isAdmin = pathname?.startsWith('/admin')
 
   return (
-    <footer className="mt-16 bg-gray-900 text-white">
+    <footer className={`${isAdmin ? 'mt-0' : 'mt-16'} bg-gray-900 text-white`}>
       <div className="mx-auto max-w-7xl px-4 py-12">
         {/* Brand Logo (Top of Footer) */}
         <div className="mb-10 flex">
-          <Image 
-            src="/images/logo.png" 
-            alt="AgroForge" 
-            width={300} 
-            height={100} 
-            className="h-20 w-auto object-contain md:h-24" 
+          <Image
+            src="/images/logo.png"
+            alt="AgroForge"
+            width={300}
+            height={100}
+            className="h-20 w-auto object-contain md:h-24"
           />
         </div>
 
@@ -24,7 +30,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm text-gray-400">
               <li>
                 <Link
-                  href="/loja"
+                  href="/loja?q=café#catalogo"
                   className="transition-colors hover:text-primary"
                 >
                   ☕ Café Moído na Hora
@@ -32,7 +38,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/loja"
+                  href="/loja?categoria=PRODUTOS%20COLONIAIS#catalogo"
                   className="transition-colors hover:text-primary"
                 >
                   🧀 Produtos Coloniais
@@ -40,15 +46,15 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/loja"
+                  href="/loja?categoria=RAÇÃO%20CÃES%20E%20GATOS#catalogo"
                   className="transition-colors hover:text-primary"
                 >
-                  🐕 Rações Pet
+                  🐕 Ração Cães e Gatos
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/loja"
+                  href="/loja?categoria=MEDICAMENTOS#catalogo"
                   className="transition-colors hover:text-primary"
                 >
                   💊 Medicamentos
@@ -56,7 +62,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="/loja"
+                  href="/loja?categoria=FERRAMENTAS#catalogo"
                   className="transition-colors hover:text-primary"
                 >
                   🔧 Ferramentas
@@ -138,16 +144,16 @@ export default function Footer() {
 
           {/* Coluna 4 — Contato & Redes */}
           <div>
-            <h3 className="mb-4 text-lg font-bold text-primary">
-              Contato
-            </h3>
+            <h3 className="mb-4 text-lg font-bold text-primary">Contato</h3>
             <div className="space-y-2 text-sm text-gray-400">
               <p>📍 Rod. dos Minérios, 1949 - Taboão</p>
               <p className="pl-5">Curitiba - PR, 82130-570</p>
               <p>📞 (41) 99195-7593</p>
               <p>📞 (41) 3336-7593</p>
               <p>📧 agroforge@gmail.com</p>
-              <p className="mt-1 text-[11px] text-gray-500">CNPJ: 37.837.323/0001-44</p>
+              <p className="mt-1 text-[11px] text-gray-500">
+                CNPJ: 37.837.323/0001-44
+              </p>
             </div>
             <div className="mt-4 flex gap-3">
               <a

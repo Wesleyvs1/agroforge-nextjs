@@ -53,14 +53,21 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
         <section className="relative overflow-hidden bg-primary-dark py-28">
           <div className="absolute inset-0 bg-[url('/bg-texture.png')] opacity-[0.05]" />
           <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-            <Package size={64} className="mx-auto mb-6 text-stone-500" strokeWidth={1} />
+            <Package
+              size={64}
+              className="mx-auto mb-6 text-stone-500"
+              strokeWidth={1}
+            />
             <h1 className="mb-4 font-heading text-4xl font-extrabold text-white">
               Produto não encontrado
             </h1>
             <p className="mb-8 text-stone-400">
               O produto que você procura não está disponível.
             </p>
-            <Link href="/loja" className="premium-button inline-flex items-center gap-2">
+            <Link
+              href="/loja"
+              className="premium-button inline-flex items-center gap-2"
+            >
               <span>Voltar para Loja</span>
               <ChevronRight size={16} />
             </Link>
@@ -83,7 +90,8 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
   const discount =
     'originalPrice' in product && product.originalPrice
       ? Math.round(
-          ((product.originalPrice - product.price) / product.originalPrice) * 100,
+          ((product.originalPrice - product.price) / product.originalPrice) *
+            100,
         )
       : null
 
@@ -92,7 +100,10 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
       {/* Breadcrumb */}
       <div className="border-b border-stone-200 bg-white/60 backdrop-blur-sm">
         <div className="mx-auto flex max-w-7xl items-center gap-2 px-6 py-4 text-sm">
-          <Link href="/loja" className="font-medium text-stone-500 transition-colors hover:text-primary">
+          <Link
+            href="/loja"
+            className="font-medium text-stone-500 transition-colors hover:text-primary"
+          >
             Loja
           </Link>
           <ChevronRight size={14} className="text-stone-300" />
@@ -196,7 +207,9 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
               <div className="flex items-center gap-3">
                 <Package size={16} className="text-primary" />
                 <span className="text-sm font-medium text-stone-600">
-                  <span className="font-bold text-stone-800">Disponibilidade:</span>{' '}
+                  <span className="font-bold text-stone-800">
+                    Disponibilidade:
+                  </span>{' '}
                   {product.stock > 0
                     ? `${product.stock} unidades em estoque`
                     : 'Fora de estoque'}
@@ -221,7 +234,9 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
               <div className="space-y-4">
                 {/* Quantity Selector */}
                 <div className="flex items-center gap-4">
-                  <span className="text-sm font-bold text-stone-700">Quantidade:</span>
+                  <span className="text-sm font-bold text-stone-700">
+                    Quantidade:
+                  </span>
                   <div className="flex items-center rounded-xl border-2 border-stone-200">
                     <button
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
@@ -277,7 +292,7 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
                 </a>
               </div>
             ) : (
-              <div className="rounded-2xl bg-red-50 border border-red-200 px-6 py-4 text-center font-bold text-red-600">
+              <div className="rounded-2xl border border-red-200 bg-red-50 px-6 py-4 text-center font-bold text-red-600">
                 Produto temporariamente indisponível
               </div>
             )}
@@ -293,7 +308,11 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
                   key={idx}
                   className="flex flex-col items-center gap-2 rounded-xl bg-stone-50 p-3 text-center"
                 >
-                  <badge.icon size={18} className="text-primary" strokeWidth={1.5} />
+                  <badge.icon
+                    size={18}
+                    className="text-primary"
+                    strokeWidth={1.5}
+                  />
                   <span className="text-[11px] font-semibold text-stone-500">
                     {badge.label}
                   </span>

@@ -4,15 +4,23 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight, ChevronDown, ShoppingCart } from 'lucide-react'
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ShoppingCart,
+} from 'lucide-react'
 
 const slides = [
   {
     id: 1,
     title: 'Produtos Coloniais Direto do Produtor',
-    subtitle: 'Queijos, mel, linguiça e café moído na hora com qualidade artesanal.',
-    image: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=2070&auto=format&fit=crop',
-    productImage: 'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=800&auto=format&fit=crop',
+    subtitle:
+      'Queijos, mel, linguiça e café moído na hora com qualidade artesanal.',
+    image:
+      'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?q=80&w=2070&auto=format&fit=crop',
+    productImage:
+      'https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?q=80&w=800&auto=format&fit=crop',
     cta: 'Explorar Coloniais',
     href: '/loja',
   },
@@ -20,8 +28,10 @@ const slides = [
     id: 2,
     title: 'Nutrição Premium para Seu Pet',
     subtitle: 'Rações, medicamentos e acessórios para cães e gatos.',
-    image: 'https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=2070&auto=format&fit=crop',
-    productImage: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=800&auto=format&fit=crop',
+    image:
+      'https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=2070&auto=format&fit=crop',
+    productImage:
+      'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?q=80&w=800&auto=format&fit=crop',
     cta: 'Explorar Pet',
     href: '/loja',
   },
@@ -29,8 +39,10 @@ const slides = [
     id: 3,
     title: 'Ferramentas para o Campo Moderno',
     subtitle: 'Cavadeiras, discos, cabos e tudo para sua propriedade.',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format&fit=crop',
-    productImage: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop',
+    image:
+      'https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=2070&auto=format&fit=crop',
+    productImage:
+      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?q=80&w=800&auto=format&fit=crop',
     cta: 'Explorar Ferramentas',
     href: '/loja',
   },
@@ -61,11 +73,14 @@ export default function HeroCarousel() {
     resetTimer()
   }, [resetTimer])
 
-  const goTo = useCallback((index: number) => {
-    setDirection(index > current ? 1 : -1)
-    setCurrent(index)
-    resetTimer()
-  }, [current, resetTimer])
+  const goTo = useCallback(
+    (index: number) => {
+      setDirection(index > current ? 1 : -1)
+      setCurrent(index)
+      resetTimer()
+    },
+    [current, resetTimer],
+  )
 
   useEffect(() => {
     resetTimer()
@@ -108,7 +123,7 @@ export default function HeroCarousel() {
   }
 
   return (
-    <section className="relative bg-surface pb-2 pt-4 md:pt-6 md:pb-4">
+    <section className="relative bg-surface pb-2 pt-4 md:pb-4 md:pt-6">
       <div className="mx-auto max-w-7xl px-4 md:px-6">
         {/* Banner Container */}
         <div className="relative overflow-hidden rounded-3xl md:rounded-[2rem]">
@@ -122,7 +137,8 @@ export default function HeroCarousel() {
               priority
             />
             <div className="absolute inset-0 bg-gradient-to-r from-primary-dark/90 via-primary-dark/70 to-primary-dark/40" />
-            <div className="absolute inset-0 opacity-[0.06]"
+            <div
+              className="absolute inset-0 opacity-[0.06]"
               style={{
                 backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
               }}
@@ -130,7 +146,7 @@ export default function HeroCarousel() {
           </div>
 
           {/* Main Content — generous padding to avoid arrow overlap */}
-          <div className="relative z-10 flex min-h-[420px] items-center px-14 py-14 sm:px-16 md:min-h-[480px] md:px-20 md:py-20 lg:min-h-[520px] lg:px-24 lg:py-16">
+          <div className="relative z-10 flex min-h-[460px] items-center px-6 pb-32 pt-16 sm:px-16 md:min-h-[480px] md:px-20 md:py-20 lg:min-h-[520px] lg:px-24 lg:py-16">
             <div className="grid w-full grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
               {/* Left: Text content */}
               <AnimatePresence mode="wait" custom={direction}>
@@ -174,7 +190,11 @@ export default function HeroCarousel() {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1], delay: 0.1 }}
+                  transition={{
+                    duration: 0.6,
+                    ease: [0.32, 0.72, 0, 1],
+                    delay: 0.1,
+                  }}
                   className="hidden justify-center lg:flex"
                 >
                   <div className="relative h-[320px] w-[420px] xl:h-[360px] xl:w-[480px]">
@@ -196,14 +216,14 @@ export default function HeroCarousel() {
           {/* Navigation Arrows — outside content padding zone */}
           <button
             onClick={goPrev}
-            className="absolute left-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-stone-700 shadow-lg transition-all hover:bg-primary hover:text-white active:scale-90 md:left-4 md:h-11 md:w-11"
+            className="absolute left-3 top-1/2 z-20 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-stone-700 shadow-lg transition-all hover:bg-primary hover:text-white active:scale-90 md:left-4 md:flex md:h-11 md:w-11"
             aria-label="Slide anterior"
           >
             <ChevronLeft size={18} />
           </button>
           <button
             onClick={goNext}
-            className="absolute right-3 top-1/2 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-stone-700 shadow-lg transition-all hover:bg-primary hover:text-white active:scale-90 md:right-4 md:h-11 md:w-11"
+            className="absolute right-3 top-1/2 z-20 hidden h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-stone-700 shadow-lg transition-all hover:bg-primary hover:text-white active:scale-90 md:right-4 md:flex md:h-11 md:w-11"
             aria-label="Próximo slide"
           >
             <ChevronRight size={18} />
@@ -218,7 +238,7 @@ export default function HeroCarousel() {
                   key={index}
                   onClick={() => goTo(index)}
                   aria-label={`Ir para slide ${index + 1}`}
-                  className={`h-2 rounded-full transition-all duration-400 ${
+                  className={`duration-400 h-2 rounded-full transition-all ${
                     index === current
                       ? 'w-7 bg-white shadow-md'
                       : 'w-2 bg-white/40 hover:bg-white/60'
@@ -229,9 +249,10 @@ export default function HeroCarousel() {
             {/* Scroll-down button */}
             <a
               href="#colecoes"
-              className="flex h-10 w-10 items-center justify-center rounded-full border-[3px] border-white bg-primary text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-light hover:shadow-xl"
+              className="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/60 bg-primary/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-primary hover:shadow-xl"
+              aria-label="Rolar para baixo"
             >
-              <ChevronDown size={18} className="animate-bounce" />
+              <ChevronDown size={20} className="animate-bounce" />
             </a>
           </div>
         </div>

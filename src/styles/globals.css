@@ -80,7 +80,8 @@ h4 {
 
 /* WhatsApp Float Pulse */
 @keyframes whatsapp-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.4);
   }
   50% {

@@ -57,8 +57,8 @@ export default function Fornecedores() {
             <span className="text-accent-light">Parceiras</span>
           </h1>
           <p className="mx-auto max-w-2xl text-lg leading-relaxed text-stone-300">
-            Trabalhamos com os melhores fabricantes e fornecedores do Brasil para
-            garantir qualidade e confiança em cada produto.
+            Trabalhamos com os melhores fabricantes e fornecedores do Brasil
+            para garantir qualidade e confiança em cada produto.
           </p>
         </motion.div>
       </section>
@@ -131,7 +131,9 @@ export default function Fornecedores() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: index * 0.08 }}
                   className={`group cursor-default px-5 py-6 text-center transition-all duration-300 hover:bg-primary/5 ${
-                    index >= 2 ? 'border-t border-stone-200/50 sm:border-t-0' : ''
+                    index >= 2
+                      ? 'border-t border-stone-200/50 sm:border-t-0'
+                      : ''
                   } ${index >= 4 ? 'border-t border-stone-200/50' : ''}`}
                 >
                   <p className="text-xs font-bold uppercase tracking-[0.15em] text-stone-700 transition-colors group-hover:text-primary">
@@ -168,7 +170,7 @@ export default function Fornecedores() {
       <section className="relative overflow-hidden bg-stone-900 py-24">
         <div className="absolute inset-0 bg-primary/10 opacity-50" />
         <div className="absolute -left-20 -top-20 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
-        <div className="absolute -right-20 -bottom-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute -bottom-20 -right-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}

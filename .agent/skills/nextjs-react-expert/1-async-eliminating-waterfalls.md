@@ -14,7 +14,7 @@ This section contains **6 rules** focused on eliminating waterfalls, now includi
 ## Rule 1.1: Defer Await Until Needed
 
 **Impact:** HIGH  
-**Tags:** async, await, conditional, optimization  
+**Tags:** async, await, conditional, optimization
 
 ## Defer Await Until Needed
 
@@ -25,12 +25,12 @@ Move `await` operations into the branches where they're actually used to avoid b
 ```typescript
 async function handleRequest(userId: string, skipProcessing: boolean) {
   const userData = await fetchUserData(userId)
-  
+
   if (skipProcessing) {
     // Returns immediately but still waited for userData
     return { skipped: true }
   }
-  
+
   // Only this branch uses userData
   return processUserData(userData)
 }
@@ -44,7 +44,7 @@ async function handleRequest(userId: string, skipProcessing: boolean) {
     // Returns immediately without waiting
     return { skipped: true }
   }
-  
+
   // Fetch only when needed
   const userData = await fetchUserData(userId)
   return processUserData(userData)
@@ -58,32 +58,32 @@ async function handleRequest(userId: string, skipProcessing: boolean) {
 async function updateResource(resourceId: string, userId: string) {
   const permissions = await fetchPermissions(userId)
   const resource = await getResource(resourceId)
-  
+
   if (!resource) {
     return { error: 'Not found' }
   }
-  
+
   if (!permissions.canEdit) {
     return { error: 'Forbidden' }
   }
-  
+
   return await updateResourceData(resource, permissions)
 }
 
 // Correct: fetches only when needed
 async function updateResource(resourceId: string, userId: string) {
   const resource = await getResource(resourceId)
-  
+
   if (!resource) {
     return { error: 'Not found' }
   }
-  
+
   const permissions = await fetchPermissions(userId)
-  
+
   if (!permissions.canEdit) {
     return { error: 'Forbidden' }
   }
-  
+
   return await updateResourceData(resource, permissions)
 }
 ```
@@ -95,7 +95,7 @@ This optimization is especially valuable when the skipped branch is frequently t
 ## Rule 1.2: Dependency-Based Parallelization
 
 **Impact:** CRITICAL  
-**Tags:** async, parallelization, dependencies, better-all  
+**Tags:** async, parallelization, dependencies, better-all
 
 ## Dependency-Based Parallelization
 
@@ -104,10 +104,7 @@ For operations with partial dependencies, use `better-all` to maximize paralleli
 **Incorrect (profile waits for config unnecessarily):**
 
 ```typescript
-const [user, config] = await Promise.all([
-  fetchUser(),
-  fetchConfig()
-])
+const [user, config] = await Promise.all([fetchUser(), fetchConfig()])
 const profile = await fetchProfile(user.id)
 ```
 
@@ -117,11 +114,15 @@ const profile = await fetchProfile(user.id)
 import { all } from 'better-all'
 
 const { user, config, profile } = await all({
-  async user() { return fetchUser() },
-  async config() { return fetchConfig() },
+  async user() {
+    return fetchUser()
+  },
+  async config() {
+    return fetchConfig()
+  },
   async profile() {
     return fetchProfile((await this.$.user).id)
-  }
+  },
 })
 ```
 
@@ -131,12 +132,12 @@ We can also create all the promises first, and do `Promise.all()` at the end.
 
 ```typescript
 const userPromise = fetchUser()
-const profilePromise = userPromise.then(user => fetchProfile(user.id))
+const profilePromise = userPromise.then((user) => fetchProfile(user.id))
 
 const [user, config, profile] = await Promise.all([
   userPromise,
   fetchConfig(),
-  profilePromise
+  profilePromise,
 ])
 ```
 
@@ -147,7 +148,7 @@ Reference: [https://github.com/shuding/better-all](https://github.com/shuding/be
 ## Rule 1.3: Prevent Waterfall Chains in API Routes
 
 **Impact:** CRITICAL  
-**Tags:** api-routes, server-actions, waterfalls, parallelization  
+**Tags:** api-routes, server-actions, waterfalls, parallelization
 
 ## Prevent Waterfall Chains in API Routes
 
@@ -173,7 +174,7 @@ export async function GET(request: Request) {
   const session = await sessionPromise
   const [config, data] = await Promise.all([
     configPromise,
-    fetchData(session.user.id)
+    fetchData(session.user.id),
   ])
   return Response.json({ data, config })
 }
@@ -186,7 +187,7 @@ For operations with more complex dependency chains, use `better-all` to automati
 ## Rule 1.4: Promise.all() for Independent Operations
 
 **Impact:** CRITICAL  
-**Tags:** async, parallelization, promises, waterfalls  
+**Tags:** async, parallelization, promises, waterfalls
 
 ## Promise.all() for Independent Operations
 
@@ -206,7 +207,7 @@ const comments = await fetchComments()
 const [user, posts, comments] = await Promise.all([
   fetchUser(),
   fetchPosts(),
-  fetchComments()
+  fetchComments(),
 ])
 ```
 
@@ -215,7 +216,7 @@ const [user, posts, comments] = await Promise.all([
 ## Rule 1.5: Strategic Suspense Boundaries
 
 **Impact:** HIGH  
-**Tags:** async, suspense, streaming, layout-shift  
+**Tags:** async, suspense, streaming, layout-shift
 
 ## Strategic Suspense Boundaries
 
@@ -226,7 +227,7 @@ Instead of awaiting data in async components before returning JSX, use Suspense 
 ```tsx
 async function Page() {
   const data = await fetchData() // Blocks entire page
-  
+
   return (
     <div>
       <div>Sidebar</div>
@@ -274,7 +275,7 @@ Sidebar, Header, and Footer render immediately. Only DataDisplay waits for data.
 function Page() {
   // Start fetch immediately, but don't await
   const dataPromise = fetchData()
-  
+
   return (
     <div>
       <div>Sidebar</div>
@@ -310,7 +311,6 @@ Both components share the same promise, so only one fetch occurs. Layout renders
 
 **Trade-off:** Faster initial paint vs potential layout shift. Choose based on your UX priorities.
 
-
 ---
 
 ## Rule 1.6: Use `after()` and `connection()` (Next.js 16+)
@@ -321,6 +321,7 @@ Both components share the same promise, so only one fetch occurs. Layout renders
 Next.js 16 introduced APIs to prevent "Blocking the Main Thread" and ensure "Dynamic Runtime" awareness.
 
 ### 1. `after()` for Non-Blocking Logic
+
 Avoid `await` on logic that doesn't affect the initial UI (logging, analytics, emails).
 
 ```tsx
@@ -328,10 +329,10 @@ import { after } from 'next/server'
 
 export default async function Page() {
   const data = await fetchData() // CRITICAL
-  
+
   after(() => {
     // RUNS AFTER THE RESPONSE IS SENT
-    logTrack(data) 
+    logTrack(data)
   })
 
   return <View data={data} />
@@ -339,6 +340,7 @@ export default async function Page() {
 ```
 
 ### 2. `connection()` for Dynamic Intent
+
 Use `connection()` to signal that a component is dynamic and should not be pre-rendered as static, allowing other parts of the page to stream independently.
 
 ```tsx

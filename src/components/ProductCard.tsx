@@ -43,7 +43,7 @@ export default function ProductCard({ product }: { product: Product }) {
     <Link href={`/produto/${product.id}`}>
       <div className="glass-morphism group flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl shadow-lg shadow-stone-200/50 transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl">
         {/* Image */}
-        <div className="relative h-56 overflow-hidden bg-stone-100">
+        <div className="relative h-40 shrink-0 overflow-hidden bg-stone-100">
           <Image
             src={product.image}
             alt={product.name}
@@ -58,7 +58,6 @@ export default function ProductCard({ product }: { product: Product }) {
           {/* Badge */}
           {product.badge && (
             <div className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-xl bg-primary px-3 py-1.5 text-xs font-bold text-white shadow-lg shadow-primary/20">
-              <span className="text-[10px]">☕</span>
               {product.badge}
             </div>
           )}
@@ -86,7 +85,11 @@ export default function ProductCard({ product }: { product: Product }) {
                 : 'translate-y-2 bg-white/90 text-stone-700 opacity-0 backdrop-blur-sm hover:bg-primary hover:text-white group-hover:translate-y-0 group-hover:opacity-100'
             }`}
           >
-            {added ? <Check size={16} strokeWidth={3} /> : <ShoppingCart size={16} />}
+            {added ? (
+              <Check size={16} strokeWidth={3} />
+            ) : (
+              <ShoppingCart size={16} />
+            )}
           </button>
         </div>
 
@@ -98,7 +101,7 @@ export default function ProductCard({ product }: { product: Product }) {
           </span>
 
           {/* Name */}
-          <h3 className="mb-2 line-clamp-2 font-heading text-sm font-bold leading-snug text-stone-800 transition-colors group-hover:text-primary">
+          <h3 className="mb-2 line-clamp-2 h-10 font-heading text-sm font-bold leading-snug text-stone-800 transition-colors group-hover:text-primary">
             {product.name}
           </h3>
 
@@ -124,42 +127,35 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* Spacer */}
-          <div className="flex-1" />
-
-          {/* Price */}
-          <div className="mb-4">
-            {product.originalPrice && (
-              <div className="text-xs font-medium text-stone-400 line-through">
-                {formatCurrency(product.originalPrice)}
+          {/* Price & Cart Form (bottom aligned) */}
+          <div className="mt-auto flex items-end justify-between pt-2">
+            <div>
+              {product.originalPrice && (
+                <div className="text-[10px] font-medium text-stone-400 line-through">
+                  {formatCurrency(product.originalPrice)}
+                </div>
+              )}
+              <div className="font-heading text-lg font-extrabold text-primary md:text-xl">
+                {formatCurrency(product.price)}
               </div>
-            )}
-            <div className="font-heading text-xl font-extrabold text-primary">
-              {formatCurrency(product.price)}
             </div>
-          </div>
 
-          {/* Button */}
-          <button
-            onClick={handleAddToCart}
-            className={`flex w-full items-center justify-center gap-2 rounded-xl py-3 text-xs font-bold uppercase tracking-wider transition-all duration-300 ${
-              added
-                ? 'bg-green-500 text-white shadow-lg shadow-green-500/20'
-                : 'bg-primary text-white shadow-lg shadow-primary/20 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]'
-            }`}
-          >
-            {added ? (
-              <>
-                <Check size={14} strokeWidth={3} />
-                Adicionado!
-              </>
-            ) : (
-              <>
-                <ShoppingCart size={14} />
-                Comprar Agora
-              </>
-            )}
-          </button>
+            <button
+              onClick={handleAddToCart}
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl transition-all duration-300 ${
+                added
+                  ? 'bg-green-500 text-white shadow-lg shadow-green-500/20'
+                  : 'bg-stone-100 text-stone-600 hover:-translate-y-0.5 hover:bg-primary hover:text-white hover:shadow-md hover:shadow-primary/30 active:scale-[0.95]'
+              }`}
+              aria-label="Adicionar ao carrinho"
+            >
+              {added ? (
+                <Check size={18} strokeWidth={3} />
+              ) : (
+                <ShoppingCart size={18} />
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </Link>

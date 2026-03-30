@@ -41,15 +41,15 @@ export default function LoginAdmin() {
         {/* Brand */}
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex justify-center">
-            <Image 
-              src="/images/logo.png" 
-              alt="AgroForge" 
-              width={320} 
-              height={100} 
-              className="h-24 w-auto object-contain" 
+            <Image
+              src="/images/logo.png"
+              alt="AgroForge"
+              width={320}
+              height={100}
+              className="h-24 w-auto object-contain"
             />
           </div>
-          <p className="mt-2 text-[13px] text-stone-500 uppercase tracking-widest font-semibold">
+          <p className="mt-2 text-[13px] font-semibold uppercase tracking-widest text-stone-500">
             Painel de Administração
           </p>
         </div>

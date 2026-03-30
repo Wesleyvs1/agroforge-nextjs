@@ -4,12 +4,42 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 
 const categories = [
-  { emoji: '🌾', name: 'Rações', count: '20+ Produtos', href: '/loja' },
-  { emoji: '🪢', name: 'Cabos', count: '15+ Produtos', href: '/loja' },
-  { emoji: '🍞', name: 'Coloniais', count: '30+ Produtos', href: '/loja' },
-  { emoji: '🎣', name: 'Pesca', count: '10+ Produtos', href: '/loja' },
-  { emoji: '🐴', name: 'Montaria', count: '12+ Produtos', href: '/loja' },
-  { emoji: '🔧', name: 'Ferramentas', count: '25+ Produtos', href: '/loja' },
+  {
+    emoji: '🐶',
+    name: 'Ração Cães e Gatos',
+    count: 'RAÇÃO CÃES E GATOS',
+    href: '/loja?categoria=RAÇÃO%20CÃES%20E%20GATOS#catalogo',
+  },
+  {
+    emoji: '🍞',
+    name: 'Coloniais',
+    count: 'PRODUTOS COLONIAIS',
+    href: '/loja?categoria=PRODUTOS%20COLONIAIS#catalogo',
+  },
+  {
+    emoji: '💊',
+    name: 'Medicamentos',
+    count: 'MEDICAMENTOS',
+    href: '/loja?categoria=MEDICAMENTOS#catalogo',
+  },
+  {
+    emoji: '🔧',
+    name: 'Ferramentas',
+    count: 'FERRAMENTAS',
+    href: '/loja?categoria=FERRAMENTAS#catalogo',
+  },
+  {
+    emoji: '🥣',
+    name: 'Acessórios Pet',
+    count: 'BEBEDOUROS E COMEDOUROS',
+    href: '/loja?categoria=BEBEDOUROS%20E%20COMEDOUROS#catalogo',
+  },
+  {
+    emoji: '🌱',
+    name: 'Jardinagem',
+    count: 'JARDINAGEM',
+    href: '/loja?categoria=JARDINAGEM#catalogo',
+  },
 ]
 
 const containerVariants = {
@@ -31,7 +61,10 @@ const itemVariants = {
 
 export default function QuickCategories() {
   return (
-    <section id="colecoes" className="mx-auto max-w-7xl px-6 py-16 md:py-20">
+    <section
+      id="colecoes"
+      className="mx-auto max-w-7xl scroll-mt-24 px-6 py-16 md:py-20"
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

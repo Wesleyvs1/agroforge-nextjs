@@ -53,17 +53,17 @@ export default function Sidebar() {
       <aside
         className={`${
           collapsed ? 'translate-x-0' : '-translate-x-full'
-        } fixed z-40 flex h-screen w-[260px] flex-col border-r border-stone-200/60 bg-stone-950 text-white transition-transform md:relative md:translate-x-0`}
+        } fixed inset-y-0 z-40 flex w-[260px] flex-col border-r border-stone-200/60 bg-stone-950 text-white transition-transform md:relative md:h-auto md:translate-x-0`}
       >
         {/* Brand */}
-        <div className="flex flex-col gap-4 border-b border-white/[0.06] px-6 py-8 w-full">
+        <div className="flex w-full flex-col gap-4 border-b border-white/[0.06] px-6 py-8">
           <div className="flex w-full items-center justify-center py-2">
-            <Image 
-              src="/images/logo.png" 
-              alt="AgroForge" 
-              width={220} 
-              height={60} 
-              className="h-16 w-auto object-contain" 
+            <Image
+              src="/images/logo.png"
+              alt="AgroForge"
+              width={220}
+              height={60}
+              className="h-16 w-auto object-contain"
             />
           </div>
           <p className="text-center text-[10px] font-bold uppercase tracking-[0.2em] text-stone-500">

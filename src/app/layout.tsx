@@ -6,6 +6,7 @@ import Providers from '@/components/Providers'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
+import ThemeApplier from '@/components/ThemeApplier'
 import '@/styles/globals.css'
 
 const fontHeading = Epilogue({
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="font-body text-stone-900 antialiased selection:bg-primary/30">
+        <ThemeApplier />
         <Providers>
           <div className="relative min-h-screen">
             {/* Background Texture Overlay */}

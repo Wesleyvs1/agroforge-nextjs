@@ -135,9 +135,7 @@ export default function Paginas() {
                       className="glass-morphism overflow-hidden rounded-2xl shadow-lg shadow-stone-200/30 transition-all duration-200"
                     >
                       <button
-                        onClick={() =>
-                          setExpandedFAQ(isOpen ? null : faq.id)
-                        }
+                        onClick={() => setExpandedFAQ(isOpen ? null : faq.id)}
                         className="flex w-full items-center justify-between gap-4 p-6 text-left transition-colors hover:bg-stone-50/50"
                       >
                         <h3 className="font-heading text-base font-bold text-stone-800">
@@ -162,7 +160,7 @@ export default function Paginas() {
                             transition={{ duration: 0.3 }}
                             className="overflow-hidden"
                           >
-                            <div className="border-t border-stone-100 px-6 pb-6 pt-4 text-stone-600 leading-relaxed">
+                            <div className="border-t border-stone-100 px-6 pb-6 pt-4 leading-relaxed text-stone-600">
                               {faq.answer}
                             </div>
                           </motion.div>

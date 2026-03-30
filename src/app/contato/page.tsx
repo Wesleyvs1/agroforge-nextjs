@@ -7,12 +7,13 @@ import {
   Mail,
   MapPin,
   MessageCircle,
-  Clock,
   Send,
   ChevronRight,
+  ChevronDown,
   User,
   AtSign,
   FileText,
+  Clock,
 } from 'lucide-react'
 
 const containerVariants = {
@@ -122,6 +123,27 @@ export default function Contato() {
             Dúvidas, sugestões ou pedidos? Estamos aqui para ajudar você.
           </p>
         </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
+        >
+          <button
+            onClick={() =>
+              window.scrollBy({
+                top: window.innerHeight - 80,
+                behavior: 'smooth',
+              })
+            }
+            className="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/60 bg-primary/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-primary hover:shadow-xl"
+            aria-label="Rolar para baixo"
+          >
+            <ChevronDown size={20} className="animate-bounce" />
+          </button>
+        </motion.div>
       </section>
 
       {/* Content */}
@@ -156,7 +178,7 @@ export default function Contato() {
                 >
                   <div className="flex gap-5">
                     <div
-                      className={`shrink-0 inline-flex rounded-xl p-3 transition-colors duration-300 ${
+                      className={`inline-flex shrink-0 rounded-xl p-3 transition-colors duration-300 ${
                         info.color === 'primary'
                           ? 'bg-primary/10 text-primary group-hover:bg-primary group-hover:text-white'
                           : 'bg-accent/10 text-accent group-hover:bg-accent group-hover:text-white'
@@ -187,9 +209,9 @@ export default function Contato() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="mt-8 glass-morphism rounded-2xl p-6 shadow-lg shadow-stone-200/50"
+              className="glass-morphism mt-8 rounded-2xl p-6 shadow-lg shadow-stone-200/50"
             >
-              <div className="flex items-center gap-3 mb-4">
+              <div className="mb-4 flex items-center gap-3">
                 <div className="inline-flex rounded-xl bg-primary/10 p-3 text-primary">
                   <Clock size={22} strokeWidth={1.5} />
                 </div>
@@ -199,7 +221,9 @@ export default function Contato() {
               </div>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between rounded-xl bg-stone-50 px-4 py-2.5">
-                  <span className="font-medium text-stone-600">Segunda a Sexta</span>
+                  <span className="font-medium text-stone-600">
+                    Segunda a Sexta
+                  </span>
                   <span className="font-bold text-primary">8h às 18h</span>
                 </div>
                 <div className="flex justify-between rounded-xl bg-stone-50 px-4 py-2.5">
@@ -237,7 +261,7 @@ export default function Contato() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="mb-6 flex items-center gap-3 rounded-2xl bg-green-50 border border-green-200 px-5 py-4 text-sm font-semibold text-green-700"
+                  className="mb-6 flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-5 py-4 text-sm font-semibold text-green-700"
                 >
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-green-100">
                     ✓
@@ -308,7 +332,7 @@ export default function Contato() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-xl border-2 border-stone-200 bg-white px-5 py-3.5 text-sm transition-all duration-200 text-stone-700 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
+                    className="w-full rounded-xl border-2 border-stone-200 bg-white px-5 py-3.5 text-sm text-stone-700 transition-all duration-200 focus:border-primary focus:outline-none focus:ring-4 focus:ring-primary/10"
                   >
                     <option value="">Selecione um assunto</option>
                     <option value="produtos">Dúvida sobre produtos</option>
@@ -377,8 +401,8 @@ export default function Contato() {
             Prefere falar pelo WhatsApp?
           </h2>
           <p className="mx-auto mb-12 max-w-2xl text-lg text-stone-400">
-            Estamos disponíveis 24h para tirar suas dúvidas e ajudar com pedidos.
-            Resposta rápida garantida.
+            Estamos disponíveis 24h para tirar suas dúvidas e ajudar com
+            pedidos. Resposta rápida garantida.
           </p>
           <a
             href="https://wa.me/5541991957593"

@@ -1,12 +1,14 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Search,
   SlidersHorizontal,
   PackageSearch,
   ChevronRight,
+  ChevronDown,
   Sparkles,
   MessageCircle,
 } from 'lucide-react'
@@ -30,21 +32,62 @@ const itemVariants = {
   },
 }
 
-export default function Loja() {
+function LojaContent() {
   const { products } = useAdminData()
+  const searchParams = useSearchParams()
   const [selectedCategory, setSelectedCategory] = useState('Todos')
   const [searchTerm, setSearchTerm] = useState('')
+  const [isRacoesOpen, setIsRacoesOpen] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(24)
 
-  const categories = ['Todos', ...new Set(products.map((p) => p.category))]
+  const rawCategories = ['Todos', ...new Set(products.map((p) => p.category))]
+  const normalCategories = rawCategories.filter((c) => !c.startsWith('RAÇÃO '))
+  const racoesCategories = rawCategories.filter((c) => c.startsWith('RAÇÃO '))
+
+  const normalizeText = (text: string) => {
+    return text
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+  }
+
+  // Ler parametro logado via Next.js navigation e atualizar dados locais
+  useEffect(() => {
+    const cat = searchParams.get('categoria')
+    const query = searchParams.get('q')
+
+    if (cat) setSelectedCategory(cat)
+    if (query !== null) setSearchTerm(query)
+
+    if (window.location.hash === '#catalogo') {
+      setTimeout(() => {
+        document
+          .getElementById('catalogo')
+          ?.scrollIntoView({ behavior: 'smooth' })
+      }, 100)
+    }
+  }, [searchParams])
 
   const filteredProducts = products.filter((product) => {
     const categoryMatch =
       selectedCategory === 'Todos' || product.category === selectedCategory
+
+    if (!searchTerm) return categoryMatch
+
+    const normalizedSearch = normalizeText(searchTerm)
     const searchMatch =
-      product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.description.toLowerCase().includes(searchTerm.toLowerCase())
+      normalizeText(product.name).includes(normalizedSearch) ||
+      normalizeText(product.description).includes(normalizedSearch)
+
     return categoryMatch && searchMatch
   })
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category)
+    document
+      .getElementById('catalogo')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   return (
     <div className="bg-surface/50">
@@ -72,14 +115,41 @@ export default function Loja() {
             produtor moderno.
           </p>
         </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8, duration: 1 }}
+          className="absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
+        >
+          <button
+            onClick={() =>
+              window.scrollBy({
+                top: window.innerHeight - 80,
+                behavior: 'smooth',
+              })
+            }
+            className="group flex h-10 w-10 items-center justify-center rounded-full border-2 border-white/60 bg-primary/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-primary hover:shadow-xl"
+            aria-label="Rolar para baixo"
+          >
+            <ChevronDown size={20} className="animate-bounce" />
+          </button>
+        </motion.div>
       </section>
 
       {/* Content */}
-      <section className="mx-auto max-w-7xl px-6 py-20 md:py-28">
+      <section id="catalogo" className="mx-auto max-w-7xl px-6 py-20 md:py-28">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
           {/* Sidebar */}
           <aside className="lg:col-span-1">
-            <div className="sticky top-28 space-y-6">
+            <div
+              className="sticky top-28 space-y-6 overflow-y-auto pb-6 pr-2"
+              style={{
+                maxHeight: 'calc(100vh - 8rem)',
+                scrollbarWidth: 'thin',
+              }}
+            >
               {/* Search */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
@@ -121,8 +191,8 @@ export default function Loja() {
                   <SlidersHorizontal size={16} />
                   <span>Categorias</span>
                 </h3>
-                <div className="flex flex-col gap-1.5">
-                  {categories.map((category) => {
+                <div className="flex flex-col gap-2">
+                  {normalCategories.map((category) => {
                     const isActive = selectedCategory === category
                     const count =
                       category === 'Todos'
@@ -132,7 +202,7 @@ export default function Loja() {
                     return (
                       <button
                         key={category}
-                        onClick={() => setSelectedCategory(category)}
+                        onClick={() => handleCategorySelect(category)}
                         className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-3 text-left text-sm font-semibold transition-all duration-300 ${
                           isActive
                             ? 'bg-primary text-white shadow-lg shadow-primary/20'
@@ -155,6 +225,69 @@ export default function Loja() {
                       </button>
                     )
                   })}
+
+                  {/* Rações Accordion */}
+                  {racoesCategories.length > 0 && (
+                    <div className="mt-2 flex flex-col gap-1.5 border-t border-stone-100 pt-2">
+                      <button
+                        onClick={() => setIsRacoesOpen(!isRacoesOpen)}
+                        className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-3 text-left text-sm font-semibold transition-all duration-300 ${
+                          racoesCategories.includes(selectedCategory)
+                            ? 'bg-primary/10 text-primary'
+                            : 'text-stone-600 hover:bg-stone-100 hover:text-primary'
+                        }`}
+                      >
+                        <span className="relative z-10 font-bold">Rações</span>
+                        <ChevronDown
+                          size={16}
+                          className={`transition-transform duration-300 ${isRacoesOpen ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+
+                      <AnimatePresence>
+                        {isRacoesOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="flex flex-col gap-1.5 overflow-hidden pl-4"
+                          >
+                            {racoesCategories.map((category) => {
+                              const isActive = selectedCategory === category
+                              const count = products.filter(
+                                (p) => p.category === category,
+                              ).length
+
+                              return (
+                                <button
+                                  key={category}
+                                  onClick={() => handleCategorySelect(category)}
+                                  className={`group relative flex items-center justify-between overflow-hidden rounded-xl px-4 py-2 text-left text-xs font-semibold transition-all duration-300 ${
+                                    isActive
+                                      ? 'bg-primary text-white shadow-md shadow-primary/20'
+                                      : 'text-stone-500 hover:bg-stone-50 hover:text-primary'
+                                  }`}
+                                >
+                                  <span className="relative z-10">
+                                    {category}
+                                  </span>
+                                  <span
+                                    className={`relative z-10 rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                                      isActive
+                                        ? 'bg-white/20 text-white'
+                                        : 'bg-stone-100 text-stone-400 group-hover:bg-primary/10 group-hover:text-primary'
+                                    }`}
+                                  >
+                                    {count}
+                                  </span>
+                                </button>
+                              )
+                            })}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  )}
                 </div>
               </motion.div>
 
@@ -172,8 +305,8 @@ export default function Loja() {
                   Precisa de ajuda?
                 </h4>
                 <p className="mb-4 text-xs leading-relaxed text-white/70">
-                  Nossa equipe está pronta para ajudar você a encontrar o produto
-                  ideal.
+                  Nossa equipe está pronta para ajudar você a encontrar o
+                  produto ideal.
                 </p>
                 <a
                   href="https://wa.me/5541991957593"
@@ -189,7 +322,7 @@ export default function Loja() {
           </aside>
 
           {/* Product Grid */}
-          <main className="lg:col-span-3">
+          <main className="min-h-[800px] lg:col-span-3">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -209,7 +342,7 @@ export default function Loja() {
               <div className="hidden h-px flex-1 bg-stone-200 md:mx-6 md:block" />
             </motion.div>
 
-            <AnimatePresence mode="popLayout">
+            <AnimatePresence mode="wait">
               {filteredProducts.length === 0 ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -224,8 +357,8 @@ export default function Loja() {
                     Sem resultados
                   </h3>
                   <p className="mb-6 max-w-xs text-stone-500">
-                    Não encontramos nada para sua busca. Tente ajustar os filtros
-                    ou buscar outro termo.
+                    Não encontramos nada para sua busca. Tente ajustar os
+                    filtros ou buscar outro termo.
                   </p>
                   <button
                     onClick={() => {
@@ -246,7 +379,7 @@ export default function Loja() {
                   animate="visible"
                   className="grid grid-cols-1 gap-8 sm:grid-cols-2 xl:grid-cols-3"
                 >
-                  {filteredProducts.map((product) => (
+                  {filteredProducts.slice(0, visibleCount).map((product) => (
                     <motion.div key={product.id} variants={itemVariants} layout>
                       <ProductCard product={product} />
                     </motion.div>
@@ -254,6 +387,21 @@ export default function Loja() {
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {filteredProducts.length > visibleCount && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="mt-12 flex justify-center"
+              >
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + 24)}
+                  className="rounded-xl border-2 border-primary px-8 py-3 font-bold text-primary transition-all duration-300 hover:-translate-y-1 hover:bg-primary hover:text-white hover:shadow-xl hover:shadow-primary/20"
+                >
+                  Carregar Mais Produtos
+                </button>
+              </motion.div>
+            )}
           </main>
         </div>
       </section>
@@ -261,7 +409,7 @@ export default function Loja() {
       {/* Footer CTA */}
       <section className="relative overflow-hidden bg-stone-900 py-24">
         <div className="absolute inset-0 bg-primary/10 opacity-50" />
-        <div className="absolute -left-20 -bottom-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
+        <div className="absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-primary/10 blur-3xl" />
         <div className="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -293,5 +441,19 @@ export default function Loja() {
         </motion.div>
       </section>
     </div>
+  )
+}
+
+export default function Loja() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen py-32 text-center text-stone-500">
+          Carregando catálogo...
+        </div>
+      }
+    >
+      <LojaContent />
+    </Suspense>
   )
 }
