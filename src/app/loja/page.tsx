@@ -33,11 +33,16 @@ const itemVariants = {
 }
 
 function LojaContent() {
-  const { products } = useAdminData()
+  const { products, loading } = useAdminData()
   const searchParams = useSearchParams()
-  const [selectedCategory, setSelectedCategory] = useState('Todos')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [isRacoesOpen, setIsRacoesOpen] = useState(false)
+
+  // Derive initial category directly from URL so it's set even before products load
+  const urlCategory = searchParams.get('categoria') || 'Todos'
+  const [selectedCategory, setSelectedCategory] = useState(urlCategory)
+  const [searchTerm, setSearchTerm] = useState(searchParams.get('q') || '')
+  const [isRacoesOpen, setIsRacoesOpen] = useState(
+    urlCategory.startsWith('RAÇÃO ')
+  )
   const [visibleCount, setVisibleCount] = useState(24)
 
   const allCatNames = [...new Set(products.map((p) => p.category))]
@@ -71,12 +76,15 @@ function LojaContent() {
       .replace(/[\u0300-\u036f]/g, '')
   }
 
-  // Ler parametro logado via Next.js navigation e atualizar dados locais
+  // Sync state when URL changes (back/forward navigation)
   useEffect(() => {
     const cat = searchParams.get('categoria')
     const query = searchParams.get('q')
 
-    if (cat) setSelectedCategory(cat)
+    if (cat) {
+      setSelectedCategory(cat)
+      if (cat.startsWith('RAÇÃO ')) setIsRacoesOpen(true)
+    }
     if (query !== null) setSearchTerm(query)
 
     if (window.location.hash === '#catalogo') {
@@ -84,7 +92,7 @@ function LojaContent() {
         document
           .getElementById('catalogo')
           ?.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
+      }, 300)
     }
   }, [searchParams])
 
@@ -107,6 +115,18 @@ function LojaContent() {
     document
       .getElementById('catalogo')
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[600px] items-center justify-center bg-surface/50">
+        <div className="flex flex-col items-center gap-4 text-primary">
+          <div className="h-10 w-10 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+          <span className="font-heading font-bold text-stone-600">Carregando catálogo...</span>
+        </div>
+      </div>
+    )
   }
 
   return (

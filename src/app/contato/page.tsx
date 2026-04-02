@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import {
   Phone,
@@ -54,6 +55,7 @@ const contactInfo = [
     content: 'Rod. dos Minérios, 1949 - Taboão',
     secondary: 'Curitiba - PR | CEP: 82130-570',
     color: 'primary',
+    href: '/#localizacao',
   },
   {
     icon: MessageCircle,
@@ -170,12 +172,8 @@ export default function Contato() {
               viewport={{ once: true }}
               className="space-y-4"
             >
-              {contactInfo.map((info, idx) => (
-                <motion.div
-                  key={idx}
-                  variants={itemVariants}
-                  className="glass-morphism group rounded-2xl p-6 shadow-lg shadow-stone-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
-                >
+              {contactInfo.map((info, idx) => {
+                const CardContent = (
                   <div className="flex flex-col items-center text-center gap-4">
                     <div
                       className={`inline-flex shrink-0 rounded-xl p-3 transition-colors duration-300 ${
@@ -200,8 +198,22 @@ export default function Contato() {
                       )}
                     </div>
                   </div>
-                </motion.div>
-              ))}
+                )
+
+                return (
+                  <motion.div
+                    key={idx}
+                    variants={itemVariants}
+                    className="glass-morphism group rounded-2xl p-6 shadow-lg shadow-stone-200/50 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
+                  >
+                    {info.href ? (
+                      <Link href={info.href}>{CardContent}</Link>
+                    ) : (
+                      CardContent
+                    )}
+                  </motion.div>
+                )
+              })}
             </motion.div>
 
             {/* Horário de Funcionamento */}

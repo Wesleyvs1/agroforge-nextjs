@@ -1,11 +1,7 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import {
-  products as initialProducts,
-  blogPosts as initialBlogPosts,
-  suppliers as initialSuppliers,
-} from '@/data/products'
+import { supabase } from '@/lib/supabase'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -13,16 +9,17 @@ interface AdminDataContextType {
   products: any[]
   blogPosts: any[]
   suppliers: any[]
-  addProduct: (product: any) => any
-  updateProduct: (id: number, product: any) => void
-  deleteProduct: (id: number) => void
+  loading: boolean
+  addProduct: (product: any) => Promise<any>
+  updateProduct: (id: number, product: any) => Promise<void>
+  deleteProduct: (id: number) => Promise<void>
   getProductById: (id: number) => any
-  addBlogPost: (post: any) => any
-  updateBlogPost: (id: number, post: any) => void
-  deleteBlogPost: (id: number) => void
-  addSupplier: (supplier: any) => any
-  updateSupplier: (id: number, supplier: any) => void
-  deleteSupplier: (id: number) => void
+  addBlogPost: (post: any) => Promise<any>
+  updateBlogPost: (id: number, post: any) => Promise<void>
+  deleteBlogPost: (id: number) => Promise<void>
+  addSupplier: (supplier: any) => Promise<any>
+  updateSupplier: (id: number, supplier: any) => Promise<void>
+  deleteSupplier: (id: number) => Promise<void>
 }
 
 const AdminDataContext = createContext<AdminDataContextType | undefined>(
@@ -30,138 +27,157 @@ const AdminDataContext = createContext<AdminDataContextType | undefined>(
 )
 
 export function AdminDataProvider({ children }: { children: React.ReactNode }) {
-  const [products, setProducts] = useState(initialProducts)
-  const [blogPosts, setBlogPosts] = useState(initialBlogPosts)
-  const [suppliers, setSuppliers] = useState(initialSuppliers)
+  const [products, setProducts] = useState<any[]>([])
+  const [blogPosts, setBlogPosts] = useState<any[]>([])
+  const [suppliers, setSuppliers] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-  // Versão dos dados padrão - incrementar quando os dados iniciais mudarem
-  const DATA_VERSION = '3'
-
-  // Carregar dados do localStorage
+  // Carregar dados iniciais do Supabase
   useEffect(() => {
-    const savedVersion = localStorage.getItem('agroforge_data_version')
+    async function fetchData() {
+      setLoading(true)
+      
+      const { data: prodData } = await supabase.from('produtos').select('*').order('id', { ascending: false })
+      const { data: blogData } = await supabase.from('blog_posts').select('*').order('id', { ascending: false })
+      const { data: supData } = await supabase.from('fornecedores').select('*').order('id', { ascending: false })
 
-    // Se a versão mudou, descartar dados antigos e usar os novos padrões
-    if (savedVersion !== DATA_VERSION) {
-      localStorage.removeItem('agroforge_products')
-      localStorage.removeItem('agroforge_blogposts')
-      localStorage.removeItem('agroforge_suppliers')
-      localStorage.setItem('agroforge_data_version', DATA_VERSION)
-      return
+      if (prodData) {
+        // Corrige o camelCase que o Postgres perde se criado sem aspas
+        const mappedProd = prodData.map((p) => ({
+          ...p,
+          mainCategory: p.maincategory || p.mainCategory,
+          detailedDescription: p.detaileddescription || p.detailedDescription,
+          image: p.image || 'https://images.unsplash.com/photo-1559525839-b184a4d698c7?w=500&h=500&fit=crop'
+        }))
+        setProducts(mappedProd)
+      }
+      if (blogData) {
+        const mappedBlog = blogData.map((b) => ({
+          ...b,
+          image: b.image_url || 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=800&h=400&fit=crop',
+          date: b.created_at || new Date().toISOString(),
+          excerpt: b.abstract || b.excerpt || ''
+        }))
+        setBlogPosts(mappedBlog)
+      }
+      if (supData) setSuppliers(supData)
+      
+      setLoading(false)
     }
 
-    const savedProducts = localStorage.getItem('agroforge_products')
-    const savedBlogPosts = localStorage.getItem('agroforge_blogposts')
-    const savedSuppliers = localStorage.getItem('agroforge_suppliers')
-
-    if (savedProducts) {
-      try {
-        setProducts(JSON.parse(savedProducts))
-      } catch (e) {
-        console.error('Erro ao carregar produtos:', e)
-      }
-    }
-    if (savedBlogPosts) {
-      try {
-        setBlogPosts(JSON.parse(savedBlogPosts))
-      } catch (e) {
-        console.error('Erro ao carregar blog posts:', e)
-      }
-    }
-    if (savedSuppliers) {
-      try {
-        setSuppliers(JSON.parse(savedSuppliers))
-      } catch (e) {
-        console.error('Erro ao carregar fornecedores:', e)
-      }
-    }
+    fetchData()
   }, [])
 
-  // Salvar no localStorage sempre que mudar
-  useEffect(() => {
-    localStorage.setItem('agroforge_products', JSON.stringify(products))
-  }, [products])
-
-  useEffect(() => {
-    localStorage.setItem('agroforge_blogposts', JSON.stringify(blogPosts))
-  }, [blogPosts])
-
-  useEffect(() => {
-    localStorage.setItem('agroforge_suppliers', JSON.stringify(suppliers))
-  }, [suppliers])
-
   // --- PRODUTOS ---
-  const addProduct = (product: any) => {
-    const newProduct = {
-      ...product,
-      id: Math.max(...products.map((p: any) => p.id), 0) + 1,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+  const addProduct = async (product: any) => {
+    // Normaliza para o banco de dados
+    const payload = { ...product };
+    if (payload.mainCategory !== undefined) { payload.maincategory = payload.mainCategory; delete payload.mainCategory; }
+    if (payload.detailedDescription !== undefined) { payload.detaileddescription = payload.detailedDescription; delete payload.detailedDescription; }
+
+    const { data, error } = await supabase.from('produtos').insert([payload]).select().single()
+    if (error) {
+      console.error('Erro ao adicionar:', error)
+      return null
     }
-    setProducts([...products, newProduct])
-    return newProduct
+    const finalData = { ...data, mainCategory: data.maincategory, detailedDescription: data.detaileddescription }
+    setProducts((prev) => [finalData, ...prev])
+    return finalData
   }
 
-  const updateProduct = (id: number, updatedProduct: any) => {
-    setProducts(
-      products.map((p: any) =>
-        p.id === id
-          ? { ...p, ...updatedProduct, updatedAt: new Date().toISOString() }
-          : p,
-      ),
-    )
+  const updateProduct = async (id: number, updatedProduct: any) => {
+    const payload = { ...updatedProduct };
+    if (payload.mainCategory !== undefined) { payload.maincategory = payload.mainCategory; delete payload.mainCategory; }
+    if (payload.detailedDescription !== undefined) { payload.detaileddescription = payload.detailedDescription; delete payload.detailedDescription; }
+
+    const { error } = await supabase.from('produtos').update(payload).eq('id', id)
+    if (error) {
+      console.error('Erro ao editar:', error)
+      return
+    }
+    setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updatedProduct } : p)))
   }
 
-  const deleteProduct = (id: number) => {
-    setProducts(products.filter((p: any) => p.id !== id))
+  const deleteProduct = async (id: number) => {
+    const { error } = await supabase.from('produtos').delete().eq('id', id)
+    if (error) {
+      console.error('Erro ao deletar:', error)
+      return
+    }
+    setProducts((prev) => prev.filter((p) => p.id !== id))
   }
 
   const getProductById = (id: number) => {
-    return products.find((p: any) => p.id === id)
+    return products.find((p: any) => p.id === id) || null
   }
 
   // --- BLOG POSTS ---
-  const addBlogPost = (post: any) => {
-    const newPost = {
-      ...post,
-      id: Math.max(...blogPosts.map((p: any) => p.id), 0) + 1,
-      createdAt: new Date().toISOString(),
+  const addBlogPost = async (post: any) => {
+    const payload = { ...post };
+    if (payload.image !== undefined) { payload.image_url = payload.image; delete payload.image; }
+    if (payload.excerpt !== undefined) { payload.abstract = payload.excerpt; delete payload.excerpt; }
+    if (payload.date !== undefined) { delete payload.date; } // date it's mapped to created_at generally on DB insert
+
+    const { data, error } = await supabase.from('blog_posts').insert([payload]).select().single()
+    if (error) {
+      console.error('Erro ao adicionar:', error)
+      return null
     }
-    setBlogPosts([...blogPosts, newPost])
-    return newPost
+    const finalData = { ...data, image: data.image_url, excerpt: data.abstract, date: data.created_at }
+    setBlogPosts((prev) => [finalData, ...prev])
+    return finalData
   }
 
-  const updateBlogPost = (id: number, updatedPost: any) => {
-    setBlogPosts(
-      blogPosts.map((p: any) => (p.id === id ? { ...p, ...updatedPost } : p)),
-    )
+  const updateBlogPost = async (id: number, updatedPost: any) => {
+    const payload = { ...updatedPost };
+    if (payload.image !== undefined) { payload.image_url = payload.image; delete payload.image; }
+    if (payload.excerpt !== undefined) { payload.abstract = payload.excerpt; delete payload.excerpt; }
+    if (payload.date !== undefined) { delete payload.date; }
+
+    const { error } = await supabase.from('blog_posts').update(payload).eq('id', id)
+    if (error) {
+      console.error('Erro ao editar:', error)
+      return
+    }
+    setBlogPosts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updatedPost, image: payload.image_url || p.image, excerpt: payload.abstract || p.excerpt } : p)))
   }
 
-  const deleteBlogPost = (id: number) => {
-    setBlogPosts(blogPosts.filter((p: any) => p.id !== id))
+  const deleteBlogPost = async (id: number) => {
+    const { error } = await supabase.from('blog_posts').delete().eq('id', id)
+    if (error) {
+      console.error('Erro ao deletar:', error)
+      return
+    }
+    setBlogPosts((prev) => prev.filter((p) => p.id !== id))
   }
 
   // --- FORNECEDORES ---
-  const addSupplier = (supplier: any) => {
-    const newSupplier = {
-      ...supplier,
-      id: Math.max(...suppliers.map((s: any) => s.id), 0) + 1,
-      createdAt: new Date().toISOString(),
+  const addSupplier = async (supplier: any) => {
+    const { data, error } = await supabase.from('fornecedores').insert([supplier]).select().single()
+    if (error) {
+      console.error('Erro ao adicionar:', error)
+      return null
     }
-    setSuppliers([...suppliers, newSupplier])
-    return newSupplier
+    setSuppliers((prev) => [data, ...prev])
+    return data
   }
 
-  const updateSupplier = (id: number, updatedSupplier: any) => {
-    setSuppliers(
-      suppliers.map((s: any) =>
-        s.id === id ? { ...s, ...updatedSupplier } : s,
-      ),
-    )
+  const updateSupplier = async (id: number, updatedSupplier: any) => {
+    const { error } = await supabase.from('fornecedores').update(updatedSupplier).eq('id', id)
+    if (error) {
+      console.error('Erro ao editar:', error)
+      return
+    }
+    setSuppliers((prev) => prev.map((p) => (p.id === id ? { ...p, ...updatedSupplier } : p)))
   }
 
-  const deleteSupplier = (id: number) => {
-    setSuppliers(suppliers.filter((s: any) => s.id !== id))
+  const deleteSupplier = async (id: number) => {
+    const { error } = await supabase.from('fornecedores').delete().eq('id', id)
+    if (error) {
+      console.error('Erro ao deletar:', error)
+      return
+    }
+    setSuppliers((prev) => prev.filter((p) => p.id !== id))
   }
 
   return (
@@ -170,6 +186,7 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
         products,
         blogPosts,
         suppliers,
+        loading,
         addProduct,
         updateProduct,
         deleteProduct,

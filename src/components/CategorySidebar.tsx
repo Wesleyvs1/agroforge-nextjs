@@ -27,7 +27,7 @@ const categories = [
   {
     name: 'Acessórios Pet',
     icon: <Tags size={18} />,
-    href: '/loja?categoria=COLEIRAS%20E%20ACESSÓRIOS%20PARA%20PET#catalogo',
+    href: '/loja?categoria=ACESS%C3%93RIOS%20PARA%20PET#catalogo',
   },
   {
     name: 'Produtos Coloniais',

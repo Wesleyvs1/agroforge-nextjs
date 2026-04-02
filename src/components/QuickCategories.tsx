@@ -32,7 +32,7 @@ const categories = [
     emoji: '🥣',
     name: 'Acessórios Pet',
     count: 'ACESSÓRIOS PARA PET',
-    href: '/loja?categoria=ACESSÓRIOS%20PARA%20PET#catalogo',
+    href: '/loja?categoria=ACESS%C3%93RIOS%20PARA%20PET#catalogo',
   },
   {
     emoji: '🌱',

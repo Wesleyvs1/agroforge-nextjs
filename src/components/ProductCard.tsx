@@ -76,21 +76,7 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
           )}
 
-          {/* Quick add button */}
-          <button
-            onClick={handleAddToCart}
-            className={`absolute bottom-3 right-3 z-10 flex items-center justify-center rounded-xl p-2.5 shadow-lg transition-all duration-300 ${
-              added
-                ? 'scale-110 bg-green-500 text-white'
-                : 'translate-y-2 bg-white/90 text-stone-700 opacity-0 backdrop-blur-sm hover:bg-primary hover:text-white group-hover:translate-y-0 group-hover:opacity-100'
-            }`}
-          >
-            {added ? (
-              <Check size={16} strokeWidth={3} />
-            ) : (
-              <ShoppingCart size={16} />
-            )}
-          </button>
+
         </div>
 
         {/* Content */}

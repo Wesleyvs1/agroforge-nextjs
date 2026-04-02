@@ -146,8 +146,13 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-bold text-primary">Contato</h3>
             <div className="space-y-2 text-sm text-gray-400">
-              <p>📍 Rod. dos Minérios, 1949 - Taboão</p>
-              <p className="pl-5">Curitiba - PR, 82130-570</p>
+              <Link
+                href="/#localizacao"
+                className="group block transition-colors hover:text-primary"
+              >
+                <p>📍 Rod. dos Minérios, 1949 - Taboão</p>
+                <p className="pl-5">Curitiba - PR, 82130-570</p>
+              </Link>
               <p>📞 (41) 99195-7593</p>
               <p>📞 (41) 3336-7593</p>
               <p>📧 agroforge@gmail.com</p>

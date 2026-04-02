@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
 import {
   X,
   Search,
@@ -18,7 +19,7 @@ interface MediaItem {
   name: string
   url: string
   size: string
-  date: string
+  created_at?: string
   folder: string
 }
 
@@ -29,16 +30,6 @@ interface MediaPickerProps {
 }
 
 const DEFAULT_FOLDERS = ['Todos', 'Produtos', 'Banners', 'Blog', 'Geral']
-
-function getMediaItems(): MediaItem[] {
-  if (typeof window === 'undefined') return []
-  const saved = localStorage.getItem('agroforge_media')
-  return saved ? JSON.parse(saved) : []
-}
-
-function saveMediaItems(items: MediaItem[]) {
-  localStorage.setItem('agroforge_media', JSON.stringify(items))
-}
 
 function getCustomFolders(): string[] {
   if (typeof window === 'undefined') return []
@@ -62,16 +53,24 @@ export default function MediaPicker({
   const [showNewFolder, setShowNewFolder] = useState(false)
   const [newFolderName, setNewFolderName] = useState('')
   const [selectedItem, setSelectedItem] = useState<string | null>(null)
+  const [isUploading, setIsUploading] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     if (isOpen) {
-      setMediaItems(getMediaItems())
+      loadMedia()
       setCustomFolders(getCustomFolders())
       setSelectedItem(null)
       setSearchTerm('')
     }
   }, [isOpen])
+
+  const loadMedia = async () => {
+    const { data } = await supabase.from('media_items').select('*').order('created_at', { ascending: false })
+    if (data) {
+      setMediaItems(data)
+    }
+  }
 
   if (!isOpen) return null
 
@@ -86,33 +85,45 @@ export default function MediaPicker({
     return matchFolder && matchSearch
   })
 
-  const handleUpload = (files: FileList) => {
-    const newItems: MediaItem[] = []
-    Array.from(files).forEach((file) => {
-      if (file.size > 5 * 1024 * 1024) return
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const item: MediaItem = {
-          id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+  const handleUpload = async (files: FileList) => {
+    setIsUploading(true)
+    for (const file of Array.from(files)) {
+      if (file.size > 5 * 1024 * 1024) continue
+      
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`
+      const filePath = `${selectedFolder === 'Todos' ? 'Geral' : selectedFolder}/${fileName}`
+
+      const { error: uploadError } = await supabase.storage
+        .from('media')
+        .upload(filePath, file)
+
+      if (!uploadError) {
+        const { data: publicData } = supabase.storage.from('media').getPublicUrl(filePath)
+        
+        const newItem = {
           name: file.name,
-          url: e.target?.result as string,
+          url: publicData.publicUrl,
           size: (file.size / 1024).toFixed(1) + ' KB',
-          date: new Date().toLocaleDateString('pt-BR'),
           folder: selectedFolder === 'Todos' ? 'Geral' : selectedFolder,
         }
-        newItems.push(item)
-        const updated = [...getMediaItems(), item]
-        saveMediaItems(updated)
-        setMediaItems(updated)
+
+        const { data: insertedItem } = await supabase.from('media_items').insert([newItem]).select().single()
+        if (insertedItem) {
+          setMediaItems((prev) => [insertedItem, ...prev])
+        }
+      } else {
+        console.error('Upload falhou', uploadError)
       }
-      reader.readAsDataURL(file)
-    })
+    }
+    setIsUploading(false)
   }
 
-  const handleDelete = (id: string) => {
-    const updated = mediaItems.filter((m) => m.id !== id)
-    saveMediaItems(updated)
-    setMediaItems(updated)
+  const handleDelete = async (id: string, url: string) => {
+    // Para simplificar, excluiremos apenas do banco.
+    // Em um sistema real, excluiríamos o objeto do Storage usando o caminho derivado da URL.
+    await supabase.from('media_items').delete().eq('id', id)
+    setMediaItems((prev) => prev.filter((m) => m.id !== id))
     if (selectedItem === id) setSelectedItem(null)
   }
 
@@ -175,17 +186,23 @@ export default function MediaPicker({
           {/* Upload */}
           <button
             onClick={() => inputRef.current?.click()}
-            className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-[11px] font-semibold text-white hover:bg-primary-dark"
+            disabled={isUploading}
+            className="flex items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-[11px] font-semibold text-white hover:bg-primary-dark disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Upload size={14} />
-            Upload
+            {isUploading ? 'Enviando...' : 'Upload'}
           </button>
           <input
             ref={inputRef}
             type="file"
             multiple
             accept="image/*"
-            onChange={(e) => e.target.files && handleUpload(e.target.files)}
+            onChange={(e) => {
+              if (e.target.files) {
+                handleUpload(e.target.files)
+                e.target.value = '' // Reset input
+              }
+            }}
             className="hidden"
           />
         </div>
@@ -286,7 +303,7 @@ export default function MediaPicker({
                     {/* Actions overlay */}
                     <div className="absolute inset-0 flex items-center justify-center gap-1 bg-stone-900/60 opacity-0 transition-opacity group-hover:opacity-100">
                       <button
-                        onClick={(e) => {
+                         onClick={(e) => {
                           e.stopPropagation()
                           navigator.clipboard.writeText(item.url)
                         }}
@@ -297,7 +314,7 @@ export default function MediaPicker({
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
-                          handleDelete(item.id)
+                          handleDelete(item.id, item.url)
                         }}
                         className="flex h-7 w-7 items-center justify-center rounded-md bg-red-500 text-white"
                       >
