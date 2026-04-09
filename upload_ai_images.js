@@ -11,18 +11,19 @@ const supabase = createClient(
 const IMG_DIR = 'C:\\Users\\Bomba\\.gemini\\antigravity\\brain\\d06f2d50-e656-4433-89dd-3c1384e04cb5';
 
 const mappings = [
-  { img: 'racao_caes_premium_1775710590053.png', match: '%Ração Premier Adulto Cães%' },
-  { img: 'racao_gatos_castrados_1775710602592.png', match: '%Ração para Gatos Castrados%' },
-  { img: 'racao_cavalos_1775710617170.png', match: '%Ração Pelletizada Premium para Cavalos%' },
-  { img: 'mel_puro_1775710634620.png', match: '%Mel Puro de Abelha Silvestre%' },
-  { img: 'fertilizante_npk_1775710654421.png', match: '%Fertilizante NPK%' },
-  { img: 'humus_minhoca_1775710666649.png', match: '%Húmus de Minhoca%' },
-  { img: 'formicida_granulado_1775710687527.png', match: '%Formicida Granulado Mirex%' },
-  { img: 'terramicina_spray_1775710701455.png', match: '%Terramicina Spray%' }
+  { img: 'arranhador_gato_1775710444353.png', match: '%Arranhador Poste Sisal para Gatos%' },
+  { img: 'coleira_nylon_1775710510325.png', match: '%Coleira Ajustável Nylon Premium para Cães%' },
+  { img: 'doce_leite_1775710498378.png', match: '%Doce de Leite Colonial Artesanal%' },
+  { img: 'farelo_trigo_1775711932296.png', match: '%Farelo de Trigo Integral%' },
+  { img: 'gaiola_coelho_1775710458788.png', match: '%Gaiola Retangular para Coelhos%' },
+  { img: 'racao_canarios_1775710430091.png', match: '%Mistura de Sementes Fina para Canários%' },
+  { img: 'racao_papagaios_1775710415700.png', match: '%Ração Granulada para Papagaios e Calopsitas%' },
+  { img: 'regador_plastico_1775710523441.png', match: '%Regador Plástico 10 Litros%' },
+  { img: 'vaso_autoirrigavel_1775710481460.png', match: '%Vaso Autoirrigável Redondo%' }
 ];
 
 async function run() {
-  console.log('🔄 Iniciando LOTE 2 upload e atualização das imagens...');
+  console.log('🔄 Iniciando LOTE 3 upload e atualização das imagens...');
   
   for (const item of mappings) {
     const fullPath = path.join(IMG_DIR, item.img);
