@@ -1,5 +1,6 @@
 'use client'
 
+import { useMemo } from 'react'
 import { useAdminData } from '@/context/AdminDataContext'
 import CategorySidebar from './CategorySidebar'
 import ProductSlider from './ProductSlider'
@@ -7,8 +8,8 @@ import ProductSlider from './ProductSlider'
 export default function TrendingProducts() {
   const { products } = useAdminData()
 
-  // Selecionar os primeiros 10 produtos para os mais vendidos
-  const bestSellers = products.slice(0, 10)
+  // Memoizar os primeiros 10 produtos para os mais vendidos
+  const bestSellers = useMemo(() => products.slice(0, 10), [products])
 
   return (
     <section className="relative overflow-hidden bg-stone-50 py-12 md:py-16">

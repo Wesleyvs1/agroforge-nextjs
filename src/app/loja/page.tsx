@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, useCallback, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
@@ -13,7 +13,15 @@ import {
   MessageCircle,
 } from 'lucide-react'
 import { useAdminData } from '@/context/AdminDataContext'
-import ProductCard from '@/components/ProductCard'
+import dynamic from 'next/dynamic'
+
+// Dynamic import para ProductCard com loading
+const ProductCard = dynamic(() => import('@/components/ProductCard'), {
+  loading: () => (
+    <div className="h-full animate-pulse rounded-3xl bg-stone-200" />
+  ),
+  ssr: true,
+})
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -45,36 +53,59 @@ function LojaContent() {
   )
   const [visibleCount, setVisibleCount] = useState(24)
 
-  const allCatNames = [...new Set(products.map((p) => p.category))]
-  const normalCats = allCatNames.filter((c) => !c.startsWith('RAÇÃO '))
-  const racoesCats = allCatNames.filter((c) => c.startsWith('RAÇÃO '))
+  // Memoizar categorias para evitar re-cálculo
+  const { normalCats, racoesCats } = useMemo(() => {
+    const allCatNames = [...new Set(products.map((p) => p.category))]
+    return {
+      normalCats: allCatNames.filter((c) => !c.startsWith('RAÇÃO ')),
+      racoesCats: allCatNames.filter((c) => c.startsWith('RAÇÃO ')),
+    }
+  }, [products])
 
   type CategoryItem =
     | { type: 'category'; name: string }
     | { type: 'group'; name: string; items: string[] }
 
-  const categoryItems: CategoryItem[] = normalCats.map((name) => ({
-    type: 'category',
-    name,
-  }))
+  const categoryItems: CategoryItem[] = useMemo(() => {
+    const items: CategoryItem[] = normalCats.map((name) => ({
+      type: 'category',
+      name,
+    }))
 
-  if (racoesCats.length > 0) {
-    categoryItems.push({ type: 'group', name: 'RAÇÕES', items: racoesCats })
-  }
+    if (racoesCats.length > 0) {
+      items.push({ type: 'group', name: 'RAÇÕES', items: racoesCats })
+    }
 
-  categoryItems.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
+    items.sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
+    return items
+  }, [normalCats, racoesCats])
 
-  const renderList: CategoryItem[] = [
+  const renderList: CategoryItem[] = useMemo(() => [
     { type: 'category', name: 'Todos' },
     ...categoryItems,
-  ]
+  ], [categoryItems])
 
-  const normalizeText = (text: string) => {
+  const normalizeText = useCallback((text: string) => {
     return text
       .toLowerCase()
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
-  }
+  }, [])
+
+  // Memoizar produtos filtrados
+  const filteredProducts = useMemo(() => products.filter((product) => {
+    const categoryMatch =
+      selectedCategory === 'Todos' || product.category === selectedCategory
+
+    if (!searchTerm) return categoryMatch
+
+    const normalizedSearch = normalizeText(searchTerm)
+    const searchMatch =
+      normalizeText(product.name).includes(normalizedSearch) ||
+      normalizeText(product.description).includes(normalizedSearch)
+
+    return categoryMatch && searchMatch
+  }), [products, selectedCategory, searchTerm, normalizeText])
 
   // Sync state when URL changes (back/forward navigation)
   useEffect(() => {
@@ -96,26 +127,12 @@ function LojaContent() {
     }
   }, [searchParams])
 
-  const filteredProducts = products.filter((product) => {
-    const categoryMatch =
-      selectedCategory === 'Todos' || product.category === selectedCategory
-
-    if (!searchTerm) return categoryMatch
-
-    const normalizedSearch = normalizeText(searchTerm)
-    const searchMatch =
-      normalizeText(product.name).includes(normalizedSearch) ||
-      normalizeText(product.description).includes(normalizedSearch)
-
-    return categoryMatch && searchMatch
-  })
-
-  const handleCategorySelect = (category: string) => {
+  const handleCategorySelect = useCallback((category: string) => {
     setSelectedCategory(category)
     document
       .getElementById('catalogo')
       ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
+  }, [])
 
 
   if (loading) {

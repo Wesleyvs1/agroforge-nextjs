@@ -20,6 +20,7 @@ export default function Footer() {
             width={300}
             height={100}
             className="h-20 w-auto object-contain md:h-24"
+            loading="lazy"
           />
         </div>
 

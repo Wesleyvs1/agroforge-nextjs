@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
 import { supabase } from '@/lib/supabase'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -31,6 +31,11 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
   const [blogPosts, setBlogPosts] = useState<any[]>([])
   const [suppliers, setSuppliers] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+
+  // Memoizar funções para evitar re-renders
+  const getProductById = useCallback((id: number) => {
+    return products.find((p: any) => p.id === id) || null
+  }, [products])
 
   // Carregar dados iniciais do Supabase
   useEffect(() => {
@@ -107,10 +112,6 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
     setProducts((prev) => prev.filter((p) => p.id !== id))
   }
 
-  const getProductById = (id: number) => {
-    return products.find((p: any) => p.id === id) || null
-  }
-
   // --- BLOG POSTS ---
   const addBlogPost = async (post: any) => {
     const payload = { ...post };
@@ -180,25 +181,26 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
     setSuppliers((prev) => prev.filter((p) => p.id !== id))
   }
 
+  // Memoizar o valor do contexto para evitar re-renders desnecessários
+  const contextValue = useMemo(() => ({
+    products,
+    blogPosts,
+    suppliers,
+    loading,
+    addProduct,
+    updateProduct,
+    deleteProduct,
+    getProductById,
+    addBlogPost,
+    updateBlogPost,
+    deleteBlogPost,
+    addSupplier,
+    updateSupplier,
+    deleteSupplier,
+  }), [products, blogPosts, suppliers, loading, getProductById, addProduct, updateProduct, deleteProduct, addBlogPost, updateBlogPost, deleteBlogPost, addSupplier, updateSupplier, deleteSupplier])
+
   return (
-    <AdminDataContext.Provider
-      value={{
-        products,
-        blogPosts,
-        suppliers,
-        loading,
-        addProduct,
-        updateProduct,
-        deleteProduct,
-        getProductById,
-        addBlogPost,
-        updateBlogPost,
-        deleteBlogPost,
-        addSupplier,
-        updateSupplier,
-        deleteSupplier,
-      }}
-    >
+    <AdminDataContext.Provider value={contextValue}>
       {children}
     </AdminDataContext.Provider>
   )

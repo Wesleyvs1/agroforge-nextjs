@@ -1,13 +1,13 @@
 'use client'
 
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react'
 
 const CartContext = createContext()
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([])
 
-  // Carregar carrinho do localStorage
+  // Carregar carrinho do localStorage (apenas uma vez no mount)
   useEffect(() => {
     const savedCart = localStorage.getItem('agroforge-cart')
     if (savedCart) {
@@ -19,12 +19,15 @@ export function CartProvider({ children }) {
     }
   }, [])
 
-  // Salvar carrinho no localStorage
+  // Salvar carrinho no localStorage (debounce para evitar writes excessivos)
   useEffect(() => {
-    localStorage.setItem('agroforge-cart', JSON.stringify(cart))
+    const timeoutId = setTimeout(() => {
+      localStorage.setItem('agroforge-cart', JSON.stringify(cart))
+    }, 300)
+    return () => clearTimeout(timeoutId)
   }, [cart])
 
-  const addToCart = (product, quantity = 1) => {
+  const addToCart = useCallback((product, quantity = 1) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.id === product.id)
 
@@ -38,15 +41,15 @@ export function CartProvider({ children }) {
 
       return [...prevCart, { ...product, quantity }]
     })
-  }
+  }, [])
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = useCallback((productId) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== productId))
-  }
+  }, [])
 
-  const updateQuantity = (productId, quantity) => {
+  const updateQuantity = useCallback((productId, quantity) => {
     if (quantity <= 0) {
-      removeFromCart(productId)
+      setCart((prevCart) => prevCart.filter((item) => item.id !== productId))
     } else {
       setCart((prevCart) =>
         prevCart.map((item) =>
@@ -54,32 +57,33 @@ export function CartProvider({ children }) {
         ),
       )
     }
-  }
+  }, [])
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCart([])
-  }
+  }, [])
 
-  const getTotalPrice = () => {
+  const getTotalPrice = useCallback(() => {
     return cart.reduce((total, item) => total + item.price * item.quantity, 0)
-  }
+  }, [cart])
 
-  const getTotalItems = () => {
+  const getTotalItems = useCallback(() => {
     return cart.reduce((total, item) => total + item.quantity, 0)
-  }
+  }, [cart])
+
+  // Memoizar o valor do contexto
+  const contextValue = useMemo(() => ({
+    cart,
+    addToCart,
+    removeFromCart,
+    updateQuantity,
+    clearCart,
+    getTotalPrice,
+    getTotalItems,
+  }), [cart, addToCart, removeFromCart, updateQuantity, clearCart, getTotalPrice, getTotalItems])
 
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        clearCart,
-        getTotalPrice,
-        getTotalItems,
-      }}
-    >
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   )

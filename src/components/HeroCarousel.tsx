@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback, useRef, memo } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -135,6 +135,7 @@ export default function HeroCarousel() {
               fill
               className="object-cover brightness-[0.35]"
               priority
+              fetchPriority="high"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-primary-dark/90 via-primary-dark/70 to-primary-dark/40" />
             <div
@@ -197,7 +198,7 @@ export default function HeroCarousel() {
                   }}
                   className="hidden justify-center lg:flex"
                 >
-                  <Link 
+                  <Link
                     href={slides[current].href}
                     className="relative block h-[320px] w-[420px] transition-transform duration-300 hover:scale-[1.02] xl:h-[360px] xl:w-[480px]"
                   >
@@ -207,6 +208,7 @@ export default function HeroCarousel() {
                       alt={slides[current].title}
                       fill
                       className="rounded-3xl object-cover object-center drop-shadow-2xl"
+                      loading="lazy"
                     />
                     <div className="absolute -bottom-6 -right-6 h-32 w-32 rounded-full bg-accent/20 blur-2xl" />
                     <div className="absolute -left-6 -top-6 h-24 w-24 rounded-full bg-primary-light/20 blur-2xl" />

@@ -1,6 +1,8 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
+import { supabase } from '@/lib/supabase'
+import { uploadImageToStorage } from '@/lib/uploadImage'
 import Toast from '@/components/admin/Toast'
 import ImageCropper from '@/components/admin/ImageCropper'
 import {
@@ -13,6 +15,7 @@ import {
   Search,
   Check,
   X,
+  Loader2,
 } from 'lucide-react'
 
 interface MediaItem {
@@ -20,20 +23,16 @@ interface MediaItem {
   name: string
   url: string
   size: string
-  date: string
+  created_at?: string
   folder: string
 }
 
 const DEFAULT_FOLDERS = ['Todos', 'Produtos', 'Banners', 'Blog', 'Geral']
 
 export default function MidiaAdmin() {
-  const [mediaItems, setMediaItems] = useState<MediaItem[]>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('agroforge_media')
-      return saved ? JSON.parse(saved) : []
-    }
-    return []
-  })
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>([])
+  const [loading, setLoading] = useState(true)
+  const [isUploading, setIsUploading] = useState(false)
   const [toast, setToast] = useState<{
     message: string
     type: 'success' | 'error' | 'info'
@@ -51,7 +50,8 @@ export default function MidiaAdmin() {
   const [showNewFolder, setShowNewFolder] = useState(false)
   const [newFolderName, setNewFolderName] = useState('')
   const [cropImage, setCropImage] = useState<{
-    url: string
+    file: File
+    previewUrl: string
     name: string
     originalSize: string
   } | null>(null)
@@ -59,68 +59,108 @@ export default function MidiaAdmin() {
 
   const allFolders = [...DEFAULT_FOLDERS, ...customFolders]
 
-  const saveMedia = (items: MediaItem[]) => {
-    setMediaItems(items)
-    localStorage.setItem('agroforge_media', JSON.stringify(items))
+  // Load media from Supabase on mount
+  useEffect(() => {
+    loadMedia()
+  }, [])
+
+  const loadMedia = async () => {
+    setLoading(true)
+    const { data } = await supabase
+      .from('media_items')
+      .select('*')
+      .order('created_at', { ascending: false })
+    if (data) {
+      setMediaItems(data)
+    }
+    setLoading(false)
   }
 
   const handleFiles = (files: FileList) => {
-    Array.from(files).forEach((file) => {
-      if (file.size > 5 * 1024 * 1024) {
-        setToast({
-          message: `${file.name} excede 5MB`,
-          type: 'error',
-        })
-        return
-      }
+    const file = files[0]
+    if (!file) return
 
-      const reader = new FileReader()
-      reader.onload = (e) => {
-        const url = e.target?.result as string
-        // Open cropper
-        setCropImage({
-          url,
-          name: file.name,
-          originalSize: (file.size / 1024).toFixed(1) + ' KB',
-        })
-      }
-      reader.readAsDataURL(file)
+    if (file.size > 5 * 1024 * 1024) {
+      setToast({
+        message: `${file.name} excede 5MB`,
+        type: 'error',
+      })
+      return
+    }
+
+    const previewUrl = URL.createObjectURL(file)
+    setCropImage({
+      file,
+      previewUrl,
+      name: file.name,
+      originalSize: (file.size / 1024).toFixed(1) + ' KB',
     })
   }
 
-  const handleCropComplete = (croppedUrl: string) => {
+  const handleCropComplete = async (croppedUrl: string) => {
     if (!cropImage) return
 
-    const item: MediaItem = {
-      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+    setIsUploading(true)
+    setCropImage(null)
+
+    const folder = selectedFolder === 'Todos' ? 'Geral' : selectedFolder
+
+    // Upload cropped image to Supabase Storage
+    const publicUrl = await uploadImageToStorage(croppedUrl, folder.toLowerCase())
+
+    // Save metadata to media_items table
+    const newItem = {
       name: cropImage.name,
-      url: croppedUrl,
+      url: publicUrl,
       size: cropImage.originalSize,
-      date: new Date().toLocaleDateString('pt-BR'),
-      folder: selectedFolder === 'Todos' ? 'Geral' : selectedFolder,
+      folder,
     }
 
-    const updated = [...mediaItems, item]
-    saveMedia(updated)
-    setCropImage(null)
+    const { data: insertedItem } = await supabase
+      .from('media_items')
+      .insert([newItem])
+      .select()
+      .single()
+
+    if (insertedItem) {
+      setMediaItems((prev) => [insertedItem, ...prev])
+    }
+
+    URL.revokeObjectURL(cropImage.previewUrl)
+    setIsUploading(false)
     setToast({ message: 'Imagem enviada e recortada!', type: 'success' })
   }
 
-  const handleSkipCrop = () => {
+  const handleSkipCrop = async () => {
     if (!cropImage) return
 
-    const item: MediaItem = {
-      id: Date.now().toString() + Math.random().toString(36).substr(2, 9),
+    setIsUploading(true)
+    setCropImage(null)
+
+    const folder = selectedFolder === 'Todos' ? 'Geral' : selectedFolder
+
+    // Upload original file
+    const publicUrl = await uploadImageToStorage(cropImage.file, folder.toLowerCase())
+
+    const newItem = {
       name: cropImage.name,
-      url: cropImage.url,
+      url: publicUrl,
       size: cropImage.originalSize,
-      date: new Date().toLocaleDateString('pt-BR'),
-      folder: selectedFolder === 'Todos' ? 'Geral' : selectedFolder,
+      folder,
     }
 
-    const updated = [...mediaItems, item]
-    saveMedia(updated)
-    setCropImage(null)
+    const { data: insertedItem } = await supabase
+      .from('media_items')
+      .insert([newItem])
+      .select()
+      .single()
+
+    if (insertedItem) {
+      setMediaItems((prev) => [insertedItem, ...prev])
+    }
+
+    URL.revokeObjectURL(cropImage.previewUrl)
+    setIsUploading(false)
     setToast({ message: 'Imagem enviada!', type: 'success' })
   }
 
@@ -130,9 +170,9 @@ export default function MidiaAdmin() {
     handleFiles(e.dataTransfer.files)
   }
 
-  const handleDelete = (id: string) => {
-    const updated = mediaItems.filter((m) => m.id !== id)
-    saveMedia(updated)
+  const handleDelete = async (id: string) => {
+    await supabase.from('media_items').delete().eq('id', id)
+    setMediaItems((prev) => prev.filter((m) => m.id !== id))
     setToast({ message: 'Arquivo deletado!', type: 'success' })
   }
 
@@ -160,11 +200,6 @@ export default function MidiaAdmin() {
     const updated = customFolders.filter((f) => f !== folderName)
     setCustomFolders(updated)
     localStorage.setItem('agroforge_media_folders', JSON.stringify(updated))
-    // Move items from deleted folder to 'Geral'
-    const updatedMedia = mediaItems.map((m) =>
-      m.folder === folderName ? { ...m, folder: 'Geral' } : m,
-    )
-    saveMedia(updatedMedia)
     if (selectedFolder === folderName) setSelectedFolder('Todos')
     setToast({ message: `Pasta "${folderName}" removida`, type: 'info' })
   }
@@ -198,26 +233,31 @@ export default function MidiaAdmin() {
         }}
         onDragLeave={() => setDragActive(false)}
         onDrop={handleDrop}
-        onClick={() => inputRef.current?.click()}
+        onClick={() => !isUploading && inputRef.current?.click()}
         className={`cursor-pointer rounded-xl border-2 border-dashed p-10 text-center transition-all ${
           dragActive
             ? 'border-primary/40 bg-primary/5'
             : 'border-stone-200 hover:border-stone-300'
-        }`}
+        } ${isUploading ? 'pointer-events-none opacity-60' : ''}`}
       >
         <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-stone-100">
-          <Upload size={22} className="text-stone-400" />
+          {isUploading ? (
+            <Loader2 size={22} className="animate-spin text-primary" />
+          ) : (
+            <Upload size={22} className="text-stone-400" />
+          )}
         </div>
         <p className="text-[14px] font-semibold text-stone-700">
-          Arraste imagens aqui ou clique para selecionar
+          {isUploading
+            ? 'Enviando imagem para o servidor...'
+            : 'Arraste imagens aqui ou clique para selecionar'}
         </p>
         <p className="mt-1 text-[12px] text-stone-400">
-          JPG, PNG, WebP • Máximo 5MB • Recorte automático antes do upload
+          JPG, PNG, WebP • Máximo 5MB • Recorte opcional antes do upload
         </p>
         <input
           ref={inputRef}
           type="file"
-          multiple
           accept="image/*"
           onChange={(e) => e.target.files && handleFiles(e.target.files)}
           className="hidden"
@@ -309,7 +349,14 @@ export default function MidiaAdmin() {
       </div>
 
       {/* Gallery */}
-      {filteredItems.length === 0 ? (
+      {loading ? (
+        <div className="flex flex-col items-center rounded-xl border border-stone-200/60 bg-white py-16 text-center">
+          <Loader2 size={32} className="mb-3 animate-spin text-primary" />
+          <p className="text-[13px] font-medium text-stone-400">
+            Carregando mídia...
+          </p>
+        </div>
+      ) : filteredItems.length === 0 ? (
         <div className="flex flex-col items-center rounded-xl border border-stone-200/60 bg-white py-16 text-center">
           <ImageIcon size={32} className="mb-3 text-stone-300" />
           <p className="text-[13px] font-medium text-stone-400">
@@ -354,7 +401,7 @@ export default function MidiaAdmin() {
                 </p>
                 <div className="mt-0.5 flex items-center justify-between">
                   <p className="text-[10px] text-stone-400">
-                    {item.size} • {item.date}
+                    {item.size}
                   </p>
                   <span className="rounded bg-stone-100 px-1.5 py-0.5 text-[8px] font-bold uppercase text-stone-400">
                     {item.folder}
@@ -369,7 +416,7 @@ export default function MidiaAdmin() {
       {/* Image Cropper */}
       {cropImage && (
         <ImageCropper
-          imageUrl={cropImage.url}
+          imageUrl={cropImage.previewUrl}
           onCrop={handleCropComplete}
           onCancel={handleSkipCrop}
         />

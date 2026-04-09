@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, memo, useCallback, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import ProductCard from './ProductCard'
@@ -19,18 +19,18 @@ interface Product {
   badge?: string
 }
 
-export default function ProductSlider({ products }: { products: Product[] }) {
+export default memo(function ProductSlider({ products }: { products: Product[] }) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const [canScrollLeft, setCanScrollLeft] = useState(false)
   const [canScrollRight, setCanScrollRight] = useState(true)
 
-  const checkScroll = () => {
+  const checkScroll = useCallback(() => {
     if (scrollRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
       setCanScrollLeft(scrollLeft > 0)
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5) // 5px threshold
+      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5)
     }
-  }
+  }, [])
 
   useEffect(() => {
     checkScroll()
@@ -38,24 +38,24 @@ export default function ProductSlider({ products }: { products: Product[] }) {
     return () => window.removeEventListener('resize', checkScroll)
   }, [])
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = useCallback((direction: 'left' | 'right') => {
     if (scrollRef.current) {
       const scrollAmount = direction === 'left' ? -320 : 320
       scrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-      // Delay validation to wait for smooth scroll to finish
       setTimeout(checkScroll, 400)
     }
-  }
+  }, [checkScroll])
 
-  // Dividir os bancos em grupos de 2 (2 linhas verticais por coluna de slider)
-  const productChunks = []
-  for (let i = 0; i < products.length; i += 2) {
-    productChunks.push(products.slice(i, i + 2))
-  }
+  const productChunks = useMemo(() => {
+    const chunks = []
+    for (let i = 0; i < products.length; i += 2) {
+      chunks.push(products.slice(i, i + 2))
+    }
+    return chunks
+  }, [products])
 
   return (
     <div className="relative w-full">
-      {/* Header section with Desktop Arrows */}
       <div className="mb-6 flex items-end justify-between px-2">
         <div>
           <h2 className="font-heading text-3xl font-extrabold text-stone-900 md:text-4xl">
@@ -66,15 +66,12 @@ export default function ProductSlider({ products }: { products: Product[] }) {
           </p>
         </div>
 
-        {/* Navigation Indicators */}
         <div className="flex items-center gap-3">
-          {/* Mobile Swipe Text */}
           <div className="flex animate-pulse items-center gap-1 text-xs font-bold uppercase tracking-wider text-primary/80 md:hidden">
             Deslize
             <ChevronRight size={16} />
           </div>
 
-          {/* Navigation Arrows (Desktop) */}
           <div className="hidden gap-3 md:flex">
             <button
               onClick={() => scroll('left')}
@@ -102,7 +99,6 @@ export default function ProductSlider({ products }: { products: Product[] }) {
         </div>
       </div>
 
-      {/* Slider Container */}
       <div className="relative -mx-4 px-4 md:mx-0 md:px-0">
         <div
           ref={scrollRef}
@@ -130,4 +126,4 @@ export default function ProductSlider({ products }: { products: Product[] }) {
       </div>
     </div>
   )
-}
+})

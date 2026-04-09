@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
@@ -47,6 +47,16 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
   const [addedToCart, setAddedToCart] = useState(false)
   const { addToCart } = useCart()
 
+  // Memoizar produtos relacionados para evitar re-cálculo
+  const relatedProducts = useMemo(() => 
+    product 
+      ? products
+          .filter((p) => p.category === product.category && p.id !== product.id)
+          .slice(0, 4)
+      : [],
+    [product, products]
+  )
+
   if (!product) {
     return (
       <div className="bg-surface/50">
@@ -82,10 +92,6 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
     setAddedToCart(true)
     setTimeout(() => setAddedToCart(false), 2500)
   }
-
-  const relatedProducts = products
-    .filter((p) => p.category === product.category && p.id !== product.id)
-    .slice(0, 4)
 
   const discount =
     'originalPrice' in product && product.originalPrice
@@ -135,6 +141,9 @@ export default function ProdutoDetail({ params }: { params: { id: string } }) {
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                  placeholder="blur"
+                  blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
                 />
               </div>
               {discount && (

@@ -7,6 +7,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import WhatsAppFloat from '@/components/WhatsAppFloat'
 import ThemeApplier from '@/components/ThemeApplier'
+import FontAwesomeLoader from '@/components/FontAwesomeLoader'
 import '@/styles/globals.css'
 
 const fontHeading = Epilogue({
@@ -44,11 +45,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
+        {/* Font Awesome otimizado com preload */}
         <link
-          rel="stylesheet"
+          rel="preload"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-          crossOrigin="anonymous"
+          as="style"
         />
+        <FontAwesomeLoader />
+        <noscript>
+          <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            crossOrigin="anonymous"
+          />
+        </noscript>
       </head>
       <body className="font-body text-stone-900 antialiased selection:bg-primary/30">
         <ThemeApplier />

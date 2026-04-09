@@ -2,6 +2,7 @@
 
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { ArrowLeft, Clock, User, Calendar, Share2 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useAdminData } from '@/context/AdminDataContext'
@@ -37,10 +38,13 @@ export default function BlogPostPage() {
     <article className="min-h-screen bg-stone-50">
       {/* Hero Image Header */}
       <header className="relative h-[400px] w-full md:h-[500px] lg:h-[600px]">
-        <img
+        <Image
           src={post.image}
           alt={post.title}
-          className="absolute inset-0 h-full w-full object-cover"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-900 via-stone-900/40 to-black/20" />
 

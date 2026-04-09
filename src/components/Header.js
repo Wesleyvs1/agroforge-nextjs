@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import Image from 'next/image'
@@ -15,21 +15,21 @@ export default function Header() {
   const pathname = usePathname()
   const router = useRouter()
 
-  const handleSearch = (e) => {
+  const handleSearch = useCallback((e) => {
     e.preventDefault()
     if (searchQuery.trim()) {
       router.push(`/loja?q=${encodeURIComponent(searchQuery.trim())}#catalogo`)
     }
-  }
+  }, [searchQuery, router])
 
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { href: '/', label: 'Home' },
     { href: '/loja', label: 'Loja' },
     { href: '/blog', label: 'Blog' },
     { href: '/sobre', label: 'Sobre' },
     { href: '/#localizacao', label: 'Localização' },
     { href: '/contato', label: 'Contato' },
-  ]
+  ], [])
 
   return (
     <>
@@ -49,6 +49,7 @@ export default function Header() {
                 height={100}
                 className="h-16 w-auto object-contain md:h-24"
                 priority
+                fetchPriority="high"
               />
             </Link>
 

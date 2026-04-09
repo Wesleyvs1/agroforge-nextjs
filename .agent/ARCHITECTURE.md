@@ -54,6 +54,7 @@ Specialist AI personas for different domains.
 | `qa-automation-engineer` | E2E testing, CI pipelines  | webapp-testing, testing-patterns                         |
 | `code-archaeologist`     | Legacy code, refactoring   | clean-code, code-review-checklist                        |
 | `explorer-agent`         | Codebase analysis          | -                                                        |
+| `qwen-assistant`         | Advanced Reasoning (Qwen)  | qwen-integration, clean-code                             |
 
 ---
 
@@ -165,6 +166,7 @@ Modular knowledge domains that agents can load on-demand. based on task context.
 | `i18n-localization`       | Internationalization      |
 | `performance-profiling`   | Web Vitals, optimization  |
 | `systematic-debugging`    | Troubleshooting           |
+| `qwen-integration`       | OpenRouter AI (Qwen)      |
 
 ---
 
@@ -185,6 +187,7 @@ Slash command procedures. Invoke with `/command`.
 | `/status`        | Check project status     |
 | `/test`          | Run tests                |
 | `/ui-ux-pro-max` | Design with 50 styles    |
+| `/qwen`          | Query Qwen 3.6 Plus      |
 
 ---
 
@@ -266,10 +269,10 @@ For details, see [scripts/README.md](scripts/README.md)
 
 | Metric              | Value                         |
 | ------------------- | ----------------------------- |
-| **Total Agents**    | 20                            |
-| **Total Skills**    | 36                            |
-| **Total Workflows** | 11                            |
-| **Total Scripts**   | 2 (master) + 18 (skill-level) |
+| **Total Agents**    | 21                            |
+| **Total Skills**    | 37                            |
+| **Total Workflows** | 12                            |
+| **Total Scripts**   | 2 (master) + 19 (skill-level) |
 | **Coverage**        | ~90% web/mobile development   |
 
 ---

@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation'
 import { useAdminData } from '@/context/AdminDataContext'
 import Toast from '@/components/admin/Toast'
 import MediaPicker from '@/components/admin/MediaPicker'
-import { ArrowLeft, Save, Upload, ImageIcon } from 'lucide-react'
+import { uploadImageToStorage } from '@/lib/uploadImage'
+import { ArrowLeft, Save, Upload, ImageIcon, Loader2 } from 'lucide-react'
 
 export default function NovoProduto() {
   const router = useRouter()
@@ -14,6 +15,7 @@ export default function NovoProduto() {
     message: string
     type: 'success' | 'error'
   } | null>(null)
+  const [isSaving, setIsSaving] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     category: 'Café',
@@ -53,24 +55,34 @@ export default function NovoProduto() {
     setImagePreview(url)
   }
 
-  const handleImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setToast({ message: 'Imagem deve ter no máximo 5MB', type: 'error' })
-        return
-      }
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        const imageUrl = event.target?.result as string
-        setImagePreview(imageUrl)
-        setFormData((prev) => ({ ...prev, image: imageUrl }))
-      }
-      reader.readAsDataURL(file)
+    if (!file) return
+
+    if (file.size > 5 * 1024 * 1024) {
+      setToast({ message: 'Imagem deve ter no máximo 5MB', type: 'error' })
+      return
+    }
+
+    // Show preview immediately
+    const localPreview = URL.createObjectURL(file)
+    setImagePreview(localPreview)
+
+    // Upload to Supabase Storage
+    setIsSaving(true)
+    const publicUrl = await uploadImageToStorage(file, 'produtos')
+    setIsSaving(false)
+
+    setFormData((prev) => ({ ...prev, image: publicUrl }))
+    setImagePreview(publicUrl)
+    URL.revokeObjectURL(localPreview)
+
+    if (!publicUrl.startsWith('data:') && !publicUrl.startsWith('blob:')) {
+      setToast({ message: 'Imagem enviada para o servidor!', type: 'success' })
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     if (!formData.name || !formData.price) {
@@ -89,13 +101,23 @@ export default function NovoProduto() {
       return
     }
 
-    addProduct({
+    setIsSaving(true)
+
+    // If image is still a data:URL, upload first
+    let finalImage = formData.image
+    if (finalImage.startsWith('data:')) {
+      finalImage = await uploadImageToStorage(finalImage, 'produtos')
+    }
+
+    await addProduct({
       ...formData,
+      image: finalImage,
       price: parseFloat(formData.price),
       stock: parseInt(formData.stock) || 0,
       rating: parseFloat(formData.rating) || 0,
     })
 
+    setIsSaving(false)
     setToast({ message: 'Produto criado com sucesso!', type: 'success' })
     setTimeout(() => router.push('/admin/produtos'), 1000)
   }
@@ -308,6 +330,9 @@ export default function NovoProduto() {
               <p className="text-[12px] text-stone-400">
                 Clique para fazer upload
               </p>
+              <p className="text-[10px] text-stone-300">
+                A imagem será salva no servidor automaticamente
+              </p>
               <input
                 id="file-upload"
                 type="file"
@@ -328,6 +353,11 @@ export default function NovoProduto() {
                 alt="Preview"
                 className="max-h-48 rounded-xl border border-stone-200/60 object-cover"
               />
+              {formData.image.startsWith('data:') && (
+                <p className="mt-1 text-[10px] text-amber-500">
+                  ⚠ Imagem temporária (base64). Será enviada ao servidor ao salvar.
+                </p>
+              )}
             </div>
           )}
         </div>
@@ -336,10 +366,20 @@ export default function NovoProduto() {
         <div className="flex gap-3 border-t border-stone-100 pt-6">
           <button
             type="submit"
-            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-3 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark"
+            disabled={isSaving}
+            className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-primary py-3 text-[13px] font-semibold text-white transition-colors hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            <Save size={16} />
-            Salvar Produto
+            {isSaving ? (
+              <>
+                <Loader2 size={16} className="animate-spin" />
+                Salvando...
+              </>
+            ) : (
+              <>
+                <Save size={16} />
+                Salvar Produto
+              </>
+            )}
           </button>
           <button
             type="button"

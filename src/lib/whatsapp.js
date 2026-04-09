@@ -1,6 +1,12 @@
 // Número do WhatsApp (remova caracteres especiais)
 export const WHATSAPP_NUMBER = '5541991957593'
 
+// Cache de formatação para evitar recriar Intl.NumberFormat
+const currencyFormatter = new Intl.NumberFormat('pt-BR', {
+  style: 'currency',
+  currency: 'BRL',
+})
+
 // Gerar mensagem do WhatsApp
 export function generateWhatsAppMessage(cartItems) {
   if (!cartItems || cartItems.length === 0) {
@@ -31,10 +37,7 @@ export function sendToWhatsApp(cartItems) {
   window.open(url, '_blank')
 }
 
-// Formatar moeda brasileira
+// Formatar moeda brasileira (otimizado com cache)
 export function formatCurrency(value) {
-  return new Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(value)
+  return currencyFormatter.format(value)
 }
