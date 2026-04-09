@@ -75,14 +75,29 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
 
   // --- PRODUTOS ---
   const addProduct = async (product: any) => {
-    // Normaliza para o banco de dados
-    const payload = { ...product };
-    if (payload.mainCategory !== undefined) { payload.maincategory = payload.mainCategory; delete payload.mainCategory; }
-    if (payload.detailedDescription !== undefined) { payload.detaileddescription = payload.detailedDescription; delete payload.detailedDescription; }
+    // Build payload with only known DB columns
+    const dbPayload: Record<string, any> = {}
+    
+    if (product.name !== undefined) dbPayload.name = product.name
+    if (product.category !== undefined) dbPayload.category = product.category
+    if (product.price !== undefined) dbPayload.price = product.price
+    if (product.image !== undefined) dbPayload.image = product.image
+    if (product.description !== undefined) dbPayload.description = product.description
+    if (product.stock !== undefined) dbPayload.stock = product.stock
+    if (product.rating !== undefined) dbPayload.rating = String(product.rating)
+    if (product.origin !== undefined) dbPayload.origin = product.origin
+    if (product.weight !== undefined) dbPayload.weight = product.weight
+    if (product.reviews !== undefined) dbPayload.reviews = product.reviews
+    
+    // camelCase → lowercase for Postgres
+    if (product.mainCategory !== undefined) dbPayload.maincategory = product.mainCategory
+    if (product.detailedDescription !== undefined) dbPayload.detaileddescription = product.detailedDescription
 
-    const { data, error } = await supabase.from('produtos').insert([payload]).select().single()
+    console.log('[addProduct] Inserting:', dbPayload)
+
+    const { data, error } = await supabase.from('produtos').insert([dbPayload]).select().single()
     if (error) {
-      console.error('Erro ao adicionar:', error)
+      console.error('[addProduct] Supabase error:', error.message, error.details, error.hint)
       return null
     }
     const finalData = { ...data, mainCategory: data.maincategory, detailedDescription: data.detaileddescription }
@@ -91,13 +106,29 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
   }
 
   const updateProduct = async (id: number, updatedProduct: any): Promise<boolean> => {
-    const payload = { ...updatedProduct };
-    if (payload.mainCategory !== undefined) { payload.maincategory = payload.mainCategory; delete payload.mainCategory; }
-    if (payload.detailedDescription !== undefined) { payload.detaileddescription = payload.detailedDescription; delete payload.detailedDescription; }
+    // Build payload with only known DB columns (Postgres lowercases all unquoted identifiers)
+    const dbPayload: Record<string, any> = {}
+    
+    if (updatedProduct.name !== undefined) dbPayload.name = updatedProduct.name
+    if (updatedProduct.category !== undefined) dbPayload.category = updatedProduct.category
+    if (updatedProduct.price !== undefined) dbPayload.price = updatedProduct.price
+    if (updatedProduct.image !== undefined) dbPayload.image = updatedProduct.image
+    if (updatedProduct.description !== undefined) dbPayload.description = updatedProduct.description
+    if (updatedProduct.stock !== undefined) dbPayload.stock = updatedProduct.stock
+    if (updatedProduct.rating !== undefined) dbPayload.rating = String(updatedProduct.rating)
+    if (updatedProduct.origin !== undefined) dbPayload.origin = updatedProduct.origin
+    if (updatedProduct.weight !== undefined) dbPayload.weight = updatedProduct.weight
+    if (updatedProduct.reviews !== undefined) dbPayload.reviews = updatedProduct.reviews
+    
+    // camelCase → lowercase for Postgres
+    if (updatedProduct.mainCategory !== undefined) dbPayload.maincategory = updatedProduct.mainCategory
+    if (updatedProduct.detailedDescription !== undefined) dbPayload.detaileddescription = updatedProduct.detailedDescription
 
-    const { error } = await supabase.from('produtos').update(payload).eq('id', id)
+    console.log('[updateProduct] Saving to DB, id:', id, 'payload:', dbPayload)
+
+    const { error } = await supabase.from('produtos').update(dbPayload).eq('id', id)
     if (error) {
-      console.error('Erro ao editar:', error)
+      console.error('[updateProduct] Supabase error:', error.message, error.details, error.hint)
       return false
     }
     setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updatedProduct } : p)))
