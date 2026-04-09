@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useAdminData } from '@/context/AdminDataContext'
 import Toast from '@/components/admin/Toast'
@@ -33,6 +33,7 @@ export default function EditarProduto() {
   })
   const [imagePreview, setImagePreview] = useState('')
   const [showMediaPicker, setShowMediaPicker] = useState(false)
+  const dataLoaded = useRef(false)
 
   const categories = [
     'Café',
@@ -44,8 +45,12 @@ export default function EditarProduto() {
   ]
 
   useEffect(() => {
+    // Only load data once to avoid overwriting user edits when context re-renders
+    if (dataLoaded.current) return
+
     const product = getProductById(parseInt(params.id as string))
     if (product) {
+      dataLoaded.current = true
       setFormData({
         name: product.name || '',
         category: product.category || 'Café',
@@ -59,11 +64,9 @@ export default function EditarProduto() {
         weight: product.weight || '',
       })
       setImagePreview(product.image || '')
-    } else {
-      setToast({ message: 'Produto não encontrado', type: 'error' })
-      setTimeout(() => router.push('/admin/produtos'), 1500)
     }
-  }, [params.id, getProductById, router])
+    // Products might still be loading; don't show error until products have loaded
+  }, [params.id, getProductById])
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -120,23 +123,35 @@ export default function EditarProduto() {
 
     setIsSaving(true)
 
-    // If image is still a data:URL, upload first
-    let finalImage = formData.image
-    if (finalImage.startsWith('data:')) {
-      finalImage = await uploadImageToStorage(finalImage, 'produtos')
+    try {
+      // If image is still a data:URL, upload first
+      let finalImage = formData.image
+      if (finalImage.startsWith('data:')) {
+        finalImage = await uploadImageToStorage(finalImage, 'produtos')
+      }
+
+      const result = await updateProduct(parseInt(params.id as string), {
+        ...formData,
+        image: finalImage,
+        price: parseFloat(formData.price),
+        stock: parseInt(formData.stock) || 0,
+        rating: parseFloat(formData.rating) || 0,
+      })
+
+      if (result === false) {
+        setIsSaving(false)
+        setToast({ message: 'Erro ao salvar no banco de dados. Verifique o console.', type: 'error' })
+        return
+      }
+
+      setIsSaving(false)
+      setToast({ message: 'Produto atualizado com sucesso!', type: 'success' })
+      setTimeout(() => router.push('/admin/produtos'), 1000)
+    } catch (err) {
+      console.error('Erro ao salvar produto:', err)
+      setIsSaving(false)
+      setToast({ message: 'Erro inesperado ao salvar.', type: 'error' })
     }
-
-    await updateProduct(parseInt(params.id as string), {
-      ...formData,
-      image: finalImage,
-      price: parseFloat(formData.price),
-      stock: parseInt(formData.stock) || 0,
-      rating: parseFloat(formData.rating) || 0,
-    })
-
-    setIsSaving(false)
-    setToast({ message: 'Produto atualizado com sucesso!', type: 'success' })
-    setTimeout(() => router.push('/admin/produtos'), 1000)
   }
 
   const handleDelete = () => {

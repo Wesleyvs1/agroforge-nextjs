@@ -11,7 +11,7 @@ interface AdminDataContextType {
   suppliers: any[]
   loading: boolean
   addProduct: (product: any) => Promise<any>
-  updateProduct: (id: number, product: any) => Promise<void>
+  updateProduct: (id: number, product: any) => Promise<boolean>
   deleteProduct: (id: number) => Promise<void>
   getProductById: (id: number) => any
   addBlogPost: (post: any) => Promise<any>
@@ -90,7 +90,7 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
     return finalData
   }
 
-  const updateProduct = async (id: number, updatedProduct: any) => {
+  const updateProduct = async (id: number, updatedProduct: any): Promise<boolean> => {
     const payload = { ...updatedProduct };
     if (payload.mainCategory !== undefined) { payload.maincategory = payload.mainCategory; delete payload.mainCategory; }
     if (payload.detailedDescription !== undefined) { payload.detaileddescription = payload.detailedDescription; delete payload.detailedDescription; }
@@ -98,9 +98,10 @@ export function AdminDataProvider({ children }: { children: React.ReactNode }) {
     const { error } = await supabase.from('produtos').update(payload).eq('id', id)
     if (error) {
       console.error('Erro ao editar:', error)
-      return
+      return false
     }
     setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updatedProduct } : p)))
+    return true
   }
 
   const deleteProduct = async (id: number) => {
