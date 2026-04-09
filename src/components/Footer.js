@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { CreditCard, QrCode, Barcode, Facebook, Instagram, MessageCircle } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -125,17 +126,14 @@ export default function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-bold text-primary">Pagamento</h3>
             <div className="flex flex-wrap gap-3 text-gray-400">
-              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800">
-                <i className="fa-brands fa-cc-visa text-xl text-blue-400"></i>
+              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800" title="Cartão de Crédito/Débito">
+                <CreditCard className="text-blue-400" size={24} />
               </div>
-              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800">
-                <i className="fa-brands fa-cc-mastercard text-xl text-orange-400"></i>
+              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800" title="Pix">
+                <QrCode className="text-teal-400" size={24} />
               </div>
-              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800">
-                <i className="fa-brands fa-pix text-xl text-teal-400"></i>
-              </div>
-              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800">
-                <i className="fa-solid fa-barcode text-xl text-gray-300"></i>
+              <div className="flex h-10 w-14 items-center justify-center rounded bg-gray-800" title="Boleto">
+                <Barcode className="text-gray-300" size={24} />
               </div>
             </div>
             <p className="mt-3 text-xs text-gray-500">
@@ -166,25 +164,26 @@ export default function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-[#1877F2] hover:text-white"
               >
-                <i className="fa-brands fa-facebook-f"></i>
+                <Facebook size={18} />
               </a>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-primary hover:text-white"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-[#E4405F] hover:text-white"
               >
-                <i className="fa-brands fa-instagram"></i>
+                <Instagram size={18} />
               </a>
               <a
                 href="https://wa.me/5541991957593"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-400 transition-colors hover:bg-[#25D366] hover:text-white"
+                title="WhatsApp"
               >
-                <i className="fa-brands fa-whatsapp"></i>
+                <MessageCircle size={18} />
               </a>
             </div>
           </div>
